@@ -9,8 +9,11 @@ import 'package:smartmoney/pages/loan/loan_management.dart';
 import 'package:smartmoney/pages/welcome/welcome.dart';
 import 'package:smartmoney/pages2/budget.dart';
 import 'package:smartmoney/pages2/category.dart';
+import 'package:smartmoney/pages2/create-event.dart';
 import 'package:smartmoney/pages2/entry.dart';
+import 'package:smartmoney/pages2/events.dart';
 import 'package:smartmoney/pages2/name.dart';
+import 'package:smartmoney/pages2/new-budget.dart';
 import 'package:smartmoney/pages2/otp.dart';
 import 'package:smartmoney/pages2/pin.dart';
 import 'package:smartmoney/pages2/welcome.dart';
@@ -88,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
         body: AnimatedSplashScreen(
             // centered: false,
             splashIconSize: double.maxFinite,
-            duration: 5000,
+            duration: 0000,
             splash: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -157,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 // ),
               ],
             ),
-            nextScreen: const Welcome(),
+            nextScreen: const CreateEvent(),
             splashTransition: SplashTransition.fadeTransition,
             backgroundColor: const Color(0xFF583101)),
       ),
