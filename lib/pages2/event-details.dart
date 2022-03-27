@@ -37,7 +37,7 @@ class _EventDetailsState extends State<EventDetails> {
             ),
           ),
         ),
-        title: Text('My Event Details', style: TextStyle(fontSize: 20.0)),
+        title: const Text('My Event Details', style: TextStyle(fontSize: 20.0)),
       ),
       body: Column(
         children: [
@@ -74,20 +74,23 @@ class _EventDetailsState extends State<EventDetails> {
               padding: const EdgeInsets.symmetric(horizontal: 3.0),
               child: Column(children: [
                 Card(
-                  color: Color(0XFF8b5e34),
+                  // color: Color(0XFF8b5e34),
                   elevation: 2,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(0),
                   ),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: const Text(
-                          'Am planning to a research on my new business that i want to launch, to have more details on how others are doing it', 
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 16.0)),
-                    ),
+                  child: Column(children:const [
+                     Text('Event note', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)), 
+                     Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child:  Text(
+                        'Am planning to a research on my new business that i want to launch, to have more details on how others are doing it', 
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 16.0)),
                   ),
+                  ]),
+                  
+                 
                 ),
 
                 Expanded(
@@ -99,7 +102,7 @@ class _EventDetailsState extends State<EventDetails> {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal:20.0),
                       child: Card(
-                        color:Color(0XFF8b5e34),
+                        // color:Color(0XFF8b5e34),
                         elevation: 2,
                         shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -108,12 +111,12 @@ class _EventDetailsState extends State<EventDetails> {
                           padding: const EdgeInsets.all(14.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [Text('Item ${(i + 1).toString().padLeft(2, '0')}', style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w500, color: Colors.white)),Text('Time')],),
+                            children: [Text('Item ${(i + 1).toString().padLeft(2, '0')}', style: const TextStyle(fontSize: 17.0, fontWeight: FontWeight.w400,)),const Text('Time')],),
                         ),Padding(
                           padding: const EdgeInsets.all(14.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [Text('Unit : 4'), Text('Price : Tsh 3000000')],),
+                            children: [const Text('Unit : 4'), const Text('Price : Tsh 3000000')],),
                         ),],),
                       ),
                     );

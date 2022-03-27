@@ -11,6 +11,7 @@ import 'package:smartmoney/pages2/budget.dart';
 import 'package:smartmoney/pages2/category.dart';
 import 'package:smartmoney/pages2/create-event.dart';
 import 'package:smartmoney/pages2/entry.dart';
+import 'package:smartmoney/pages2/event-details.dart';
 import 'package:smartmoney/pages2/events.dart';
 import 'package:smartmoney/pages2/name.dart';
 import 'package:smartmoney/pages2/new-budget.dart';

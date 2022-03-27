@@ -38,7 +38,7 @@ class _EventsState extends State<Events> {
             ),
           ),
         ),
-        title: Text('My Saved Events', style: TextStyle(fontSize: 20.0)),
+        title: const Text('My Saved Events', style: TextStyle(fontSize: 20.0)),
       ),
       body: Column(
         children: [
@@ -79,8 +79,8 @@ class _EventsState extends State<Events> {
                 itemCount: 20,
                 itemBuilder: (context, i) {
                   return OpenContainer(
-                    closedColor: const Color(0xFF6F4518),
-                    openColor: const Color(0xFF6F4518),
+                    // closedColor: const Color(0xFF6F4518),
+                    // openColor: const Color(0xFF6F4518),
                     closedElevation: 0.0,
                     openElevation: 0.0,
                     closedShape: const RoundedRectangleBorder(
@@ -92,8 +92,9 @@ class _EventsState extends State<Events> {
                       return const EventDetails();
                     },
                     closedBuilder: (context, action) {
-                      return Card(color:Color(0XFF8b5e34),
-                    elevation: 2,
+                      return Card(
+                        // color:Color(0XFF8b5e34),
+                    elevation: 3.0,
                     shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -101,7 +102,7 @@ class _EventsState extends State<Events> {
                       padding: const EdgeInsets.all(13.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text('Event ${(i + 1).toString().padLeft(2, '0')}', style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w500, color: Colors.white)), Text('Morogoro')],),
+                        children: [Text('Event ${(i + 1).toString().padLeft(2, '0')}', style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w400,)), Text('Morogoro')],),
                     ),Padding(
                       padding: const EdgeInsets.all(13.0),
                       child: Row(

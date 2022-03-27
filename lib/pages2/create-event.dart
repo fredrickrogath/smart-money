@@ -21,7 +21,7 @@ class _CreateEventState extends State<CreateEvent> {
             appBar: AppBar(
               centerTitle: true,
               toolbarHeight: 80,
-              backgroundColor: const Color(0xFF6F4518),
+              // backgroundColor: const Color(0xFF6F4518),
               leading: Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: GestureDetector(
@@ -44,13 +44,10 @@ class _CreateEventState extends State<CreateEvent> {
               title: Text('Create New Event', style: TextStyle(fontSize: 20.0)),
             ),
             body: SingleChildScrollView(
-              child: Column(children:[SizedBox(height: MediaQuery.of(context).size.height / 50),Padding(
-                padding: const EdgeInsets.symmetric(horizontal:8.0),
-                child: Card(color: const Color(0XFF8b5e34),
-                      elevation: 2,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
+              child: Column(children: [
+                SizedBox(height: MediaQuery.of(context).size.height / 50),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Padding(
                     padding: const EdgeInsets.only(
                       left: 15.0,
@@ -59,8 +56,9 @@ class _CreateEventState extends State<CreateEvent> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          SizedBox(height: MediaQuery.of(context).size.height / 40),
-                
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height / 40),
                           SizedBox(
                             width: MediaQuery.of(context).size.width / 1.0,
                             height: MediaQuery.of(context).size.height / 17,
@@ -68,7 +66,7 @@ class _CreateEventState extends State<CreateEvent> {
                               // obscureText: true,
                               // obscuringCharacter: '*',
                               // keyboardType: TextInputType.number,
-                              style: TextStyle(fontSize: 18.0),
+                              style: TextStyle(fontSize: 16.0),
                               decoration: InputDecoration(
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
@@ -82,9 +80,9 @@ class _CreateEventState extends State<CreateEvent> {
                               ),
                             ),
                           ),
-                
-                          SizedBox(height: MediaQuery.of(context).size.height / 40),
-                
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height / 40),
                           SizedBox(
                             width: MediaQuery.of(context).size.width / 1.0,
                             height: MediaQuery.of(context).size.height / 17,
@@ -92,7 +90,7 @@ class _CreateEventState extends State<CreateEvent> {
                               // obscureText: true,
                               // obscuringCharacter: '*',
                               // keyboardType: TextInputType.number,
-                              style: TextStyle(fontSize: 18.0),
+                              style: TextStyle(fontSize: 16.0),
                               decoration: InputDecoration(
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
@@ -106,54 +104,57 @@ class _CreateEventState extends State<CreateEvent> {
                               ),
                             ),
                           ),
-                
-                          SizedBox(height: MediaQuery.of(context).size.height / 40),
-                
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height / 40),
                           TextField(
-                            style: TextStyle(fontSize: 18.0),
+                            style: const TextStyle(fontSize: 16.0),
                             controller:
-                            dateStart, //editing controller of this TextField
-                            decoration: InputDecoration(
-                            icon: Icon(Icons.calendar_today), //icon of text field
-                            labelText: "Event Date" //label text of field
-                            ),
+                                dateStart, //editing controller of this TextField
+                            decoration: const InputDecoration(
+                                icon: Icon(Icons
+                                    .calendar_today), //icon of text field
+                                labelText: "Event Date" //label text of field
+                                ),
                             readOnly:
-                            true, //set it true, so that user will not able to edit text
+                                true, //set it true, so that user will not able to edit text
                             onTap: () async {
-                          DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(
-                                  2000), //DateTime.now() - not to allow to choose before today.
-                              lastDate: DateTime(2101));
-                
-                          if (pickedDate != null) {
-                            print(
-                                pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                            String formattedDate =
-                                DateFormat('yyyy-MM-dd').format(pickedDate);
-                            print(
-                                formattedDate); //formatted date output using intl package =>  2021-03-16
-                            //you can implement different kind of Date Format here according to your requirement
-                
-                            setState(() {
-                              dateStart.text =
-                                  formattedDate; //set output date to TextField value.
-                            });
-                          } else {
-                            print("Date is not selected");
-                          }
+                              DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(
+                                      2000), //DateTime.now() - not to allow to choose before today.
+                                  lastDate: DateTime(2101));
+
+                              if (pickedDate != null) {
+                                print(
+                                    pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                String formattedDate =
+                                    DateFormat('yyyy-MM-dd')
+                                        .format(pickedDate);
+                                print(
+                                    formattedDate); //formatted date output using intl package =>  2021-03-16
+                                //you can implement different kind of Date Format here according to your requirement
+
+                                setState(() {
+                                  dateStart.text =
+                                      formattedDate; //set output date to TextField value.
+                                });
+                              } else {
+                                print("Date is not selected");
+                              }
                             },
                           ),
-                
-                          SizedBox(height: MediaQuery.of(context).size.height / 25),
-                
-                          SizedBox(height: MediaQuery.of(context).size.height / 20),
-                
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height / 25),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height / 20),
                           TextFormField(
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: "Note",
-                              fillColor: Colors.white,
+                              fillColor: Colors.white24,
                               filled: true,
                             ),
                             minLines:
@@ -161,32 +162,38 @@ class _CreateEventState extends State<CreateEvent> {
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
                           ),
-                          SizedBox(height: MediaQuery.of(context).size.height / 30),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height / 30),
                         ],
                       ),
                     ),
                   ),
                 ),
-              ),SizedBox(height: MediaQuery.of(context).size.height /7),Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        SizedBox(width: MediaQuery.of(context).size.width / 2.5,
-                          child: FloatingActionButton.extended(
-                            onPressed: () {},
-                            label: const Text('YES'),
-                            // icon: const Icon(Icons.add),
-                            backgroundColor: const Color(0xFF6F4518),
-                          ),
+                SizedBox(height: MediaQuery.of(context).size.height / 7),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 2.5,
+                        child: FloatingActionButton.extended(
+                          onPressed: () {},
+                          label: const Text('YES'),
+                          // icon: const Icon(Icons.add),
+                          backgroundColor: const Color(0xFF8B5E34),
                         ),
-                        SizedBox(width: MediaQuery.of(context).size.width / 2.5,
-                          child: FloatingActionButton.extended(
-                            onPressed: () {},
-                            label: const Text('SAVE EVENT'),
-                            // icon: const Icon(Icons.remove),
-                            backgroundColor: const Color(0xFF6F4518),
-                          ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 2.5,
+                        child: FloatingActionButton.extended(
+                          onPressed: () {},
+                          label: const Text('SAVE EVENT'),
+                          // icon: const Icon(Icons.remove),
+                          backgroundColor: const Color(0xFF6F4518),
                         ),
-                      ])]),
+                      ),
+                    ])
+              ]),
             )));
   }
 }
