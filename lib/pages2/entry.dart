@@ -424,12 +424,14 @@ class _EntryState extends State<Entry> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       FloatingActionButton.extended(
+                        elevation: 0.0,
                         onPressed: () {},
                         label: const Text('Cash In'),
                         icon: const Icon(Icons.add),
                         backgroundColor: Colors.green,
                       ),
                       FloatingActionButton.extended(
+                        elevation: 0.0,
                         onPressed: () {},
                         label: const Text('Cash Out'),
                         icon: const Icon(Icons.remove),
