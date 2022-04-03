@@ -107,7 +107,7 @@ class _EventsState extends State<Events> {
                       padding: const EdgeInsets.all(13.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text('Cost Tsh 130000'), Text('Date 03-03-22')],),
+                        children: const[Text('Cost Tsh 130000'), Text('Date 03-03-22')],),
                     ),],),
                   );
                     },

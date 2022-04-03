@@ -17,6 +17,7 @@ import 'package:smartmoney/pages2/events.dart';
 import 'package:smartmoney/pages2/name.dart';
 import 'package:smartmoney/pages2/new-budget.dart';
 import 'package:smartmoney/pages2/otp.dart';
+import 'package:smartmoney/pages2/payer.dart';
 import 'package:smartmoney/pages2/pin.dart';
 import 'package:smartmoney/pages2/shopping-list.dart';
 import 'package:smartmoney/pages2/welcome.dart';
@@ -163,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 // ),
               ],
             ),
-            nextScreen: const Estimator(),
+            nextScreen: const Payer(),
             splashTransition: SplashTransition.fadeTransition,
             backgroundColor: const Color(0xFF583101)),
       ),
