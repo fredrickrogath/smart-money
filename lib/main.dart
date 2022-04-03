@@ -11,12 +11,14 @@ import 'package:smartmoney/pages2/budget.dart';
 import 'package:smartmoney/pages2/category.dart';
 import 'package:smartmoney/pages2/create-event.dart';
 import 'package:smartmoney/pages2/entry.dart';
+import 'package:smartmoney/pages2/estimator.dart';
 import 'package:smartmoney/pages2/event-details.dart';
 import 'package:smartmoney/pages2/events.dart';
 import 'package:smartmoney/pages2/name.dart';
 import 'package:smartmoney/pages2/new-budget.dart';
 import 'package:smartmoney/pages2/otp.dart';
 import 'package:smartmoney/pages2/pin.dart';
+import 'package:smartmoney/pages2/shopping-list.dart';
 import 'package:smartmoney/pages2/welcome.dart';
 import 'package:smartmoney/themes/primary_swatch.dart';
 
@@ -161,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 // ),
               ],
             ),
-            nextScreen: const CreateEvent(),
+            nextScreen: const Estimator(),
             splashTransition: SplashTransition.fadeTransition,
             backgroundColor: const Color(0xFF583101)),
       ),

@@ -3,14 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class CreateEvent extends StatefulWidget {
-  const CreateEvent({Key? key}) : super(key: key);
+class ShoppingList extends StatefulWidget {
+  const ShoppingList({Key? key}) : super(key: key);
 
   @override
-  State<CreateEvent> createState() => _CreateEventState();
+  State<ShoppingList> createState() => _ShoppingListState();
 }
 
-class _CreateEventState extends State<CreateEvent> {
+class _ShoppingListState extends State<ShoppingList> {
   TextEditingController dateStart = TextEditingController();
   TextEditingController dateEnd = TextEditingController();
 
@@ -43,7 +43,7 @@ class _CreateEventState extends State<CreateEvent> {
                   ),
                 ),
               ),
-              title: Text('Create New Event', style: TextStyle(fontSize: 20.0)),
+              title: Text('Create Shopping List', style: TextStyle(fontSize: 20.0)),
             ),
             body: SingleChildScrollView(
               child: Column(children: [
@@ -77,7 +77,7 @@ class _CreateEventState extends State<CreateEvent> {
                                 //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
                                 // ),
                                 border: UnderlineInputBorder(),
-                                hintText: 'Event name',
+                                hintText: 'Item',
                               ),
                             ),
                           ),
@@ -100,7 +100,7 @@ class _CreateEventState extends State<CreateEvent> {
                                 //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
                                 // ),
                                 border: UnderlineInputBorder(),
-                                hintText: 'Location name',
+                                hintText: 'Unit',
                               ),
                             ),
                           ),
@@ -113,7 +113,7 @@ class _CreateEventState extends State<CreateEvent> {
                                 dateStart, //editing controller of this TextField
                             decoration: const InputDecoration(
                                 suffixIcon: Icon(Icons.calendar_today),
-                                labelText: "Event Date" //label text of field
+                                labelText: "Date" //label text of field
                                 ),
                             readOnly:
                                 true, //set it true, so that user will not able to edit text
@@ -145,40 +145,34 @@ class _CreateEventState extends State<CreateEvent> {
                           ),
                           SizedBox(
                               height: MediaQuery.of(context).size.height / 40),
-                          TextFormField(
-                            textAlign: TextAlign.start,
-                            decoration: const InputDecoration(
-                              hintText: "Note",
-                              fillColor: Colors.white24,
-                              filled: true,
-                            ),
-                            minLines:
-                                6, // any number you need (It works as the rows for the textarea)
-                            keyboardType: TextInputType.multiline,
-                            maxLines: null,
-                          ),
                           SizedBox(
-                              height: MediaQuery.of(context).size.height / 30),
+                            width: MediaQuery.of(context).size.width / 1.0,
+                            height: MediaQuery.of(context).size.height / 17,
+                            child: const TextField(
+                              // obscureText: true,
+                              // obscuringCharacter: '*',
+                              // keyboardType: TextInputType.number,
+                              style: TextStyle(fontSize: 16.0),
+                              decoration: InputDecoration(
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color(0xFF8B5E34), width: 2.0),
+                                ),
+                                // enabledBorder: OutlineInputBorder(
+                                //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
+                                // ),
+                                border: UnderlineInputBorder(),
+                                hintText: 'Unit',
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height / 60),
-                SizedBox(width: MediaQuery.of(context).size.width / 1.1,
-                  child: Row(children: [
-                    Checkbox(
-                      checkColor: Colors.white,
-                      value: isChecked,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          isChecked = value!;
-                        });
-                      },
-                    ),
-                    Text('some whatever some whatever some whatever',)
-                  ]),
-                ),
+                SizedBox(height: MediaQuery.of(context).size.height / 4),
+                
                 SizedBox(height: MediaQuery.of(context).size.height / 7),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -187,8 +181,8 @@ class _CreateEventState extends State<CreateEvent> {
                         width: MediaQuery.of(context).size.width / 2.5,
                         child: FloatingActionButton.extended(
                           onPressed: () {},
-                          label: const Text('YES'),
-                          // icon: const Icon(Icons.add),
+                          label: const Text('Add Item'),
+                          icon: const Icon(Icons.add),
                           backgroundColor: const Color(0xFF8B5E34),
                         ),
                       ),
@@ -196,7 +190,7 @@ class _CreateEventState extends State<CreateEvent> {
                         width: MediaQuery.of(context).size.width / 2.5,
                         child: FloatingActionButton.extended(
                           onPressed: () {},
-                          label: const Text('SAVE EVENT'),
+                          label: const Text('Save'),
                           // icon: const Icon(Icons.remove),
                           backgroundColor: const Color(0xFF6F4518),
                         ),
