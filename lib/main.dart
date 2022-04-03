@@ -166,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 // ),
               ],
             ),
-            nextScreen: const NewLoan(),
+            nextScreen: const Entry(),
             splashTransition: SplashTransition.fadeTransition,
             backgroundColor: const Color(0xFF583101)),
       ),

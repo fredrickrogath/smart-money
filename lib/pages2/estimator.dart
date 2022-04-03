@@ -114,9 +114,9 @@ class _EstimatorState extends State<Estimator> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                child: Text("Expenses",
+                                child: const Text("Expenses",
                                     style: TextStyle(
-                                        color: Colors.black,fontSize:15.0)),
+                                        color: Colors.black, fontSize: 15.0)),
                                 decoration: const BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10.0)),
@@ -125,15 +125,14 @@ class _EstimatorState extends State<Estimator> {
                                     10.0, 10.0, 10.0, 10.0),
                               ),
                               Container(
-                                child: Text("Savings",
+                                child: const Text("Savings",
                                     style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15.0)),
+                                        color: Colors.black, fontSize: 15.0)),
                                 decoration: const BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10.0)),
                                     color: Colors.grey),
-                                 padding: const EdgeInsets.fromLTRB(
+                                padding: const EdgeInsets.fromLTRB(
                                     10.0, 10.0, 10.0, 10.0),
                               ),
                             ],
@@ -144,45 +143,45 @@ class _EstimatorState extends State<Estimator> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                child: Text("Zaka / Sadaka",
+                                child: const Text("Zaka / Sadaka",
                                     style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15.0)),
+                                        color: Colors.black, fontSize: 15.0)),
                                 decoration: const BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10.0)),
                                     color: Colors.grey),
-                                 padding: const EdgeInsets.fromLTRB(
+                                padding: const EdgeInsets.fromLTRB(
                                     10.0, 10.0, 10.0, 10.0),
                               ),
                               Container(
-                                child: Text("Loans.",
+                                child: const Text("Loans.",
                                     style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15.0)),
+                                        color: Colors.black, fontSize: 15.0)),
                                 decoration: const BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10.0)),
                                     color: Colors.grey),
-                                 padding: const EdgeInsets.fromLTRB(
+                                padding: const EdgeInsets.fromLTRB(
                                     10.0, 10.0, 10.0, 10.0),
                               ),
                             ],
                           ),
                           SizedBox(
                               height: MediaQuery.of(context).size.height / 60),
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [SizedBox(height: MediaQuery.of(context).size.height / 20,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height / 20,
                                 child: FloatingActionButton.extended(
-                                  onPressed: () {
-                                  },
+                                  onPressed: () {},
                                   label: const Text('Calculate'),
                                   // icon: const Icon(Icons.forward),
                                   backgroundColor: const Color(0xFF8B5E34),
                                 ),
-                              ),],),
+                              ),
+                            ],
+                          ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width / 1.0,
                             height: MediaQuery.of(context).size.height / 20,
@@ -301,21 +300,23 @@ class _EstimatorState extends State<Estimator> {
                     ),
                   ),
                 ),
-                SizedBox(
-                              height: MediaQuery.of(context).size.height / 40),
+                SizedBox(height: MediaQuery.of(context).size.height / 40),
                 Padding(
-                  padding: const EdgeInsets.only(left:20.0),
+                  padding: const EdgeInsets.only(left: 20.0),
                   child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [SizedBox(height: MediaQuery.of(context).size.height / 20,
-                                  child: FloatingActionButton.extended(
-                                    onPressed: () {
-                                    },
-                                    label: const Text('pdf'),
-                                    icon: const Icon(Icons.download),
-                                    backgroundColor: const Color(0xFF8B5E34),
-                                  ),
-                                ),],),
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 20,
+                        child: FloatingActionButton.extended(
+                          onPressed: () {},
+                          label: const Text('pdf'),
+                          icon: const Icon(Icons.download),
+                          backgroundColor: const Color(0xFF8B5E34),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ]),
             )));

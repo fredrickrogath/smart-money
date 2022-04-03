@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class LoanDetails extends StatefulWidget {
   const LoanDetails({Key? key}) : super(key: key);
@@ -81,10 +82,8 @@ class _LoanDetailsState extends State<LoanDetails> {
                               ),
                             ),
                           ),
-
                           SizedBox(
                               height: MediaQuery.of(context).size.height / 40),
-
                           SizedBox(
                             width: MediaQuery.of(context).size.width / 1.0,
                             height: MediaQuery.of(context).size.height / 17,
@@ -106,10 +105,8 @@ class _LoanDetailsState extends State<LoanDetails> {
                               ),
                             ),
                           ),
-
                           SizedBox(
                               height: MediaQuery.of(context).size.height / 40),
-
                           SizedBox(
                             width: MediaQuery.of(context).size.width / 1.0,
                             height: MediaQuery.of(context).size.height / 17,
@@ -131,7 +128,6 @@ class _LoanDetailsState extends State<LoanDetails> {
                               ),
                             ),
                           ),
-
                           SizedBox(
                               height: MediaQuery.of(context).size.height / 40),
                           SizedBox(
@@ -158,103 +154,177 @@ class _LoanDetailsState extends State<LoanDetails> {
                           SizedBox(
                               height: MediaQuery.of(context).size.height / 40),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                            SizedBox(width: MediaQuery.of(context).size.width / 3.0,
-                              child: TextField(
-                              textAlign: TextAlign.right,
-                              style: const TextStyle(fontSize: 16.0),
-                              controller:
-                                  dateStart, //editing controller of this TextField
-                              decoration: const InputDecoration(
-                                  suffixIcon: Icon(Icons.calendar_today),
-                                  labelText: "Start Date" //label text of field
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width / 3.0,
+                                  child: TextField(
+                                    textAlign: TextAlign.right,
+                                    style: const TextStyle(fontSize: 16.0),
+                                    controller:
+                                        dateStart, //editing controller of this TextField
+                                    decoration: const InputDecoration(
+                                        suffixIcon: Icon(Icons.calendar_today),
+                                        labelText:
+                                            "Start Date" //label text of field
+                                        ),
+                                    readOnly:
+                                        true, //set it true, so that user will not able to edit text
+                                    onTap: () async {
+                                      DateTime? pickedDate =
+                                          await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(
+                                                  2000), //DateTime.now() - not to allow to choose before today.
+                                              lastDate: DateTime(2101));
+
+                                      if (pickedDate != null) {
+                                        print(
+                                            pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                        String formattedDate =
+                                            DateFormat('yyyy-MM-dd')
+                                                .format(pickedDate);
+                                        print(
+                                            formattedDate); //formatted date output using intl package =>  2021-03-16
+                                        //you can implement different kind of Date Format here according to your requirement
+
+                                        setState(() {
+                                          dateStart.text =
+                                              formattedDate; //set output date to TextField value.
+                                        });
+                                      } else {
+                                        print("Date is not selected");
+                                      }
+                                    },
                                   ),
-                              readOnly:
-                                  true, //set it true, so that user will not able to edit text
-                              onTap: () async {
-                                DateTime? pickedDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(
-                                        2000), //DateTime.now() - not to allow to choose before today.
-                                    lastDate: DateTime(2101));
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width / 3.0,
+                                  child: TextField(
+                                    textAlign: TextAlign.right,
+                                    style: const TextStyle(fontSize: 16.0),
+                                    controller:
+                                        dateStart, //editing controller of this TextField
+                                    decoration: const InputDecoration(
+                                        suffixIcon: Icon(Icons.calendar_today),
+                                        labelText:
+                                            "Due Date" //label text of field
+                                        ),
+                                    readOnly:
+                                        true, //set it true, so that user will not able to edit text
+                                    onTap: () async {
+                                      DateTime? pickedDate =
+                                          await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(
+                                                  2000), //DateTime.now() - not to allow to choose before today.
+                                              lastDate: DateTime(2101));
 
-                                if (pickedDate != null) {
-                                  print(
-                                      pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                                  String formattedDate =
-                                      DateFormat('yyyy-MM-dd').format(pickedDate);
-                                  print(
-                                      formattedDate); //formatted date output using intl package =>  2021-03-16
-                                  //you can implement different kind of Date Format here according to your requirement
+                                      if (pickedDate != null) {
+                                        print(
+                                            pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                        String formattedDate =
+                                            DateFormat('yyyy-MM-dd')
+                                                .format(pickedDate);
+                                        print(
+                                            formattedDate); //formatted date output using intl package =>  2021-03-16
+                                        //you can implement different kind of Date Format here according to your requirement
 
-                                  setState(() {
-                                    dateStart.text =
-                                        formattedDate; //set output date to TextField value.
-                                  });
-                                } else {
-                                  print("Date is not selected");
-                                }
-                              },
-                          ),
-                            ),
-                          SizedBox(width: MediaQuery.of(context).size.width / 3.0,
-                            child: TextField(
-                              textAlign: TextAlign.right,
-                              style: const TextStyle(fontSize: 16.0),
-                              controller:
-                                  dateStart, //editing controller of this TextField
-                              decoration: const InputDecoration(
-                                  suffixIcon: Icon(Icons.calendar_today),
-                                  labelText: "Due Date" //label text of field
+                                        setState(() {
+                                          dateStart.text =
+                                              formattedDate; //set output date to TextField value.
+                                        });
+                                      } else {
+                                        print("Date is not selected");
+                                      }
+                                    },
                                   ),
-                              readOnly:
-                                  true, //set it true, so that user will not able to edit text
-                              onTap: () async {
-                                DateTime? pickedDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(
-                                        2000), //DateTime.now() - not to allow to choose before today.
-                                    lastDate: DateTime(2101));
-
-                                if (pickedDate != null) {
-                                  print(
-                                      pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                                  String formattedDate =
-                                      DateFormat('yyyy-MM-dd').format(pickedDate);
-                                  print(
-                                      formattedDate); //formatted date output using intl package =>  2021-03-16
-                                  //you can implement different kind of Date Format here according to your requirement
-
-                                  setState(() {
-                                    dateStart.text =
-                                        formattedDate; //set output date to TextField value.
-                                  });
-                                } else {
-                                  print("Date is not selected");
-                                }
-                              },
-                            ),
-                          ),]),
+                                ),
+                              ]),
                           SizedBox(
                               height: MediaQuery.of(context).size.height / 40),
-                         
                         ],
                       ),
                     ),
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height / 4),
-                
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       SizedBox(
                         width: MediaQuery.of(context).size.width / 2.5,
                         child: FloatingActionButton.extended(
-                          onPressed: () {},
+                          onPressed: () {
+                            Alert(
+                                context: context,
+                                title: "Pay Loan",
+                                content: Column(
+                                  children: <Widget>[
+                                    TextField(
+                                      decoration: InputDecoration(
+                                        icon: Icon(Icons.account_circle),
+                                        labelText: 'Amount',
+                                      ),
+                                    ),
+                                    TextField(
+                                    textAlign: TextAlign.right,
+                                    style: const TextStyle(fontSize: 16.0),
+                                    controller:
+                                        dateStart, //editing controller of this TextField
+                                    decoration: const InputDecoration(
+                                      icon: Icon(Icons.calendar_today),
+                                        // suffixIcon: Icon(Icons.calendar_today),
+                                        labelText:
+                                            "Due Date" //label text of field
+                                        ),
+                                    readOnly:
+                                        true, //set it true, so that user will not able to edit text
+                                    onTap: () async {
+                                      DateTime? pickedDate =
+                                          await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(
+                                                  2000), //DateTime.now() - not to allow to choose before today.
+                                              lastDate: DateTime(2101));
+
+                                      if (pickedDate != null) {
+                                        print(
+                                            pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                        String formattedDate =
+                                            DateFormat('yyyy-MM-dd')
+                                                .format(pickedDate);
+                                        print(
+                                            formattedDate); //formatted date output using intl package =>  2021-03-16
+                                        //you can implement different kind of Date Format here according to your requirement
+
+                                        setState(() {
+                                          dateStart.text =
+                                              formattedDate; //set output date to TextField value.
+                                        });
+                                      } else {
+                                        print("Date is not selected");
+                                      }
+                                    },
+                                  ),
+                                  ],
+                                ),
+                                buttons: [
+                                  DialogButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text(
+                                      "Save",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                  )
+                                ]).show();
+                          },
                           label: const Text('Pay Loan'),
                           // icon: const Icon(Icons.add),
                           backgroundColor: const Color(0xFF8B5E34),

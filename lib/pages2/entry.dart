@@ -15,6 +15,34 @@ class _EntryState extends State<Entry> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        endDrawer: Drawer(
+    child: ListView(
+    // Important: Remove any padding from the ListView.
+    padding: EdgeInsets.zero,
+    children: [
+      const DrawerHeader(
+        decoration: BoxDecoration(
+          color: Colors.blue,
+        ),
+        child: Text('Thomas'),
+      ),
+      ListTile(
+        title: const Text('Item 1'),
+        onTap: () {
+          // Update the state of the app.
+          // ...
+        },
+      ),
+      ListTile(
+        title: const Text('Item 2'),
+        onTap: () {
+          // Update the state of the app.
+          // ...
+        },
+      ),
+    ],
+  ),
+  ),
           appBar: AppBar(
             // centerTitle: true,
             toolbarHeight: 100,
