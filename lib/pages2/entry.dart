@@ -1,6 +1,8 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:smartmoney/pages2/budget.dart';
+import 'package:smartmoney/pages2/events.dart';
 // import 'package:dropdown_search/dropdown_search.dart';
 
 class Entry extends StatefulWidget {
@@ -15,34 +17,212 @@ class _EntryState extends State<Entry> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        endDrawer: Drawer(
-    child: ListView(
-    // Important: Remove any padding from the ListView.
-    padding: EdgeInsets.zero,
-    children: [
-      const DrawerHeader(
-        decoration: BoxDecoration(
-          color: Colors.blue,
-        ),
-        child: Text('Thomas'),
-      ),
-      ListTile(
-        title: const Text('Item 1'),
-        onTap: () {
-          // Update the state of the app.
-          // ...
-        },
-      ),
-      ListTile(
-        title: const Text('Item 2'),
-        onTap: () {
-          // Update the state of the app.
-          // ...
-        },
-      ),
-    ],
-  ),
-  ),
+          endDrawer: Drawer(
+            child: ListView(
+              // Important: Remove any padding from the ListView.
+              padding: EdgeInsets.zero,
+              children: [
+                const DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                  ),
+                  child: Text('Thomas'),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.home),
+                  title: Container(
+                    child: const Text("Home",
+                        style: TextStyle(color: Colors.black, fontSize: 16.0)),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0)),
+                        color: Colors.grey[300]),
+                    padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                                context,
+                                PageTransition(
+                                    duration: const Duration(milliseconds: 600),
+                                    reverseDuration:
+                                        const Duration(milliseconds: 600),
+                                    type:
+                                        PageTransitionType.leftToRightWithFade,
+                                    child: const Entry()))
+                            ;
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.monetization_on_rounded),
+                  title: Container(
+                    child: const Text("Budget",
+                        style: TextStyle(color: Colors.black, fontSize: 16.0)),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0)),
+                        color: Colors.grey[300]),
+                    padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                                context,
+                                PageTransition(
+                                    duration: const Duration(milliseconds: 600),
+                                    reverseDuration:
+                                        const Duration(milliseconds: 600),
+                                    type:
+                                        PageTransitionType.leftToRightWithFade,
+                                    child: const Budget()))
+                            ;
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.event),
+                  title: Container(
+                    child: const Text("Events",
+                        style: TextStyle(color: Colors.black, fontSize: 16.0)),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0)),
+                        color: Colors.grey[300]),
+                    padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                                context,
+                                PageTransition(
+                                    duration: const Duration(milliseconds: 600),
+                                    reverseDuration:
+                                        const Duration(milliseconds: 600),
+                                    type:
+                                        PageTransitionType.leftToRightWithFade,
+                                    child: const Events()))
+                            ;
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.money_off),
+                  title: Container(
+                    child: const Text("Loan Management",
+                        style: TextStyle(color: Colors.black, fontSize: 16.0)),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0)),
+                        color: Colors.grey[300]),
+                    padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                                context,
+                                PageTransition(
+                                    duration: const Duration(milliseconds: 600),
+                                    reverseDuration:
+                                        const Duration(milliseconds: 600),
+                                    type:
+                                        PageTransitionType.leftToRightWithFade,
+                                    child: const Budget()))
+                            ;
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.calculate),
+                  title: Container(
+                    child: const Text("Budget Estimator",
+                        style: TextStyle(color: Colors.black, fontSize: 16.0)),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0)),
+                        color: Colors.grey[300]),
+                    padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                                context,
+                                PageTransition(
+                                    duration: const Duration(milliseconds: 600),
+                                    reverseDuration:
+                                        const Duration(milliseconds: 600),
+                                    type:
+                                        PageTransitionType.leftToRightWithFade,
+                                    child: const Budget()))
+                            ;
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.message_outlined),
+                  title: Container(
+                    child: const Text("Report",
+                        style: TextStyle(color: Colors.black, fontSize: 16.0)),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0)),
+                        color: Colors.grey[300]),
+                    padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                                context,
+                                PageTransition(
+                                    duration: const Duration(milliseconds: 600),
+                                    reverseDuration:
+                                        const Duration(milliseconds: 600),
+                                    type:
+                                        PageTransitionType.leftToRightWithFade,
+                                    child: const Budget()))
+                            ;
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.person_rounded),
+                  title: Container(
+                    child: const Text("Profile",
+                        style: TextStyle(color: Colors.black, fontSize: 16.0)),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0)),
+                        color: Colors.grey[300]),
+                    padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                                context,
+                                PageTransition(
+                                    duration: const Duration(milliseconds: 600),
+                                    reverseDuration:
+                                        const Duration(milliseconds: 600),
+                                    type:
+                                        PageTransitionType.leftToRightWithFade,
+                                    child: const Budget()))
+                            ;
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.contact_mail_outlined),
+                  title: Container(
+                    child: const Text("Contact Us",
+                        style: TextStyle(color: Colors.black, fontSize: 16.0)),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0)),
+                        color: Colors.grey[300]),
+                    padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                                context,
+                                PageTransition(
+                                    duration: const Duration(milliseconds: 600),
+                                    reverseDuration:
+                                        const Duration(milliseconds: 600),
+                                    type:
+                                        PageTransitionType.leftToRightWithFade,
+                                    child: const Budget()))
+                            ;
+                  },
+                ),
+              ],
+            ),
+          ),
           appBar: AppBar(
             // centerTitle: true,
             toolbarHeight: 100,
@@ -70,31 +250,29 @@ class _EntryState extends State<Entry> {
             child: Column(
               children: [
                 SizedBox(height: MediaQuery.of(context).size.height / 35),
-                SizedBox(width: double.infinity,
+                SizedBox(
+                  width: double.infinity,
                   child: Card(
                     elevation: 2.5,
                     child: Column(children: [
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 20,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal:10.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: const [
                                 Text(
                                   'Net balance',
                                   style: TextStyle(
-                                      color:
-                                          Color.fromARGB(255, 117, 117, 117),
+                                      color: Color.fromARGB(255, 117, 117, 117),
                                       fontSize: 20.0,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   '0',
                                   style: TextStyle(
-                                      color:
-                                          Color.fromARGB(255, 117, 117, 117),
+                                      color: Color.fromARGB(255, 117, 117, 117),
                                       fontSize: 20.0,
                                       fontWeight: FontWeight.bold),
                                 )
@@ -110,7 +288,8 @@ class _EntryState extends State<Entry> {
                         child: SizedBox(
                           height: MediaQuery.of(context).size.height / 20,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal:20.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
                             child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -135,7 +314,8 @@ class _EntryState extends State<Entry> {
                         child: SizedBox(
                           height: MediaQuery.of(context).size.height / 20,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal:20.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
                             child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
