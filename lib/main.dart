@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: MaterialColor(0xFF8B5E34, color),
+        primarySwatch: MaterialColor(0xFF0096C7, color),
       ),
       home: const MyHomePage(title: 'Smart Money'),
       initialRoute: '/',
@@ -93,31 +93,31 @@ class _MyHomePageState extends State<MyHomePage> {
     return SafeArea(
       child: Scaffold(
         // body: homePage(),
-        backgroundColor: const Color(0xFF8B5E34),
+        backgroundColor: const Color(0xFF0096C7),
         body: AnimatedSplashScreen(
             // centered: false,
             splashIconSize: double.maxFinite,
-            duration: 0000,
+            duration: 4000,
             splash: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
                   child: TextLiquidFill(
-                    text: 'SMART MONEY',
+                    text: 'Smart Money',
                     waveColor: Colors.white,
-                    boxBackgroundColor: const Color(0xFF583101),
+                    boxBackgroundColor: const Color(0xFF0096C7),
                     textStyle: const TextStyle(
-                      fontSize: 45.0,
+                      fontSize: 50.0,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
                 ),
-                // const SizedBox(
-                //   height: 90.0,
-                // ),
+              SizedBox(
+                  height: MediaQuery.of(context).size.height / 15.0,
+                ),
                 CircleAvatar(
-                  backgroundColor: const Color(0xFF24564F),
-                  radius: 90,
+                  // backgroundColor: const Color(0xFF24564F),
+                  radius: MediaQuery.of(context).size.height / 11.0,
                   child: ClipOval(
                     child: Image.asset('assets/logo/fredrick.png'),
                   ),
@@ -131,19 +131,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 1.5,
                   child: Card(
-                    color: const Color(0xff6F4518),
+                    color: const Color(0xFF0096C7),
                     elevation: 0.0,
                     child: Column(
                       children: const [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('OUR PROMISE',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white)),
-                        ),
+                        // Padding(
+                        //   padding: EdgeInsets.all(8.0),
+                        //   child: Text('OUR PROMISE',
+                        //       style: TextStyle(
+                        //           fontSize: 18,
+                        //           fontStyle: FontStyle.italic,
+                        //           fontWeight: FontWeight.bold,
+                        //           color: Colors.white)),
+                        // ),
                         Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('100% safe & free',
@@ -166,9 +166,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 // ),
               ],
             ),
-            nextScreen: const Entry(),
+            nextScreen: const Name(),
             splashTransition: SplashTransition.fadeTransition,
-            backgroundColor: const Color(0xFF583101)),
+            backgroundColor: const Color(0xFF0096C7)),
       ),
     );
   }

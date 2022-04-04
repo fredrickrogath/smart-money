@@ -1,6 +1,8 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:smartmoney/pages2/budget.dart';
+import 'package:smartmoney/pages2/welcome.dart';
 
 class Name extends StatefulWidget {
   const Name({Key? key}) : super(key: key);
@@ -10,23 +12,31 @@ class Name extends StatefulWidget {
 }
 
 class _NameState extends State<Name> {
+  double frameHeight = 0;
+  double frameWidth = 0;
+
   @override
   Widget build(BuildContext context) {
+    frameHeight = MediaQuery.of(context).size.height;
+    frameWidth = MediaQuery.of(context).size.width;
+
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            toolbarHeight: MediaQuery.of(context).size.height / 4.0,
-            backgroundColor: const Color(0xFF6F4518),
+            toolbarHeight: frameHeight / 10,
+            backgroundColor: const Color(0xFF0096C7),
             title: Column(
               children: const [
-                Text('Enter your name', style: TextStyle(fontSize: 25.0)),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: Text('Welcome to CashBook',
-                      style: TextStyle(
-                          fontSize: 17.0, fontWeight: FontWeight.w400)),
-                )
+                Text('Welcome To SmartMoney',
+                    style:
+                        TextStyle(fontSize: 17.0, fontWeight: FontWeight.w400)),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(vertical: 10.0),
+                //   child: Text('Welcome to CashBook',
+                //       style: TextStyle(
+                //           fontSize: 17.0, fontWeight: FontWeight.w400)),
+                // )
               ],
             ),
           ),
@@ -40,12 +50,13 @@ class _NameState extends State<Name> {
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height / 15),
 
-                  SizedBox(width: MediaQuery.of(context).size.width/1.2,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 1.1,
                     child: const TextField(
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color(0xFF8B5E34), width: 2.0),
+                          borderSide:
+                              BorderSide(color: Color(0xFF0096C7), width: 2.0),
                         ),
                         // enabledBorder: OutlineInputBorder(
                         //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
@@ -80,40 +91,29 @@ class _NameState extends State<Name> {
                   //     child: Text('Submit',style: TextStyle(fontSize:18.0),),
                   //   ),
                   // ),
-
-                  OpenContainer(
-                    closedColor: const Color(0xFF6F4518),
-                    openColor: const Color(0xFF6F4518),
-                    closedElevation: 0.0,
-                    openElevation: 0.0,
-                    closedShape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal:10.0),
+                    child: SizedBox(
+                      height: frameHeight / 17.0,
+                      width: double.infinity,
+                      
+                      child: FloatingActionButton.extended(
+                        elevation:0.0,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  duration: const Duration(milliseconds: 700),
+                                  reverseDuration:
+                                      const Duration(milliseconds: 700),
+                                  type: PageTransitionType.rightToLeftWithFade,
+                                  child: const Welcome()));
+                        },
+                        label: const Text('Submit'),
+                        // icon: const Icon(Icons.remove),
+                        backgroundColor: const Color(0xFF0096C7),
+                      ),
                     ),
-                    transitionType: ContainerTransitionType.fade,
-                    transitionDuration: const Duration(milliseconds: 1000),
-                    openBuilder: (context, action) {
-                      return const Budget();
-                    },
-                    closedBuilder: (context, action) {
-                      return SizedBox(
-                        height: MediaQuery.of(context).size.height / 20,
-                        width: double.infinity,
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Center(
-                            child: Text(
-                              'Submit',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                // ignore: unrelated_type_equality_checks
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
                   ),
                 ],
               ),

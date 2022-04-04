@@ -16,35 +16,42 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
+  double frameHeight = 0;
+  double frameWidth = 0;
+
   @override
   Widget build(BuildContext context) {
+    frameHeight = MediaQuery.of(context).size.height;
+    frameWidth = MediaQuery.of(context).size.width;
+
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            // centerTitle: true,
-            toolbarHeight: 100,
-            backgroundColor: const Color(0xFF6F4518),
+            centerTitle: true,
+            toolbarHeight: frameHeight / 10,
+            // backgroundColor: const Color(0xFF6F4518),
             leading: const Padding(
               padding: EdgeInsets.only(left: 10.0),
               child: CircleAvatar(
                 radius: 30.0,
-                backgroundColor: Color(0xFF8B5E34),
+                // backgroundColor: Color(0xFF8B5E34),
                 child: Icon(
                   CupertinoIcons.phone_arrow_up_right,
                   color: Colors.white,
-                  size: 36.0,
+                  size: 30.0,
                 ),
               ),
             ),
             title: Column(
               children: const [
-                Text('Welcome', style: TextStyle(fontSize: 23.0)),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text('Login to manage your budgets',
-                      style: TextStyle(
-                          fontSize: 17.0, fontWeight: FontWeight.w400)),
-                )
+                Text('Welcome', style:
+                      TextStyle(fontSize: 17.0, fontWeight: FontWeight.w400)),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(vertical: 8.0),
+                //   child: Text('Login to manage your budgets',
+                //       style: TextStyle(
+                //           fontSize: 17.0, fontWeight: FontWeight.w400)),
+                // )
               ],
             ),
           ),
@@ -168,63 +175,53 @@ class _WelcomeState extends State<Welcome> {
                 //   ),
                 // ),
 
-                OpenContainer(
-                  closedColor: const Color(0xFF6F4518),
-                  openColor: const Color(0xFF6F4518),
-                  closedElevation: 0.0,
-                  openElevation: 0.0,
-                  closedShape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  ),
-                  transitionType: ContainerTransitionType.fade,
-                  transitionDuration: const Duration(milliseconds: 1000),
-                  openBuilder: (context, action) {
-                    return const Otp();
-                  },
-                  closedBuilder: (context, action) {
-                    return SizedBox(
-                      height: MediaQuery.of(context).size.height / 20,
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal:10.0),
+                    child: SizedBox(
+                      height: frameHeight / 17.0,
                       width: double.infinity,
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Center(
-                          child: Text(
-                            'Submit',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              // ignore: unrelated_type_equality_checks
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
+                      
+                      child: FloatingActionButton.extended(
+                        elevation:0.0,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  duration: const Duration(milliseconds: 700),
+                                  reverseDuration:
+                                      const Duration(milliseconds: 700),
+                                  type: PageTransitionType.rightToLeftWithFade,
+                                  child: const Otp()));
+                        },
+                        label: const Text('Submit'),
+                        // icon: const Icon(Icons.remove),
+                        backgroundColor: const Color(0xFF0096C7),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  ),
 
                 SizedBox(height: MediaQuery.of(context).size.height / 30),
 
-                RichText(
-                  textAlign: TextAlign.center,
-                  text: const TextSpan(
-                    text: 'By creating an account, you agree to our ',
-                    style: TextStyle(color: Colors.black, fontSize: 17.0),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: 'Terms',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF8B5E34))),
-                      TextSpan(text: ' and!'),
-                      TextSpan(
-                          text: ' conditions',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF8B5E34))),
-                    ],
-                  ),
-                )
+                // RichText(
+                //   textAlign: TextAlign.center,
+                //   text: const TextSpan(
+                //     text: 'By creating an account, you agree to our ',
+                //     style: TextStyle(color: Colors.black, fontSize: 14.0),
+                //     children: <TextSpan>[
+                //       TextSpan(
+                //           text: 'Terms',
+                //           style: TextStyle(
+                //               fontWeight: FontWeight.bold,
+                //               color: Color(0xFF8B5E34))),
+                //       TextSpan(text: ' and!'),
+                //       TextSpan(
+                //           text: ' conditions',
+                //           style: TextStyle(
+                //               fontWeight: FontWeight.bold,
+                //               color: Color(0xFF8B5E34))),
+                //     ],
+                //   ),
+                // )
               ],
             ),
           )),

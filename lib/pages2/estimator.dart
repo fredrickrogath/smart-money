@@ -17,13 +17,20 @@ class _EstimatorState extends State<Estimator> {
 
   bool isChecked = false;
 
+  double frameHeight = 0;
+  double frameWidth = 0;
+
   @override
   Widget build(BuildContext context) {
+
+    frameHeight = MediaQuery.of(context).size.height;
+    frameWidth = MediaQuery.of(context).size.width;
+
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              toolbarHeight: 80,
+              toolbarHeight: frameHeight / 10,
               // backgroundColor: const Color(0xFF6F4518),
               leading: Padding(
                 padding: const EdgeInsets.only(left: 10.0),
@@ -35,7 +42,7 @@ class _EstimatorState extends State<Estimator> {
                   },
                   child: const CircleAvatar(
                     radius: 30.0,
-                    backgroundColor: Color(0xFF8B5E34),
+                    // backgroundColor: Color(0xFF8B5E34),
                     child: Icon(
                       CupertinoIcons.chevron_back,
                       color: Colors.white,
@@ -44,7 +51,8 @@ class _EstimatorState extends State<Estimator> {
                   ),
                 ),
               ),
-              title: const Text('Estimator', style: TextStyle(fontSize: 20.0)),
+              title: const Text('Budget Estimator', style:
+                      TextStyle(fontSize: 17.0, fontWeight: FontWeight.w400)),
             ),
             body: SingleChildScrollView(
               child: Column(children: [
@@ -71,16 +79,14 @@ class _EstimatorState extends State<Estimator> {
                               // keyboardType: TextInputType.number,
                               style: TextStyle(fontSize: 16.0),
                               decoration: InputDecoration(
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20.0)),
+                                focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xFF8B5E34), width: 2.0),
+                                      color: Color(0xFF0096C7), width: 2.0),
                                 ),
                                 // enabledBorder: OutlineInputBorder(
                                 //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
                                 // ),
-                                border: OutlineInputBorder(),
+                                border: UnderlineInputBorder(),
                                 hintText: 'Enter your income',
                               ),
                             ),
@@ -92,7 +98,8 @@ class _EstimatorState extends State<Estimator> {
                             child: DropdownSearch<String>(
                               mode: Mode.MENU,
                               // popupBackgroundColor: Colors.yellow,
-                              popupBarrierColor: const Color(0xFF8B5E34),
+                              
+                              popupBarrierColor: const Color(0xFF0096C7),
                               showSelectedItems: true,
                               items: const [
                                 "Formular 1",
@@ -177,7 +184,7 @@ class _EstimatorState extends State<Estimator> {
                                   onPressed: () {},
                                   label: const Text('Calculate'),
                                   // icon: const Icon(Icons.forward),
-                                  backgroundColor: const Color(0xFF8B5E34),
+                                  backgroundColor: const Color(0xFF0096C7),
                                 ),
                               ),
                             ],
@@ -193,10 +200,10 @@ class _EstimatorState extends State<Estimator> {
                               decoration: InputDecoration(
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xFF8B5E34), width: 2.0),
+                                      color: Color(0xFF0096C7), width: 2.0),
                                 ),
                                 // enabledBorder: OutlineInputBorder(
-                                //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
+                                //   borderSide: BorderSide(color: const Color(0xFF0096C7), width: 2.0),
                                 // ),
                                 border: UnderlineInputBorder(),
                                 hintText: 'Total',
@@ -216,7 +223,7 @@ class _EstimatorState extends State<Estimator> {
                               decoration: InputDecoration(
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xFF8B5E34), width: 2.0),
+                                      color: Color(0xFF0096C7), width: 2.0),
                                 ),
                                 // enabledBorder: OutlineInputBorder(
                                 //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
@@ -239,10 +246,10 @@ class _EstimatorState extends State<Estimator> {
                               decoration: InputDecoration(
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xFF8B5E34), width: 2.0),
+                                      color: Color(0xFF0096C7), width: 2.0),
                                 ),
                                 // enabledBorder: OutlineInputBorder(
-                                //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
+                                //   borderSide: BorderSide(color: const Color(0xFF0096C7), width: 2.0),
                                 // ),
                                 border: UnderlineInputBorder(),
                                 hintText: 'Savings',
@@ -262,7 +269,7 @@ class _EstimatorState extends State<Estimator> {
                               decoration: InputDecoration(
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xFF8B5E34), width: 2.0),
+                                      color: Color(0xFF0096C7), width: 2.0),
                                 ),
                                 // enabledBorder: OutlineInputBorder(
                                 //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
@@ -285,7 +292,7 @@ class _EstimatorState extends State<Estimator> {
                               decoration: InputDecoration(
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xFF8B5E34), width: 2.0),
+                                      color: Color(0xFF0096C7), width: 2.0),
                                 ),
                                 // enabledBorder: OutlineInputBorder(
                                 //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
@@ -312,7 +319,7 @@ class _EstimatorState extends State<Estimator> {
                           onPressed: () {},
                           label: const Text('pdf'),
                           icon: const Icon(Icons.download),
-                          backgroundColor: const Color(0xFF8B5E34),
+                          backgroundColor: const Color(0xFF0096C7),
                         ),
                       ),
                     ],

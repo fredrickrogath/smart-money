@@ -14,15 +14,21 @@ class _ShoppingListState extends State<ShoppingList> {
   TextEditingController dateStart = TextEditingController();
   TextEditingController dateEnd = TextEditingController();
 
+  double frameHeight = 0;
+  double frameWidth = 0;
+
   bool isChecked = false;
 
   @override
   Widget build(BuildContext context) {
+    frameHeight = MediaQuery.of(context).size.height;
+    frameWidth = MediaQuery.of(context).size.width;
+
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              toolbarHeight: 80,
+              toolbarHeight: frameHeight / 10,
               // backgroundColor: const Color(0xFF6F4518),
               leading: Padding(
                 padding: const EdgeInsets.only(left: 10.0),
@@ -34,7 +40,7 @@ class _ShoppingListState extends State<ShoppingList> {
                   },
                   child: const CircleAvatar(
                     radius: 30.0,
-                    backgroundColor: Color(0xFF8B5E34),
+                    backgroundColor: Color(0xFF0096C7),
                     child: Icon(
                       CupertinoIcons.chevron_back,
                       color: Colors.white,
@@ -43,7 +49,9 @@ class _ShoppingListState extends State<ShoppingList> {
                   ),
                 ),
               ),
-              title: Text('Create Shopping List', style: TextStyle(fontSize: 20.0)),
+              title: const Text('Create Shopping List',
+                  style:
+                      TextStyle(fontSize: 17.0, fontWeight: FontWeight.w400)),
             ),
             body: SingleChildScrollView(
               child: Column(children: [
@@ -69,12 +77,13 @@ class _ShoppingListState extends State<ShoppingList> {
                               // keyboardType: TextInputType.number,
                               style: TextStyle(fontSize: 16.0),
                               decoration: InputDecoration(
+                                suffixIcon: Icon(CupertinoIcons.cart),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xFF8B5E34), width: 2.0),
+                                      color: Color(0xFF0096C7), width: 2.0),
                                 ),
                                 // enabledBorder: OutlineInputBorder(
-                                //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
+                                //   borderSide: BorderSide(color: const Color(0xFF0096C7), width: 2.0),
                                 // ),
                                 border: UnderlineInputBorder(),
                                 hintText: 'Item',
@@ -92,12 +101,13 @@ class _ShoppingListState extends State<ShoppingList> {
                               // keyboardType: TextInputType.number,
                               style: TextStyle(fontSize: 16.0),
                               decoration: InputDecoration(
+                                suffixIcon: Icon(CupertinoIcons.briefcase),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xFF8B5E34), width: 2.0),
+                                      color: Color(0xFF0096C7), width: 2.0),
                                 ),
                                 // enabledBorder: OutlineInputBorder(
-                                //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
+                                //   borderSide: BorderSide(color: const Color(0xFF0096C7), width: 2.0),
                                 // ),
                                 border: UnderlineInputBorder(),
                                 hintText: 'Unit',
@@ -154,15 +164,16 @@ class _ShoppingListState extends State<ShoppingList> {
                               // keyboardType: TextInputType.number,
                               style: TextStyle(fontSize: 16.0),
                               decoration: InputDecoration(
+                                suffixIcon: Icon(Icons.money),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xFF8B5E34), width: 2.0),
+                                      color: Color(0xFF0096C7), width: 2.0),
                                 ),
                                 // enabledBorder: OutlineInputBorder(
-                                //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
+                                //   borderSide: BorderSide(color: const Color(0xFF0096C7), width: 2.0),
                                 // ),
                                 border: UnderlineInputBorder(),
-                                hintText: 'Unit',
+                                hintText: 'Price',
                               ),
                             ),
                           ),
@@ -171,28 +182,29 @@ class _ShoppingListState extends State<ShoppingList> {
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height / 4),
-                
+                SizedBox(height: MediaQuery.of(context).size.height / 5.0),
                 SizedBox(height: MediaQuery.of(context).size.height / 7),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       SizedBox(
+                        height: frameHeight / 17.0,
                         width: MediaQuery.of(context).size.width / 2.5,
                         child: FloatingActionButton.extended(
                           onPressed: () {},
                           label: const Text('Add Item'),
                           icon: const Icon(Icons.add),
-                          backgroundColor: const Color(0xFF8B5E34),
+                          backgroundColor: const Color(0xFF0096C7),
                         ),
                       ),
                       SizedBox(
+                        height: frameHeight / 17.0,
                         width: MediaQuery.of(context).size.width / 2.5,
                         child: FloatingActionButton.extended(
                           onPressed: () {},
                           label: const Text('Save'),
                           // icon: const Icon(Icons.remove),
-                          backgroundColor: const Color(0xFF6F4518),
+                          backgroundColor: const Color(0xFF0096C7),
                         ),
                       ),
                     ])

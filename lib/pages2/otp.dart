@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:smartmoney/pages2/name.dart';
+import 'package:smartmoney/pages2/pin.dart';
 // import './constants/constants.dart';
 
 class Otp extends StatefulWidget {
@@ -127,8 +128,8 @@ class _OtpState extends State<Otp> {
                           }
                         },
                         pinTheme: PinTheme(
-                          inactiveColor:const Color(0xFF6F4518),
-                          inactiveFillColor:Color(0xFF8B5E34),
+                          inactiveColor:const Color(0xFF0096C7),
+                          inactiveFillColor:Color(0xFF0096C7),
                           shape: PinCodeFieldShape.underline,
                           borderRadius: BorderRadius.circular(5),
                           fieldHeight: 50,
@@ -193,7 +194,7 @@ class _OtpState extends State<Otp> {
                         child: const Text(
                           "RESEND",
                           style: TextStyle(
-                              color: Color(0xFF91D3B3),
+                              color: Color(0xFF0096C7),
                               fontWeight: FontWeight.bold,
                               fontSize: 16),
                         ))
@@ -205,84 +206,86 @@ class _OtpState extends State<Otp> {
                 Container(
                   margin: const EdgeInsets.symmetric(
                       vertical: 16.0, horizontal: 30),
-                  child: ButtonTheme(
-                    height: 50,
-                    buttonColor: Colors.yellow,
-                    child: TextButton(
-                      onPressed: () {
-                        formKey.currentState!.validate();
-                        // conditions for validating
-                        if (currentText.length != 6 ||
-                            currentText != "123456") {
-                          errorController!.add(ErrorAnimationType
-                              .shake); // Triggering error shake animation
-                          setState(() => hasError = true);
-                        } else {
-                          setState(
-                            () {
-                              hasError = false;
-                              snackBar("OTP Verified!!");
-                            },
-                          );
-                        }
+                  child: SizedBox(height:MediaQuery.of(context).size.height / 17.0,
+                    child: ButtonTheme(
+                      // height: 50,
+                      buttonColor: Colors.yellow,
+                      child: TextButton(
+                        onPressed: () {
+                          formKey.currentState!.validate();
+                          // conditions for validating
+                          if (currentText.length != 6 ||
+                              currentText != "123456") {
+                            errorController!.add(ErrorAnimationType
+                                .shake); // Triggering error shake animation
+                            setState(() => hasError = true);
+                          } else {
+                            setState(
+                              () {
+                                hasError = false;
+                                snackBar("OTP Verified!!");
+                              },
+                            );
+                          }
 
-                        Navigator.push(
-                            context,
-                            PageTransition(
-                                duration: const Duration(milliseconds: 700),
-                                reverseDuration:
-                                    const Duration(milliseconds: 700),
-                                type: PageTransitionType.bottomToTop,
-                                child: const Name()));
-                      },
-                      child: Center(
-                          child: Text(
-                        "VERIFY".toUpperCase(),
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      )),
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  duration: const Duration(milliseconds: 700),
+                                  reverseDuration:
+                                      const Duration(milliseconds: 700),
+                                  type: PageTransitionType.bottomToTop,
+                                  child: const Pin()));
+                        },
+                        child: Center(
+                            child: Text(
+                          "Verify",
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,),
+                        )),
+                      ),
                     ),
                   ),
                   decoration: BoxDecoration(
-                      color: Colors.green.shade300,
+                      color: const Color(0xFF0096C7),
                       borderRadius: BorderRadius.circular(5),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.green.shade200,
-                            offset: const Offset(1, -2),
-                            blurRadius: 5),
-                        BoxShadow(
-                            color: Colors.green.shade200,
-                            offset: const Offset(-1, 2),
-                            blurRadius: 5)
-                      ]),
+                      // boxShadow: const[
+                      //   // BoxShadow(
+                      //   //     color:  Color(0xFF0096C7),
+                      //   //     offset: Offset(1, -2),
+                      //   //     blurRadius: 5),
+                      //   // BoxShadow(
+                      //   //     color: Color(0xFF0096C7),
+                      //   //     offset: Offset(-1, 2),
+                      //   //     blurRadius: 5)
+                      // ]
+                      ),
                 ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Flexible(
-                        child: TextButton(
-                      child: const Text("Clear"),
-                      onPressed: () {
-                        textEditingController.clear();
-                      },
-                    )),
-                    Flexible(
-                        child: TextButton(
-                      child: const Text("Set Text"),
-                      onPressed: () {
-                        setState(() {
-                          textEditingController.text = "123456";
-                        });
-                      },
-                    )),
-                  ],
-                )
+                // SizedBox(
+                //   height: MediaQuery.of(context).size.height /40,
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: <Widget>[
+                //     Flexible(
+                //         child: TextButton(
+                //       child: const Text("Clear"),
+                //       onPressed: () {
+                //         textEditingController.clear();
+                //       },
+                //     )),
+                //     Flexible(
+                //         child: TextButton(
+                //       child: const Text("Set Text"),
+                //       onPressed: () {
+                //         setState(() {
+                //           textEditingController.text = "123456";
+                //         });
+                //       },
+                //     )),
+                //   ],
+                // )
               ],
             ),
           ),

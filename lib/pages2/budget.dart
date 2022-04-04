@@ -15,6 +15,9 @@ class _BudgetState extends State<Budget> {
   TextEditingController dateStart = TextEditingController();
   TextEditingController dateEnd = TextEditingController();
 
+  double frameHeight = 0;
+  double frameWidth = 0;
+
   @override
   void initState() {
     dateStart.text = ""; //set the initial value of text field
@@ -24,21 +27,23 @@ class _BudgetState extends State<Budget> {
 
   @override
   Widget build(BuildContext context) {
+    frameHeight = MediaQuery.of(context).size.height;
+
     return SafeArea(
-      child: Scaffold(
+      child: Scaffold(backgroundColor: Colors.white,
           appBar: AppBar(
             centerTitle: true,
-            toolbarHeight: MediaQuery.of(context).size.height / 7.0,
-            backgroundColor: const Color(0xFF6F4518),
+            toolbarHeight: frameHeight / 10,
+            backgroundColor: const Color(0xFF0096C7),
             title: Column(
               children: const [
-                Text('New budget', style: TextStyle(fontSize: 25.0)),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: Text('Create your new budget',
-                      style: TextStyle(
-                          fontSize: 17.0, fontWeight: FontWeight.w400)),
-                )
+                Text('New budget', style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w400)),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(vertical: 10.0),
+                //   child: Text('Create your new budget',
+                //       style: TextStyle(
+                //           fontSize: 17.0, fontWeight: FontWeight.w400)),
+                // )
               ],
             ),
           ),
@@ -84,11 +89,13 @@ class _BudgetState extends State<Budget> {
                   // ),
 
                   Center(
-                      child: TextField(style:TextStyle(fontSize:18.0),
+                      child: TextField(
+                    style: const TextStyle(fontSize: 16.0),
                     controller:
                         dateStart, //editing controller of this TextField
-                    decoration: InputDecoration(
-                        icon: Icon(Icons.calendar_today), //icon of text field
+                    decoration: const InputDecoration(
+                      suffixIcon: Icon(Icons.calendar_today),
+                        // icon: Icon(Icons.calendar_today), //icon of text field
                         labelText: "Start Date" //label text of field
                         ),
                     readOnly:
@@ -120,8 +127,7 @@ class _BudgetState extends State<Budget> {
                     },
                   )),
 
-
-                  SizedBox(height: MediaQuery.of(context).size.height / 25),
+                  SizedBox(height: MediaQuery.of(context).size.height / 30),
 
                   // const Padding(
                   //   padding: EdgeInsets.only(bottom: 8.0, top: 10.0),
@@ -154,13 +160,13 @@ class _BudgetState extends State<Budget> {
                   //   ),
                   // ),
 
-
                   Center(
-                      child: TextField(style:TextStyle(fontSize:18.0),
-                    controller:
-                        dateEnd, //editing controller of this TextField
-                    decoration: InputDecoration(
-                        icon: Icon(Icons.calendar_today), //icon of text field
+                      child: TextField(
+                    style: const TextStyle(fontSize: 16.0),
+                    controller: dateEnd, //editing controller of this TextField
+                    decoration: const InputDecoration(
+                      suffixIcon: Icon(Icons.calendar_today),
+                        // icon: Icon(Icons.calendar_today), //icon of text field
                         labelText: "End Date" //label text of field
                         ),
                     readOnly:
@@ -192,15 +198,18 @@ class _BudgetState extends State<Budget> {
                     },
                   )),
 
-                  SizedBox(height: MediaQuery.of(context).size.height / 20),
+                  SizedBox(height: MediaQuery.of(context).size.height / 30),
 
-                  SizedBox(width: MediaQuery.of(context).size.width/1.3,height:MediaQuery.of(context).size.height / 17,
-                    child: const TextField(
+                  const SizedBox(
+                    // width: MediaQuery.of(context).size.width / 1.3,
+                    // height: MediaQuery.of(context).size.height / 17,
+                    child: TextField(
                       // obscureText: true,
                       // obscuringCharacter: '*',
                       // keyboardType: TextInputType.number,
-                      style: TextStyle(fontSize:18.0),
+                      style: TextStyle(fontSize: 16.0),
                       decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.edit),
                         focusedBorder: UnderlineInputBorder(
                           borderSide:
                               BorderSide(color: Color(0xFF8B5E34), width: 2.0),
@@ -244,8 +253,8 @@ class _BudgetState extends State<Budget> {
                   // ),
 
                   OpenContainer(
-                    closedColor: const Color(0xFF6F4518),
-                    openColor: const Color(0xFF6F4518),
+                    closedColor: Colors.white,
+                    openColor: Colors.white,
                     closedElevation: 0.0,
                     openElevation: 0.0,
                     closedShape: const RoundedRectangleBorder(
@@ -257,24 +266,37 @@ class _BudgetState extends State<Budget> {
                       return const Category();
                     },
                     closedBuilder: (context, action) {
-                      return SizedBox(
-                        height: MediaQuery.of(context).size.height / 20,
-                        width: double.infinity,
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Center(
-                            child: Text(
-                              'Next',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                // ignore: unrelated_type_equality_checks
-                                color: Colors.white,
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [SizedBox(
+                        height: MediaQuery.of(context).size.height / 15,
+                        width: 100.0,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Container(
+                            
+                            decoration: const BoxDecoration(
+                              color: Color(0xFF0096C7),
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(40.0),
+            bottomRight: Radius.circular(40.0),
+            topLeft: Radius.circular(40.0),
+            bottomLeft: Radius.circular(40.0)),
+      ),
+                            child: const Center(
+                              child: Text(
+                                'Next',
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  // ignore: unrelated_type_equality_checks
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      );
+                      )],);
                     },
                   ),
                 ],
