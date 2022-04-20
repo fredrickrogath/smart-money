@@ -12,6 +12,8 @@ class Name extends StatefulWidget {
 }
 
 class _NameState extends State<Name> {
+  final _controller = TextEditingController();
+
   double frameHeight = 0;
   double frameWidth = 0;
 
@@ -52,8 +54,9 @@ class _NameState extends State<Name> {
 
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 1.1,
-                    child: const TextField(
-                      decoration: InputDecoration(
+                    child: TextField(
+                      controller: _controller,
+                      decoration: const InputDecoration(
                         focusedBorder: UnderlineInputBorder(
                           borderSide:
                               BorderSide(color: Color(0xFF0096C7), width: 2.0),
@@ -66,6 +69,18 @@ class _NameState extends State<Name> {
                       ),
                     ),
                   ),
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                              _controller.value.text.isNotEmpty
+                                  ? ''
+                                  : 'Name can not be empty',
+                              style: TextStyle(color: Colors.red)),
+                        ],
+                      )),
                   //                 TextButton(
                   //   style: TextButton.styleFrom(
                   //     primary: Colors.blue,
@@ -79,7 +94,7 @@ class _NameState extends State<Name> {
                   //   onPressed: () { },
                   //   child: Text('RaisedButton with custom foreground/background'),
                   // )
-                  SizedBox(height: MediaQuery.of(context).size.height / 10),
+                  SizedBox(height: MediaQuery.of(context).size.height / 20),
                   // SizedBox(width: MediaQuery.of(context).size.height /2.0,
                   // height: MediaQuery.of(context).size.height /18.0,
                   //   child:   ElevatedButton(
@@ -92,22 +107,25 @@ class _NameState extends State<Name> {
                   //   ),
                   // ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal:10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: SizedBox(
                       height: frameHeight / 17.0,
                       width: double.infinity,
-                      
                       child: FloatingActionButton.extended(
-                        elevation:0.0,
+                        elevation: 0.0,
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  duration: const Duration(milliseconds: 700),
-                                  reverseDuration:
-                                      const Duration(milliseconds: 700),
-                                  type: PageTransitionType.rightToLeftWithFade,
-                                  child: const Welcome()));
+                          setState(() {});
+                          if (_controller.value.text.isNotEmpty) {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    duration: const Duration(milliseconds: 700),
+                                    reverseDuration:
+                                        const Duration(milliseconds: 700),
+                                    type:
+                                        PageTransitionType.rightToLeftWithFade,
+                                    child: const Welcome()));
+                          }
                         },
                         label: const Text('Submit'),
                         // icon: const Icon(Icons.remove),
