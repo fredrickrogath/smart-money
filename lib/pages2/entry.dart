@@ -148,31 +148,31 @@ class _EntryState extends State<Entry> {
                             child: const Budget()));
                   },
                 ),
-                ListTile(
-                  leading: const Padding(
-                    padding: EdgeInsets.only(top:5.0),
-                    child: Icon(Icons.calculate),
-                  ),
-                  title: ExpansionTile(
-                    title: const Text("Extra", style: TextStyle(fontSize: 16.0)),
-                    children: <Widget>[
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text("1123123123"),
-                      ),
-                      TextButton(onPressed: () {}, child: const Text("43243242"))
-                    ],
-                  ),
-                  // onTap: () {
-                  //   Navigator.push(
-                  //       context,
-                  //       PageTransition(
-                  //           duration: const Duration(milliseconds: 600),
-                  //           reverseDuration: const Duration(milliseconds: 600),
-                  //           type: PageTransitionType.leftToRightWithFade,
-                  //           child: const Estimator()));
-                  // },
-                ),
+                // ListTile(
+                //   leading: const Padding(
+                //     padding: EdgeInsets.only(top:5.0),
+                //     child: Icon(Icons.calculate),
+                //   ),
+                //   title: ExpansionTile(
+                //     title: const Text("Extra", style: TextStyle(fontSize: 16.0)),
+                //     children: <Widget>[
+                //       TextButton(
+                //         onPressed: () {},
+                //         child: const Text("1123123123"),
+                //       ),
+                //       TextButton(onPressed: () {}, child: const Text("43243242"))
+                //     ],
+                //   ),
+                //   // onTap: () {
+                //   //   Navigator.push(
+                //   //       context,
+                //   //       PageTransition(
+                //   //           duration: const Duration(milliseconds: 600),
+                //   //           reverseDuration: const Duration(milliseconds: 600),
+                //   //           type: PageTransitionType.leftToRightWithFade,
+                //   //           child: const Estimator()));
+                //   // },
+                // ),
               ],
             ),
           ),
@@ -242,7 +242,7 @@ class _EntryState extends State<Entry> {
                           height: MediaQuery.of(context).size.height / 20,
                           child: Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 20.0),
+                                const EdgeInsets.symmetric(horizontal: 5.0),
                             child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -268,7 +268,7 @@ class _EntryState extends State<Entry> {
                           height: MediaQuery.of(context).size.height / 20,
                           child: Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 20.0),
+                                const EdgeInsets.symmetric(horizontal: 5.0),
                             child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

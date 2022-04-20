@@ -13,6 +13,7 @@ class Name extends StatefulWidget {
 
 class _NameState extends State<Name> {
   final _controller = TextEditingController();
+  bool btnSubmit = false;
 
   double frameHeight = 0;
   double frameWidth = 0;
@@ -75,10 +76,11 @@ class _NameState extends State<Name> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                              _controller.value.text.isNotEmpty
-                                  ? ''
-                                  : 'Name can not be empty',
-                              style: TextStyle(color: Colors.red)),
+                              
+                              btnSubmit
+                                  ? 'Name can not be empty'
+                                  : '',
+                              style: const TextStyle(color: Colors.red)),
                         ],
                       )),
                   //                 TextButton(
@@ -114,8 +116,10 @@ class _NameState extends State<Name> {
                       child: FloatingActionButton.extended(
                         elevation: 0.0,
                         onPressed: () {
+                          btnSubmit = true;
                           setState(() {});
                           if (_controller.value.text.isNotEmpty) {
+                            
                             Navigator.push(
                                 context,
                                 PageTransition(
@@ -124,7 +128,7 @@ class _NameState extends State<Name> {
                                         const Duration(milliseconds: 700),
                                     type:
                                         PageTransitionType.rightToLeftWithFade,
-                                    child: const Welcome()));
+                                    child: Welcome(name:_controller.text)));
                           }
                         },
                         label: const Text('Submit'),

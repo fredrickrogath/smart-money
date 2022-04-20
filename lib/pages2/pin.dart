@@ -6,7 +6,10 @@ import 'package:smartmoney/pages2/new-budget.dart';
 import 'package:smartmoney/pages2/welcome.dart';
 
 class Pin extends StatefulWidget {
-  const Pin({Key? key}) : super(key: key);
+  final String name;
+  final String phone;
+  final String countryCode;
+  const Pin({Key? key, required this.name, required this.phone, required this.countryCode}) : super(key: key);
 
   @override
   State<Pin> createState() => _PinState();
@@ -93,13 +96,12 @@ class _PinState extends State<Pin> {
                   //   ),
                   // ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal:10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: SizedBox(
                       height: frameHeight / 17.0,
                       width: double.infinity,
-                      
                       child: FloatingActionButton.extended(
-                        elevation:0.0,
+                        elevation: 0.0,
                         onPressed: () {
                           Navigator.push(
                               context,

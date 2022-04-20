@@ -1,23 +1,30 @@
 import 'dart:ui';
 
-import 'package:animations/animations.dart';
+// import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dropdown_search/dropdown_search.dart';
+import 'package:intl_phone_field/helpers.dart';
+// import 'package:dropdown_search/dropdown_search.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:smartmoney/pages2/otp.dart';
+// import 'package:smartmoney/pages2/otp.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:smartmoney/pages2/pin.dart';
 
 class Welcome extends StatefulWidget {
-  const Welcome({Key? key}) : super(key: key);
+  final String name;
+  const Welcome({Key? key, required this.name}) : super(key: key);
 
   @override
   State<Welcome> createState() => _WelcomeState();
 }
 
 class _WelcomeState extends State<Welcome> {
+  final _controller = TextEditingController();
   double frameHeight = 0;
   double frameWidth = 0;
+
+  String number = "";
+  String countryCode = "";
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +51,9 @@ class _WelcomeState extends State<Welcome> {
             ),
             title: Column(
               children: const [
-                Text('Welcome', style:
-                      TextStyle(fontSize: 17.0, fontWeight: FontWeight.w400)),
+                Text('Welcome',
+                    style:
+                        TextStyle(fontSize: 17.0, fontWeight: FontWeight.w400)),
                 // Padding(
                 //   padding: EdgeInsets.symmetric(vertical: 8.0),
                 //   child: Text('Login to manage your budgets',
@@ -131,22 +139,35 @@ class _WelcomeState extends State<Welcome> {
                 //   ),
                 // ),
 
-                Container( 
-                  child:IntlPhoneField(
-                        decoration: InputDecoration( //decoration for Input Field
-                            labelText: 'Phone Number',
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(),
-                            ),
-                        ),
-                        initialCountryCode: 'NP', //default contry code, NP for Nepal
-                        onChanged: (phone) {
-                            //when phone number country code is changed
-                            print(phone.completeNumber); //get complete number
-                            print(phone.countryCode); // get country code only
-                            print(phone.number); // only phone number
-                        },
-                    ) 
+                IntlPhoneField(
+                  decoration: const InputDecoration(
+                    //decoration for Input Field
+                    labelText: 'Phone Number',
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(),
+                    ),
+                  ),
+                  initialCountryCode: 'NP', //default contry code, NP for Nepal
+                  onChanged: (phone) {
+                    // print(isNumeric(phone.number));
+                    // print(phone.number.length);
+                    if (isNumeric(phone.number) && phone.number.length == 10) {
+                      countryCode = phone.countryCode;
+                      number = phone.number;
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              duration: const Duration(milliseconds: 700),
+                              reverseDuration:
+                                  const Duration(milliseconds: 700),
+                              type: PageTransitionType.rightToLeftWithFade,
+                              child:  Pin(name:widget.name,phone: number, countryCode: countryCode)));
+                    }
+                    //when phone number country code is changed
+                    // print(phone.completeNumber); //get complete number
+                    // print(phone.countryCode); // get country code only
+                    // print(phone.number); // only phone number
+                  },
                 ),
 
                 SizedBox(height: MediaQuery.of(context).size.height / 30),
@@ -175,32 +196,31 @@ class _WelcomeState extends State<Welcome> {
                 //   ),
                 // ),
 
-                Padding(
-                    padding: const EdgeInsets.symmetric(horizontal:10.0),
-                    child: SizedBox(
-                      height: frameHeight / 17.0,
-                      width: double.infinity,
-                      
-                      child: FloatingActionButton.extended(
-                        elevation:0.0,
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  duration: const Duration(milliseconds: 700),
-                                  reverseDuration:
-                                      const Duration(milliseconds: 700),
-                                  type: PageTransitionType.rightToLeftWithFade,
-                                  child: const Otp()));
-                        },
-                        label: const Text('Submit'),
-                        // icon: const Icon(Icons.remove),
-                        backgroundColor: const Color(0xFF0096C7),
-                      ),
-                    ),
-                  ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                //   child: SizedBox(
+                //     height: frameHeight / 17.0,
+                //     width: double.infinity,
+                //     child: FloatingActionButton.extended(
+                //       elevation: 0.0,
+                //       onPressed: () {
+                //         Navigator.push(
+                //             context,
+                //             PageTransition(
+                //                 duration: const Duration(milliseconds: 700),
+                //                 reverseDuration:
+                //                     const Duration(milliseconds: 700),
+                //                 type: PageTransitionType.rightToLeftWithFade,
+                //                 child: const Pin()));
+                //       },
+                //       label: const Text('Submit'),
+                //       // icon: const Icon(Icons.remove),
+                //       backgroundColor: const Color(0xFF0096C7),
+                //     ),
+                //   ),
+                // ),
 
-                SizedBox(height: MediaQuery.of(context).size.height / 30),
+                // SizedBox(height: MediaQuery.of(context).size.height / 30),
 
                 // RichText(
                 //   textAlign: TextAlign.center,
