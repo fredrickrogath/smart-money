@@ -32,7 +32,8 @@ class _EntryState extends State<Entry> {
                   ),
                   child: Text('Thomas'),
                 ),
-                SizedBox(height: frameHeight /15,
+                SizedBox(
+                  height: frameHeight / 15,
                   child: ListTile(
                     leading: const Icon(Icons.home),
                     title: const Text("Home",
@@ -42,7 +43,8 @@ class _EntryState extends State<Entry> {
                           context,
                           PageTransition(
                               duration: const Duration(milliseconds: 600),
-                              reverseDuration: const Duration(milliseconds: 600),
+                              reverseDuration:
+                                  const Duration(milliseconds: 600),
                               type: PageTransitionType.leftToRightWithFade,
                               child: const Entry()));
                     },
@@ -145,6 +147,31 @@ class _EntryState extends State<Entry> {
                             type: PageTransitionType.leftToRightWithFade,
                             child: const Budget()));
                   },
+                ),
+                ListTile(
+                  leading: const Padding(
+                    padding: EdgeInsets.only(top:5.0),
+                    child: Icon(Icons.calculate),
+                  ),
+                  title: ExpansionTile(
+                    title: const Text("Extra", style: TextStyle(fontSize: 16.0)),
+                    children: <Widget>[
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text("1123123123"),
+                      ),
+                      TextButton(onPressed: () {}, child: const Text("43243242"))
+                    ],
+                  ),
+                  // onTap: () {
+                  //   Navigator.push(
+                  //       context,
+                  //       PageTransition(
+                  //           duration: const Duration(milliseconds: 600),
+                  //           reverseDuration: const Duration(milliseconds: 600),
+                  //           type: PageTransitionType.leftToRightWithFade,
+                  //           child: const Estimator()));
+                  // },
                 ),
               ],
             ),
@@ -349,7 +376,8 @@ class _EntryState extends State<Entry> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      SizedBox(height: frameHeight /15,
+                      SizedBox(
+                        height: frameHeight / 15,
                         child: FloatingActionButton.extended(
                           elevation: 0.0,
                           onPressed: () {},
@@ -358,7 +386,8 @@ class _EntryState extends State<Entry> {
                           backgroundColor: Colors.green,
                         ),
                       ),
-                      SizedBox(height: frameHeight /15,
+                      SizedBox(
+                        height: frameHeight / 15,
                         child: FloatingActionButton.extended(
                           elevation: 0.0,
                           onPressed: () {},
