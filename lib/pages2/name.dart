@@ -77,7 +77,7 @@ class _NameState extends State<Name> {
                         children: [
                           Text(
                               
-                              btnSubmit
+                              btnSubmit && !_controller.value.text.isNotEmpty
                                   ? 'Name can not be empty'
                                   : '',
                               style: const TextStyle(color: Colors.red)),
