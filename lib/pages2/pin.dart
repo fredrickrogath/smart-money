@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartmoney/domain/domain.dart';
 import 'package:smartmoney/pages2/budget.dart';
 // import 'package:smartmoney/pages2/new-budget.dart';
 // import 'package:smartmoney/pages2/welcome.dart';
@@ -26,20 +28,32 @@ class Pin extends StatefulWidget {
 class _PinState extends State<Pin> {
   double frameHeight = 0;
   double frameWidth = 0;
-  String accessToken = '';
+  // String accessToken = '';
+  final _controller = TextEditingController();
+  bool btnSubmit = false;
 
   void login() async {
-    var url = Uri.http('10.0.2.2:8000', '/api/login',
-        {'mobile': '+255715983180', 'password': '1'});
+    var url = Uri.http(domain, 'register', {
+      'name': widget.name,
+      'mobile': widget.countryCode + widget.phone,
+      'password': _controller.text
+    });
 
     // Await the http get response, then decode the json-formatted response.
     var response = await http.post(url);
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
-      accessToken = jsonResponse['access_token'];
+      // savePassword(jsonResponse['access_token']);
+      print(jsonResponse['access_token']);
+      print(jsonResponse);
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
+  }
+
+  savePassword(value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('darkMode', value);
   }
 
   @override
@@ -79,8 +93,9 @@ class _PinState extends State<Pin> {
 
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 1.1,
-                    child: const TextField(
-                      decoration: InputDecoration(
+                    child: TextField(
+                      controller: _controller,
+                      decoration: const InputDecoration(
                         focusedBorder: UnderlineInputBorder(
                           borderSide:
                               BorderSide(color: Color(0xFF0096C7), width: 2.0),
@@ -93,6 +108,18 @@ class _PinState extends State<Pin> {
                       ),
                     ),
                   ),
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                              btnSubmit && !_controller.value.text.isNotEmpty
+                                  ? 'Name can not be empty'
+                                  : '',
+                              style: const TextStyle(color: Colors.red)),
+                        ],
+                      )),
                   //                 TextButton(
                   //   style: TextButton.styleFrom(
                   //     primary: Colors.blue,

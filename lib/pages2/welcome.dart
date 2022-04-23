@@ -150,8 +150,8 @@ class _WelcomeState extends State<Welcome> {
                   initialCountryCode: 'NP', //default contry code, NP for Nepal
                   onChanged: (phone) {
                     // print(isNumeric(phone.number));
-                    // print(phone.number.length);
-                    if (isNumeric(phone.number) && phone.number.length == 10) {
+                    print(phone.number.codeUnits);
+                    if (isNumeric(phone.number) && phone.number.length ==9) {
                       countryCode = phone.countryCode;
                       number = phone.number;
                       Navigator.push(
