@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartmoney/domain/domain.dart';
 import 'package:http/http.dart' as http;
+import 'package:smartmoney/pages2/budget.dart';
 
 class Pin extends StatefulWidget {
   final String name;
@@ -59,14 +61,10 @@ class _PinState extends State<Pin> {
       if (jsonResponse['mobile']?.isNotEmpty ?? false) {
         mobile = jsonResponse['mobile'][0];
         mobileErrors = true;
-        error = true;
-        print(mobile);
       }
       if (jsonResponse['password']?.isNotEmpty ?? false) {
         pass = jsonResponse['password'][0];
         passErrors = true;
-        error = true;
-        print('pass');
       }
 
       setState(() {});
@@ -179,9 +177,21 @@ class _PinState extends State<Pin> {
                         elevation: 0.0,
                         onPressed: () {
                           login();
-              
 
-                          if (error && _controller.text.isNotEmpty) {
+
+                          if(mobileErrors == false && _controller.text.isNotEmpty) {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    duration: const Duration(milliseconds: 700),
+                                    reverseDuration:
+                                        const Duration(milliseconds: 700),
+                                    type:
+                                        PageTransitionType.rightToLeftWithFade,
+                                    child: const Budget()));
+                          }
+
+                          if (mobileErrors && _controller.text.isNotEmpty) {
                             var alertStyle = AlertStyle(
                               // animationType: AnimationType.grow,
                               // isCloseButton: false,
@@ -242,7 +252,8 @@ class _PinState extends State<Pin> {
                                 ],
                               ),
                             ).show();
-                          }
+                          } 
+                          
                         },
                         label: const Text('Save'),
                         // icon: const Icon(Icons.remove),
