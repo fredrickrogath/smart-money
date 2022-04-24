@@ -46,22 +46,25 @@ class _PinState extends State<Pin> {
       var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
       // savePassword(jsonResponse['access_token']);
       // jsonResponse['mobile']?? passErrors=true;
-      mobile = jsonResponse['mobile'][0];
-      pass = jsonResponse['password'][0];
+
       // accessToken = jsonResponse['access_token'][0];
 
       // if (jsonResponse['access_token']?.isEmpty ?? true) {
       //   accessToken = jsonResponse['access_token'][0];
       // }
 
-      if (jsonResponse['mobile']?.isNotEmpty ?? true) {
-        // mobileErrors = jsonResponse['mobile'][0];
+      if (jsonResponse['mobile']?.isNotEmpty ?? false) {
+        mobile = jsonResponse['mobile'][0];
+        mobileErrors = true;
         error = true;
+        print(mobile);
       }
-      if (jsonResponse['password']?.isNotEmpty ?? true) {
-        print('hello');
-        // passErrors = jsonResponse['password'][0];
+      if (jsonResponse['password']?.isNotEmpty ?? false) {
+        
+        pass = jsonResponse['password'][0];
+        passErrors = true;
         error = true;
+        print('pass');
       }
 
       setState(() {});
@@ -218,7 +221,29 @@ class _PinState extends State<Pin> {
                                           direction: Axis.vertical,
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children:  [Text(mobile, style: TextStyle(fontSize: 12.0),),Text(pass, style: TextStyle(fontSize: 12.0))]))
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 2.0),
+                                              child: mobileErrors
+                                                  ? Text(
+                                                      mobile,
+                                                      style: const TextStyle(
+                                                          fontSize: 14.0),
+                                                    )
+                                                  : const SizedBox(
+                                                      height: 0.0,
+                                                    ),
+                                            ),
+                                            if (passErrors)
+                                              Text(pass,
+                                                  style: const TextStyle(
+                                                      fontSize: 14.0))
+                                            else
+                                              const SizedBox(
+                                                height: 0.0,
+                                              )
+                                          ]))
                                 ],
                               ),
                             ).show();
