@@ -1,8 +1,14 @@
+import 'dart:convert';
+
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartmoney/domain/domain.dart';
 import 'package:smartmoney/pages2/category.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class Budget extends StatefulWidget {
   const Budget({Key? key}) : super(key: key);
@@ -14,14 +20,55 @@ class Budget extends StatefulWidget {
 class _BudgetState extends State<Budget> {
   TextEditingController dateStart = TextEditingController();
   TextEditingController dateEnd = TextEditingController();
+  TextEditingController name = TextEditingController();
 
   double frameHeight = 0;
   double frameWidth = 0;
+  String accessToken = '';
+  bool proceed = false;
+
+  void createBudget(token) async {
+    var url = Uri.http(
+      domain,
+      '/api/createBudget',
+      {
+        'name': name.text,
+        'start_date': dateStart.text,
+        'end_date': dateEnd.text
+      },
+    );
+
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    // Await the http get response, then decode the json-formatted response.
+    var response = await http.post(url, headers: requestHeaders);
+    if (response.statusCode == 200) {
+      proceed = true;
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+  }
+
+  getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.setBool('isLogin', true);
+    return prefs.getString('access_token');
+  }
+
+//   getStringValuesSF() async {
+//   SharedPreferences prefs = await SharedPreferences.getInstance();
+//   //Return String
+//   String stringValue = prefs.getString('access_token');
+//   return stringValue;
+// }
 
   @override
   void initState() {
-    dateStart.text = ""; //set the initial value of text field
-    dateEnd.text = ""; //set the initial value of text field
+    // TODO: implement initState
     super.initState();
   }
 
@@ -30,20 +77,17 @@ class _BudgetState extends State<Budget> {
     frameHeight = MediaQuery.of(context).size.height;
 
     return SafeArea(
-      child: Scaffold(backgroundColor: Colors.white,
+      child: Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
             centerTitle: true,
             toolbarHeight: frameHeight / 10,
             backgroundColor: const Color(0xFF0096C7),
             title: Column(
               children: const [
-                Text('New budget', style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w400)),
-                // Padding(
-                //   padding: EdgeInsets.symmetric(vertical: 10.0),
-                //   child: Text('Create your new budget',
-                //       style: TextStyle(
-                //           fontSize: 17.0, fontWeight: FontWeight.w400)),
-                // )
+                Text('New budget',
+                    style:
+                        TextStyle(fontSize: 17.0, fontWeight: FontWeight.w400)),
               ],
             ),
           ),
@@ -56,45 +100,13 @@ class _BudgetState extends State<Budget> {
               child: Column(
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height / 40),
-
-                  // const Padding(
-                  //   padding: EdgeInsets.symmetric(vertical: 10.0),
-                  //   child: Text('Start date',
-                  //       style: TextStyle(
-                  //           fontSize: 16.0,
-                  //           fontWeight: FontWeight.w600,
-                  //           color: Color(0xFF8B5E34))),
-                  // ),
-
-                  // SizedBox(
-                  //   height: 200,
-                  //   child: CupertinoTheme(
-                  //     data: const CupertinoThemeData(
-                  //       textTheme: CupertinoTextThemeData(
-                  //         dateTimePickerTextStyle:
-                  //             TextStyle(color: Colors.white),
-                  //       ),
-                  //     ),
-                  //     child: CupertinoDatePicker(
-                  //       backgroundColor: const Color(0xFF8B5E34),
-                  //       mode: CupertinoDatePickerMode.dateAndTime,
-                  //       initialDateTime: DateTime(1969, 1, 1, 11, 33),
-                  //       onDateTimeChanged: (DateTime newDateTime) {
-                  //         //Do Some thing
-                  //       },
-                  //       use24hFormat: false,
-                  //       minuteInterval: 1,
-                  //     ),
-                  //   ),
-                  // ),
-
                   Center(
                       child: TextField(
                     style: const TextStyle(fontSize: 16.0),
                     controller:
                         dateStart, //editing controller of this TextField
                     decoration: const InputDecoration(
-                      suffixIcon: Icon(Icons.calendar_today),
+                        suffixIcon: Icon(Icons.calendar_today),
                         // icon: Icon(Icons.calendar_today), //icon of text field
                         labelText: "Start Date" //label text of field
                         ),
@@ -126,46 +138,13 @@ class _BudgetState extends State<Budget> {
                       }
                     },
                   )),
-
                   SizedBox(height: MediaQuery.of(context).size.height / 30),
-
-                  // const Padding(
-                  //   padding: EdgeInsets.only(bottom: 8.0, top: 10.0),
-                  //   child: Text('End date',
-                  //       style: TextStyle(
-                  //           fontSize: 16.0,
-                  //           fontWeight: FontWeight.w600,
-                  //           color: Color(0xFF8B5E34))),
-                  // ),
-
-                  // SizedBox(
-                  //   height: 200,
-                  //   child: CupertinoTheme(
-                  //     data: const CupertinoThemeData(
-                  //       textTheme: CupertinoTextThemeData(
-                  //         dateTimePickerTextStyle:
-                  //             TextStyle(color: Colors.white),
-                  //       ),
-                  //     ),
-                  //     child: CupertinoDatePicker(
-                  //       backgroundColor: const Color(0xFF8B5E34),
-                  //       mode: CupertinoDatePickerMode.dateAndTime,
-                  //       initialDateTime: DateTime(1969, 1, 1, 11, 33),
-                  //       onDateTimeChanged: (DateTime newDateTime) {
-                  //         //Do Some thing
-                  //       },
-                  //       use24hFormat: false,
-                  //       minuteInterval: 1,
-                  //     ),
-                  //   ),
-                  // ),
-
                   Center(
                       child: TextField(
                     style: const TextStyle(fontSize: 16.0),
                     controller: dateEnd, //editing controller of this TextField
                     decoration: const InputDecoration(
-                      suffixIcon: Icon(Icons.calendar_today),
+                        suffixIcon: Icon(Icons.calendar_today),
                         // icon: Icon(Icons.calendar_today), //icon of text field
                         labelText: "End Date" //label text of field
                         ),
@@ -197,18 +176,17 @@ class _BudgetState extends State<Budget> {
                       }
                     },
                   )),
-
                   SizedBox(height: MediaQuery.of(context).size.height / 30),
-
-                  const SizedBox(
+                  SizedBox(
                     // width: MediaQuery.of(context).size.width / 1.3,
                     // height: MediaQuery.of(context).size.height / 17,
                     child: TextField(
+                      controller: name,
                       // obscureText: true,
                       // obscuringCharacter: '*',
                       // keyboardType: TextInputType.number,
-                      style: TextStyle(fontSize: 16.0),
-                      decoration: InputDecoration(
+                      style: const TextStyle(fontSize: 16.0),
+                      decoration: const InputDecoration(
                         suffixIcon: Icon(Icons.edit),
                         focusedBorder: UnderlineInputBorder(
                           borderSide:
@@ -222,83 +200,43 @@ class _BudgetState extends State<Budget> {
                       ),
                     ),
                   ),
-                  //                 TextButton(
-                  //   style: TextButton.styleFrom(
-                  //     primary: Colors.blue,
-                  //   ),
-                  //   onPressed: () { },
-                  //   child: Text('TextButton'),
-                  // ),
-                  // RaisedButton(
-                  //   color: Colors.red, // background
-                  //   textColor: Colors.white, // foreground
-                  //   onPressed: () { },
-                  //   child: Text('RaisedButton with custom foreground/background'),
-                  // )
                   SizedBox(height: MediaQuery.of(context).size.height / 20),
-                  // SizedBox(
-                  //   width: MediaQuery.of(context).size.height / 2.0,
-                  //   height: MediaQuery.of(context).size.height / 18.0,
-                  //   child: ElevatedButton(
-                  //     style: ElevatedButton.styleFrom(
-                  //       primary: const Color(0xFF6F4518), // background
-                  //       onPrimary: Colors.white, // foreground
-                  //     ),
-                  //     onPressed: () {},
-                  //     child: const Text(
-                  //       'Next',
-                  //       style: TextStyle(fontSize: 18.0),
-                  //     ),
-                  //   ),
-                  // ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: FloatingActionButton.extended(
+                          onPressed: () {
+                            getToken().then((value) {
+                              createBudget(value);
+                            });
 
-                  OpenContainer(
-                    closedColor: Colors.white,
-                    openColor: Colors.white,
-                    closedElevation: 0.0,
-                    openElevation: 0.0,
-                    closedShape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    ),
-                    transitionType: ContainerTransitionType.fade,
-                    transitionDuration: const Duration(milliseconds: 1000),
-                    openBuilder: (context, action) {
-                      return const Category();
-                    },
-                    closedBuilder: (context, action) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [SizedBox(
-                        height: MediaQuery.of(context).size.height / 15,
-                        width: 100.0,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Container(
-                            
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF0096C7),
-        borderRadius: BorderRadius.only(
-            topRight: Radius.circular(40.0),
-            bottomRight: Radius.circular(40.0),
-            topLeft: Radius.circular(40.0),
-            bottomLeft: Radius.circular(40.0)),
-      ),
-                            child: const Center(
-                              child: Text(
-                                'Next',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                  // ignore: unrelated_type_equality_checks
-                                  color: Colors.white,
-                                ),
-                              ),
+                            if (proceed) {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      duration:
+                                          const Duration(milliseconds: 700),
+                                      reverseDuration:
+                                          const Duration(milliseconds: 700),
+                                      type: PageTransitionType
+                                          .rightToLeftWithFade,
+                                      child: const Category()));
+                            }
+                          },
+                          label: const Text(
+                            'Next',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
                           ),
                         ),
-                      )],);
-                    },
-                  ),
+                      )
+                    ],
+                  )
                 ],
               ),
             ),

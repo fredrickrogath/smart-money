@@ -51,9 +51,9 @@ class _PinState extends State<Pin> {
 
       // accessToken = jsonResponse['access_token'][0];
 
-      // if (jsonResponse['access_token']?.isEmpty ?? true) {
-      //   accessToken = jsonResponse['access_token'][0];
-      // }
+      if (jsonResponse['access_token']?.isNotEmpty ?? false) {
+        accessToken = jsonResponse['access_token'];
+      }
 
       passErrors = false;
       mobileErrors = false;
@@ -66,7 +66,7 @@ class _PinState extends State<Pin> {
         pass = jsonResponse['password'][0];
         passErrors = true;
       }
-
+      savePassword();
       setState(() {});
     } else {
       print('Request failed with status: ${response.statusCode}.');
@@ -95,12 +95,6 @@ class _PinState extends State<Pin> {
                 Text('Create PIN',
                     style:
                         TextStyle(fontSize: 17.0, fontWeight: FontWeight.w400)),
-                // Padding(
-                //   padding: EdgeInsets.symmetric(vertical: 10.0),
-                //   child: Text('Welcome to CashBook',
-                //       style: TextStyle(
-                //           fontSize: 17.0, fontWeight: FontWeight.w400)),
-                // )
               ],
             ),
           ),
@@ -113,7 +107,6 @@ class _PinState extends State<Pin> {
               child: Column(
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height / 15),
-
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 1.1,
                     child: TextField(
@@ -143,32 +136,7 @@ class _PinState extends State<Pin> {
                               style: const TextStyle(color: Colors.red)),
                         ],
                       )),
-                  //                 TextButton(
-                  //   style: TextButton.styleFrom(
-                  //     primary: Colors.blue,
-                  //   ),
-                  //   onPressed: () { },
-                  //   child: Text('TextButton'),
-                  // ),
-                  // RaisedButton(
-                  //   color: Colors.red, // background
-                  //   textColor: Colors.white, // foreground
-                  //   onPressed: () { },
-                  //   child: Text('RaisedButton with custom foreground/background'),
-                  // )
                   SizedBox(height: MediaQuery.of(context).size.height / 10),
-                  // SizedBox(width: MediaQuery.of(context).size.height /2.0,
-                  // height: MediaQuery.of(context).size.height /18.0,
-                  //   child:   ElevatedButton(
-                  //     style: ElevatedButton.styleFrom(
-                  //       primary: const Color(0xFF6F4518), // background
-                  //       onPrimary: Colors.white, // foreground
-                  //     ),
-                  //     onPressed: () { },
-                  //     child: Text('Submit',style: TextStyle(fontSize:18.0),),
-                  //   ),
-                  // ),
-
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: SizedBox(
@@ -179,8 +147,8 @@ class _PinState extends State<Pin> {
                         onPressed: () {
                           login();
 
-
-                          if(mobileErrors == false && _controller.text.isNotEmpty) {
+                          if (mobileErrors == false &&
+                              _controller.text.isNotEmpty) {
                             Navigator.push(
                                 context,
                                 PageTransition(
@@ -253,8 +221,7 @@ class _PinState extends State<Pin> {
                                 ],
                               ),
                             ).show();
-                          } 
-                          
+                          }
                         },
                         label: const Text('Save'),
                         // icon: const Icon(Icons.remove),
