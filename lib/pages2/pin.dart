@@ -73,9 +73,10 @@ class _PinState extends State<Pin> {
     }
   }
 
-  savePassword(value) async {
+  savePassword() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('darkMode', value);
+    prefs.setBool('isLogin', true);
+    prefs.setString('access_token', accessToken);
   }
 
   @override
