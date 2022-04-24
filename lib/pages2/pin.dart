@@ -1,13 +1,9 @@
-// import 'package:animations/animations.dart';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartmoney/domain/domain.dart';
-import 'package:smartmoney/pages2/budget.dart';
-// import 'package:smartmoney/pages2/new-budget.dart';
-// import 'package:smartmoney/pages2/welcome.dart';
 import 'package:http/http.dart' as http;
 
 class Pin extends StatefulWidget {
@@ -28,12 +24,17 @@ class Pin extends StatefulWidget {
 class _PinState extends State<Pin> {
   double frameHeight = 0;
   double frameWidth = 0;
-  // String accessToken = '';
+  String accessToken = '';
   final _controller = TextEditingController();
   bool btnSubmit = false;
+  bool passErrors = false;
+  String pass = '';
+  String mobile = '';
+  bool mobileErrors = false;
+  bool error = false;
 
   void login() async {
-    var url = Uri.http(domain, 'register', {
+    var url = Uri.http(domain, '/api/register', {
       'name': widget.name,
       'mobile': widget.countryCode + widget.phone,
       'password': _controller.text
@@ -44,8 +45,26 @@ class _PinState extends State<Pin> {
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
       // savePassword(jsonResponse['access_token']);
-      print(jsonResponse['access_token']);
-      print(jsonResponse);
+      // jsonResponse['mobile']?? passErrors=true;
+      mobile = jsonResponse['mobile'][0];
+      pass = jsonResponse['password'][0];
+      // accessToken = jsonResponse['access_token'][0];
+
+      // if (jsonResponse['access_token']?.isEmpty ?? true) {
+      //   accessToken = jsonResponse['access_token'][0];
+      // }
+
+      if (jsonResponse['mobile']?.isNotEmpty ?? true) {
+        // mobileErrors = jsonResponse['mobile'][0];
+        error = true;
+      }
+      if (jsonResponse['password']?.isNotEmpty ?? true) {
+        print('hello');
+        // passErrors = jsonResponse['password'][0];
+        error = true;
+      }
+
+      setState(() {});
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -163,6 +182,47 @@ class _PinState extends State<Pin> {
                           //             const Duration(milliseconds: 700),
                           //         type: PageTransitionType.rightToLeftWithFade,
                           //         child: const Budget()));
+
+                          if (error) {
+                            var alertStyle = AlertStyle(
+                              // animationType: AnimationType.grow,
+                              // isCloseButton: false,
+                              isButtonVisible: false,
+                              isOverlayTapDismiss: false,
+                              descStyle:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                              // descTextAlign: TextAlign.center,
+                              animationDuration:
+                                  const Duration(milliseconds: 000),
+                              alertBorder: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.0),
+                                side: const BorderSide(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              // titleStyle: TextStyle(
+                              //   color: const Color(0xFF24564F),
+                              // ),
+                              alertAlignment: Alignment.center,
+                            );
+                            Alert(
+                              context: context,
+                              style: alertStyle,
+                              type: AlertType.warning,
+                              // title: "Select Scan Type",
+                              content: Column(
+                                children: <Widget>[
+                                  Container(
+                                      alignment: Alignment.center,
+                                      child: Flex(
+                                          direction: Axis.vertical,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children:  [Text(mobile, style: TextStyle(fontSize: 12.0),),Text(pass, style: TextStyle(fontSize: 12.0))]))
+                                ],
+                              ),
+                            ).show();
+                          }
                         },
                         label: const Text('Save'),
                         // icon: const Icon(Icons.remove),
