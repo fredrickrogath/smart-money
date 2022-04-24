@@ -53,6 +53,9 @@ class _PinState extends State<Pin> {
       //   accessToken = jsonResponse['access_token'][0];
       // }
 
+      passErrors = false;
+      mobileErrors = false;
+
       if (jsonResponse['mobile']?.isNotEmpty ?? false) {
         mobile = jsonResponse['mobile'][0];
         mobileErrors = true;
@@ -60,7 +63,6 @@ class _PinState extends State<Pin> {
         print(mobile);
       }
       if (jsonResponse['password']?.isNotEmpty ?? false) {
-        
         pass = jsonResponse['password'][0];
         passErrors = true;
         error = true;
@@ -136,8 +138,8 @@ class _PinState extends State<Pin> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                              btnSubmit && !_controller.value.text.isNotEmpty
-                                  ? 'Name can not be empty'
+                              _controller.value.text.isEmpty
+                                  ? 'PIN can not be empty'
                                   : '',
                               style: const TextStyle(color: Colors.red)),
                         ],
@@ -177,16 +179,9 @@ class _PinState extends State<Pin> {
                         elevation: 0.0,
                         onPressed: () {
                           login();
-                          // Navigator.push(
-                          //     context,
-                          //     PageTransition(
-                          //         duration: const Duration(milliseconds: 700),
-                          //         reverseDuration:
-                          //             const Duration(milliseconds: 700),
-                          //         type: PageTransitionType.rightToLeftWithFade,
-                          //         child: const Budget()));
+              
 
-                          if (error) {
+                          if (error && _controller.text.isNotEmpty) {
                             var alertStyle = AlertStyle(
                               // animationType: AnimationType.grow,
                               // isCloseButton: false,
@@ -224,7 +219,7 @@ class _PinState extends State<Pin> {
                                           children: [
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  bottom: 2.0),
+                                                  top: 10.0),
                                               child: mobileErrors
                                                   ? Text(
                                                       mobile,
@@ -235,14 +230,14 @@ class _PinState extends State<Pin> {
                                                       height: 0.0,
                                                     ),
                                             ),
-                                            if (passErrors)
-                                              Text(pass,
-                                                  style: const TextStyle(
-                                                      fontSize: 14.0))
-                                            else
-                                              const SizedBox(
-                                                height: 0.0,
-                                              )
+                                            // if (passErrors)
+                                            //   Text(pass,
+                                            //       style: const TextStyle(
+                                            //           fontSize: 14.0))
+                                            // else
+                                            //   const SizedBox(
+                                            //     height: 0.0,
+                                            //   )
                                           ]))
                                 ],
                               ),
