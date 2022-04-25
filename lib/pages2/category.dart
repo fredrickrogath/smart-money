@@ -10,14 +10,16 @@ import 'package:smartmoney/pages2/entry.dart';
 import 'package:http/http.dart' as http;
 
 class Category extends StatefulWidget {
-  const Category({Key? key}) : super(key: key);
+  final String budgetId;
+  const Category({Key? key, required this.budgetId}) : super(key: key);
 
   @override
   State<Category> createState() => _CategoryState();
 }
 
 class _CategoryState extends State<Category> {
-  TextEditingController name = TextEditingController();
+  TextEditingController nameIncome = TextEditingController();
+  TextEditingController nameExpense = TextEditingController();
   String accessToken = '';
   var incomeCategories = [];
   var expenseCategories = [];
@@ -48,13 +50,14 @@ class _CategoryState extends State<Category> {
     // Await the http get response, then decode the json-formatted response.
     var response = await http.post(url, headers: requestHeaders);
     if (response.statusCode == 200) {
+      expenseCategories = jsonDecode(response.body)['data'];
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
+    setState(() {});
   }
 
   void getIncome(token) async {
-    
     var url = Uri.http(
       domain,
       '/api/getIncome',
@@ -70,23 +73,18 @@ class _CategoryState extends State<Category> {
     var response = await http.post(url, headers: requestHeaders);
     if (response.statusCode == 200) {
       incomeCategories = jsonDecode(response.body)['data'];
-      print(incomeCategories.length);
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
 
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
-  void addCategory(token) async {
+  void addCategory(token, type) async {
     var url = Uri.http(
       domain,
-      '/api/getCategory',
-      {
-        'name': name.text,
-      },
+      '/api/addCategory',
+      {'name': nameIncome.text, 'type': type, 'budget_id': widget.budgetId},
     );
 
     Map<String, String> requestHeaders = {
@@ -98,20 +96,46 @@ class _CategoryState extends State<Category> {
     // Await the http get response, then decode the json-formatted response.
     var response = await http.post(url, headers: requestHeaders);
     if (response.statusCode == 200) {
+      nameIncome.text = '';
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
+    refresh();
   }
 
-  @override
-  void initState() {
+  void deleteCategory(token, id) async {
+    var url = Uri.http(domain, '/api/deleteCategory', {
+      'id': id.toString(),
+    });
+
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    // Await the http get response, then decode the json-formatted response.
+    var response = await http.post(url, headers: requestHeaders);
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+    refresh();
+  }
+
+  refresh() {
     getToken().then((value) {
       // await Future.delayed(const Duration(seconds: 2));
       accessToken = value;
       getIncome(accessToken);
+      getExpense(accessToken);
     });
-    
-    // getIncome(accessToken);
+  }
+
+  @override
+  void initState() {
+    refresh();
     super.initState();
   }
 
@@ -125,25 +149,26 @@ class _CategoryState extends State<Category> {
         centerTitle: true,
         toolbarHeight: frameHeight / 10,
         backgroundColor: const Color(0xFF0096C7),
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 10.0),
-          child: GestureDetector(
-            onTap: () {
-              setState(() {
-                Navigator.pop(context);
-              });
-            },
-            child: const CircleAvatar(
-              radius: 30.0,
-              // backgroundColor: Color(0xFF8B5E34),
-              child: Icon(
-                CupertinoIcons.chevron_back,
-                color: Colors.white,
-                // size: 20.0,
-              ),
-            ),
-          ),
-        ),
+        automaticallyImplyLeading: false,
+        // leading: Padding(
+        //   padding: const EdgeInsets.only(left: 10.0),
+        //   child: GestureDetector(
+        //     onTap: () {
+        //       setState(() {
+        //         Navigator.pop(context);
+        //       });
+        //     },
+        //     child: const CircleAvatar(
+        //       radius: 30.0,
+        //       // backgroundColor: Color(0xFF8B5E34),
+        //       child: Icon(
+        //         CupertinoIcons.chevron_back,
+        //         color: Colors.white,
+        //         // size: 20.0,
+        //       ),
+        //     ),
+        //   ),
+        // ),
         title: Column(
           children: const [
             // Text('Category', style: TextStyle(fontSize: 23.0)),
@@ -221,7 +246,7 @@ class _CategoryState extends State<Category> {
                                             padding: const EdgeInsets.only(
                                                 top: 10.0),
                                             child: TextField(
-                                              controller: name,
+                                              controller: nameIncome,
                                               // obscureText: true,
                                               // obscuringCharacter: '*',
                                               // keyboardType: TextInputType.number,
@@ -248,7 +273,15 @@ class _CategoryState extends State<Category> {
                                               width: double.infinity,
                                               child:
                                                   FloatingActionButton.extended(
-                                                onPressed: () {},
+                                                elevation: 0.0,
+                                                onPressed: () {
+                                                  addCategory(
+                                                      accessToken, 'income');
+
+                                                  Navigator.of(context,
+                                                          rootNavigator: true)
+                                                      .pop();
+                                                },
                                                 label: const Text('Save'),
                                               ))
                                         ]))
@@ -269,28 +302,88 @@ class _CategoryState extends State<Category> {
                   parent: BouncingScrollPhysics()),
               itemCount: incomeCategories.length,
               itemBuilder: (context, i) {
-                return Card(
-                  elevation: 2,
-                  shape: const Border(
-                      left: BorderSide(color: Colors.green, width: 5)),
-                  child: ListTile(
-                    leading: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0.0,
-                        primary:
-                           const Color.fromARGB(255, 121, 201, 124), // background
-                        onPrimary: Colors.white, // foreground
+                return GestureDetector(
+                  onLongPress: () {
+                    var alertStyle = AlertStyle(
+                      // animationType: AnimationType.grow,
+                      // isCloseButton: false,
+                      isButtonVisible: false,
+                      isOverlayTapDismiss: false,
+                      descStyle: const TextStyle(fontWeight: FontWeight.bold),
+                      // descTextAlign: TextAlign.center,
+                      animationDuration: const Duration(milliseconds: 000),
+                      alertBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.0),
+                        side: const BorderSide(
+                          color: Colors.grey,
+                        ),
                       ),
-                      onPressed: () {
-                        // print(accessToken);
-                        getIncome(accessToken);
-                      },
-                      child: const Text('Add'),
+                      // titleStyle: TextStyle(
+                      //   color: const Color(0xFF24564F),
+                      // ),
+                      alertAlignment: Alignment.center,
+                    );
+                    Alert(
+                      context: context,
+                      style: alertStyle,
+                      type: AlertType.warning,
+                      // title: "Select Scan Type",
+                      content: Column(
+                        children: <Widget>[
+                          Container(
+                              alignment: Alignment.center,
+                              child: Flex(
+                                  direction: Axis.vertical,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.only(top: 10.0),
+                                      child: Text('Confirm delete'),
+                                    ),
+                                    const SizedBox(height: 20.0),
+                                    SizedBox(
+                                        width: double.infinity,
+                                        child: FloatingActionButton.extended(
+                                          elevation: 0.0,
+                                          onPressed: () {
+                                            deleteCategory(accessToken,
+                                                incomeCategories[i]['id']);
+
+                                            Navigator.of(context,
+                                                    rootNavigator: true)
+                                                .pop();
+                                          },
+                                          label: const Text('Delete'),
+                                        ))
+                                  ]))
+                        ],
+                      ),
+                    ).show();
+                  },
+                  child: Card(
+                    elevation: 2,
+                    shape: const Border(
+                        left: BorderSide(color: Colors.green, width: 5)),
+                    child: ListTile(
+                      leading: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0.0,
+                          primary: const Color.fromARGB(
+                              255, 121, 201, 124), // background
+                          onPrimary: Colors.white, // foreground
+                        ),
+                        onPressed: () {
+                          // print(accessToken);
+                          // getIncome(accessToken);
+                          // print(widget.budgetId);
+                        },
+                        child: const Text('Add'),
+                      ),
+                      title: Text('${incomeCategories[i]['name']}'),
+                      subtitle: const Text("Current Tsh 0"),
+                      trailing: const Text('Income',
+                          style: TextStyle(color: Colors.green)),
                     ),
-                    title: Text('${incomeCategories[i]['name']}'),
-                    subtitle: const Text("Current Tsh 0"),
-                    trailing: const Text('Income',
-                        style: TextStyle(color: Colors.green)),
                   ),
                 );
               },
@@ -335,7 +428,87 @@ class _CategoryState extends State<Category> {
                       FloatingActionButton(
                         elevation: 0.0,
                         onPressed: () {
-                          // Add your onPressed code here!
+                          var alertStyle = AlertStyle(
+                            // animationType: AnimationType.grow,
+                            // isCloseButton: false,
+                            isButtonVisible: false,
+                            isOverlayTapDismiss: false,
+                            descStyle:
+                                const TextStyle(fontWeight: FontWeight.bold),
+                            // descTextAlign: TextAlign.center,
+                            animationDuration:
+                                const Duration(milliseconds: 000),
+                            alertBorder: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              side: const BorderSide(
+                                color: Colors.grey,
+                              ),
+                            ),
+                            // titleStyle: TextStyle(
+                            //   color: const Color(0xFF24564F),
+                            // ),
+                            alertAlignment: Alignment.center,
+                          );
+                          Alert(
+                            context: context,
+                            style: alertStyle,
+                            // type: AlertType.warning,
+                            // title: "Select Scan Type",
+                            content: Column(
+                              children: <Widget>[
+                                Container(
+                                    alignment: Alignment.center,
+                                    child: Flex(
+                                        direction: Axis.vertical,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 10.0),
+                                            child: TextField(
+                                              controller: nameIncome,
+                                              // obscureText: true,
+                                              // obscuringCharacter: '*',
+                                              // keyboardType: TextInputType.number,
+                                              style: const TextStyle(
+                                                  fontSize: 16.0),
+                                              decoration: const InputDecoration(
+                                                suffixIcon: Icon(Icons.edit),
+                                                focusedBorder:
+                                                    UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color(0xFF8B5E34),
+                                                      width: 2.0),
+                                                ),
+                                                // enabledBorder: OutlineInputBorder(
+                                                //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
+                                                // ),
+                                                border: UnderlineInputBorder(),
+                                                hintText: 'Category name',
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 30.0),
+                                          SizedBox(
+                                              width: double.infinity,
+                                              child:
+                                                  FloatingActionButton.extended(
+                                                elevation: 0.0,
+                                                onPressed: () {
+                                                  addCategory(
+                                                      accessToken, 'expense');
+
+                                                  Navigator.of(context,
+                                                          rootNavigator: true)
+                                                      .pop();
+                                                },
+                                                label: const Text('Save'),
+                                              ))
+                                        ]))
+                              ],
+                            ),
+                          ).show();
                         },
                         backgroundColor: Colors.blue,
                         child: const Icon(Icons.add),
@@ -346,27 +519,86 @@ class _CategoryState extends State<Category> {
             child: ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(
                   parent: BouncingScrollPhysics()),
-              itemCount: 6,
+              itemCount: expenseCategories.length,
               itemBuilder: (context, i) {
-                return Card(
-                  elevation: 2,
-                  shape: const Border(
-                      left: BorderSide(color: Colors.blue, width: 5)),
-                  child: ListTile(
-                    leading: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0.0,
-                        primary: const Color.fromARGB(
-                            255, 149, 196, 233), // background
-                        onPrimary: Colors.white, // foreground
+                return GestureDetector(
+                  onLongPress: () {
+                    var alertStyle = AlertStyle(
+                      // animationType: AnimationType.grow,
+                      // isCloseButton: false,
+                      isButtonVisible: false,
+                      isOverlayTapDismiss: false,
+                      descStyle: const TextStyle(fontWeight: FontWeight.bold),
+                      // descTextAlign: TextAlign.center,
+                      animationDuration: const Duration(milliseconds: 000),
+                      alertBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.0),
+                        side: const BorderSide(
+                          color: Colors.grey,
+                        ),
                       ),
-                      onPressed: () {},
-                      child: const Text('Add'),
+                      // titleStyle: TextStyle(
+                      //   color: const Color(0xFF24564F),
+                      // ),
+                      alertAlignment: Alignment.center,
+                    );
+                    Alert(
+                      context: context,
+                      style: alertStyle,
+                      type: AlertType.warning,
+                      // title: "Select Scan Type",
+                      content: Column(
+                        children: <Widget>[
+                          Container(
+                              alignment: Alignment.center,
+                              child: Flex(
+                                  direction: Axis.vertical,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.only(top: 10.0),
+                                      child: Text('Confirm delete'),
+                                    ),
+                                    const SizedBox(height: 20.0),
+                                    SizedBox(
+                                        width: double.infinity,
+                                        child: FloatingActionButton.extended(
+                                          elevation: 0.0,
+                                          onPressed: () {
+                                            deleteCategory(accessToken,
+                                                expenseCategories[i]['id']);
+
+                                            Navigator.of(context,
+                                                    rootNavigator: true)
+                                                .pop();
+                                          },
+                                          label: const Text('Delete'),
+                                        ))
+                                  ]))
+                        ],
+                      ),
+                    ).show();
+                  },
+                  child: Card(
+                    elevation: 2,
+                    shape: const Border(
+                        left: BorderSide(color: Colors.blue, width: 5)),
+                    child: ListTile(
+                      leading: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0.0,
+                          primary: const Color.fromARGB(
+                              255, 78, 162, 226), // background
+                          onPrimary: Colors.white, // foreground
+                        ),
+                        onPressed: () {},
+                        child: const Text('Add'),
+                      ),
+                      title: Text('${expenseCategories[i]['name']}'),
+                      subtitle: const Text("Current Tsh 0"),
+                      trailing: const Text('Expense',
+                          style: TextStyle(color: Colors.blue)),
                     ),
-                    title: const Text("Daily leaving", style: TextStyle()),
-                    subtitle: const Text("Current Tsh 0"),
-                    trailing: const Text('Expense',
-                        style: TextStyle(color: Colors.blue)),
                   ),
                 );
               },

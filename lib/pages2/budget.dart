@@ -2,6 +2,8 @@
 
 // import 'package:animations/animations.dart';
 // import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,6 +28,7 @@ class _BudgetState extends State<Budget> {
   double frameWidth = 0;
   String accessToken = '';
   bool proceed = false;
+  String budgetId = '';
 
   void createBudget(token) async {
     var url = Uri.http(
@@ -47,8 +50,10 @@ class _BudgetState extends State<Budget> {
     // Await the http get response, then decode the json-formatted response.
     var response = await http.post(url, headers: requestHeaders);
     if (response.statusCode == 200) {
+      var res = jsonDecode(response.body);
       proceed = true;
-      print('1 : $proceed');
+      budgetId = res['budget_id'].toString();
+      // print(budgetId);
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -76,6 +81,7 @@ class _BudgetState extends State<Budget> {
             centerTitle: true,
             toolbarHeight: frameHeight / 10,
             backgroundColor: const Color(0xFF0096C7),
+            automaticallyImplyLeading: false,
             title: Column(
               children: const [
                 Text('New budget',
@@ -201,11 +207,13 @@ class _BudgetState extends State<Budget> {
                         padding: const EdgeInsets.only(right: 8.0),
                         child: FloatingActionButton.extended(
                           onPressed: () {
-                            getToken().then((value) {
-                              createBudget(value);
-                            });
+                            if (DateTime.parse(dateStart.text)
+                                .isBefore(DateTime.parse(dateEnd.text))) {
+                              getToken().then((value) {
+                                createBudget(value);
+                              });
 
-                            Navigator.push(
+                              Navigator.push(
                                   context,
                                   PageTransition(
                                       duration:
@@ -214,7 +222,8 @@ class _BudgetState extends State<Budget> {
                                           const Duration(milliseconds: 700),
                                       type: PageTransitionType
                                           .rightToLeftWithFade,
-                                      child: const Category()));
+                                      child: Category(budgetId: budgetId)));
+                            }
                           },
                           label: const Text(
                             'Next',
