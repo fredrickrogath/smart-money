@@ -1,7 +1,7 @@
-import 'dart:convert';
+// import 'dart:convert';
 
-import 'package:animations/animations.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:animations/animations.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,6 +48,7 @@ class _BudgetState extends State<Budget> {
     var response = await http.post(url, headers: requestHeaders);
     if (response.statusCode == 200) {
       proceed = true;
+      print('1 : $proceed');
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -55,20 +56,11 @@ class _BudgetState extends State<Budget> {
 
   getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // prefs.setBool('isLogin', true);
     return prefs.getString('access_token');
   }
 
-//   getStringValuesSF() async {
-//   SharedPreferences prefs = await SharedPreferences.getInstance();
-//   //Return String
-//   String stringValue = prefs.getString('access_token');
-//   return stringValue;
-// }
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -212,8 +204,7 @@ class _BudgetState extends State<Budget> {
                               createBudget(value);
                             });
 
-                            if (proceed) {
-                              Navigator.push(
+                            Navigator.push(
                                   context,
                                   PageTransition(
                                       duration:
@@ -223,7 +214,6 @@ class _BudgetState extends State<Budget> {
                                       type: PageTransitionType
                                           .rightToLeftWithFade,
                                       child: const Category()));
-                            }
                           },
                           label: const Text(
                             'Next',
