@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -17,6 +19,8 @@ class Category extends StatefulWidget {
 class _CategoryState extends State<Category> {
   TextEditingController name = TextEditingController();
   String accessToken = '';
+  var incomeCategories = [];
+  var expenseCategories = [];
 
   double frameHeight = 0;
   double frameWidth = 0;
@@ -49,9 +53,8 @@ class _CategoryState extends State<Category> {
     }
   }
 
-  void getIncome() async {
-    String token = getToken();
-    await Future.delayed(const Duration(seconds: 2));
+  void getIncome(token) async {
+    
     var url = Uri.http(
       domain,
       '/api/getIncome',
@@ -66,9 +69,15 @@ class _CategoryState extends State<Category> {
     // Await the http get response, then decode the json-formatted response.
     var response = await http.post(url, headers: requestHeaders);
     if (response.statusCode == 200) {
+      incomeCategories = jsonDecode(response.body)['data'];
+      print(incomeCategories.length);
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
+
+    setState(() {
+      
+    });
   }
 
   void addCategory(token) async {
@@ -96,7 +105,13 @@ class _CategoryState extends State<Category> {
 
   @override
   void initState() {
-    getIncome();
+    getToken().then((value) {
+      // await Future.delayed(const Duration(seconds: 2));
+      accessToken = value;
+      getIncome(accessToken);
+    });
+    
+    // getIncome(accessToken);
     super.initState();
   }
 
@@ -249,35 +264,36 @@ class _CategoryState extends State<Category> {
           ),
           SizedBox(
             height: frameHeight / 4.2,
-            child: Expanded(
-              child: ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(
-                    parent: BouncingScrollPhysics()),
-                itemCount: 6,
-                itemBuilder: (context, i) {
-                  return Card(
-                    elevation: 2,
-                    shape: const Border(
-                        left: BorderSide(color: Colors.green, width: 5)),
-                    child: ListTile(
-                      leading: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0.0,
-                          primary:
-                              Color.fromARGB(255, 121, 201, 124), // background
-                          onPrimary: Colors.white, // foreground
-                        ),
-                        onPressed: () {},
-                        child: const Text('Add'),
+            child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(
+                  parent: BouncingScrollPhysics()),
+              itemCount: incomeCategories.length,
+              itemBuilder: (context, i) {
+                return Card(
+                  elevation: 2,
+                  shape: const Border(
+                      left: BorderSide(color: Colors.green, width: 5)),
+                  child: ListTile(
+                    leading: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0.0,
+                        primary:
+                           const Color.fromARGB(255, 121, 201, 124), // background
+                        onPrimary: Colors.white, // foreground
                       ),
-                      title: const Text("Salaries/Wages"),
-                      subtitle: const Text("Current Tsh 0"),
-                      trailing: const Text('Income',
-                          style: TextStyle(color: Colors.green)),
+                      onPressed: () {
+                        // print(accessToken);
+                        getIncome(accessToken);
+                      },
+                      child: const Text('Add'),
                     ),
-                  );
-                },
-              ),
+                    title: Text('${incomeCategories[i]['name']}'),
+                    subtitle: const Text("Current Tsh 0"),
+                    trailing: const Text('Income',
+                        style: TextStyle(color: Colors.green)),
+                  ),
+                );
+              },
             ),
           ),
           Padding(
