@@ -111,13 +111,13 @@ class _EntryState extends State<Entry> {
                   title: const Text("Report",
                       style: TextStyle(color: Colors.black, fontSize: 16.0)),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            duration: const Duration(milliseconds: 600),
-                            reverseDuration: const Duration(milliseconds: 600),
-                            type: PageTransitionType.leftToRightWithFade,
-                            child: const Budget()));
+                    // Navigator.push(
+                    //     context,
+                    //     PageTransition(
+                    //         duration: const Duration(milliseconds: 600),
+                    //         reverseDuration: const Duration(milliseconds: 600),
+                    //         type: PageTransitionType.leftToRightWithFade,
+                    //         child: const Budget()));
                   },
                 ),
                 ListTile(
@@ -125,13 +125,13 @@ class _EntryState extends State<Entry> {
                   title: const Text("Profile",
                       style: TextStyle(color: Colors.black, fontSize: 16.0)),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            duration: const Duration(milliseconds: 600),
-                            reverseDuration: const Duration(milliseconds: 600),
-                            type: PageTransitionType.leftToRightWithFade,
-                            child: const Budget()));
+                    // Navigator.push(
+                    //     context,
+                    //     PageTransition(
+                    //         duration: const Duration(milliseconds: 600),
+                    //         reverseDuration: const Duration(milliseconds: 600),
+                    //         type: PageTransitionType.leftToRightWithFade,
+                    //         child: const Budget()));
                   },
                 ),
                 ListTile(
@@ -139,13 +139,13 @@ class _EntryState extends State<Entry> {
                   title: const Text("Contact Us",
                       style: TextStyle(color: Colors.black, fontSize: 16.0)),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            duration: const Duration(milliseconds: 600),
-                            reverseDuration: const Duration(milliseconds: 600),
-                            type: PageTransitionType.leftToRightWithFade,
-                            child: const Budget()));
+                    // Navigator.push(
+                    //     context,
+                    //     PageTransition(
+                    //         duration: const Duration(milliseconds: 600),
+                    //         reverseDuration: const Duration(milliseconds: 600),
+                    //         type: PageTransitionType.leftToRightWithFade,
+                    //         child: const Budget()));
                   },
                 ),
                 // ListTile(
