@@ -34,6 +34,7 @@ class _PinState extends State<Pin> {
   String mobile = '';
   bool mobileErrors = false;
   bool error = false;
+  bool emptyPIN = false;
 
   void login() async {
     var url = Uri.http(domain, '/api/register', {
@@ -131,7 +132,7 @@ class _PinState extends State<Pin> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                              _controller.value.text.isEmpty
+                              emptyPIN
                                   ? 'PIN can not be empty'
                                   : '',
                               style: const TextStyle(color: Colors.red)),

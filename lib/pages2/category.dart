@@ -84,6 +84,7 @@ class _CategoryState extends State<Category> {
   }
 
   void addCategory(token, type) async {
+    print(token);
     var url = Uri.http(
       domain,
       '/api/addCategory',
@@ -115,6 +116,27 @@ class _CategoryState extends State<Category> {
   void deleteCategory(token, id) async {
     var url = Uri.http(domain, '/api/deleteCategory', {
       'id': id.toString(),
+    });
+
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    // Await the http get response, then decode the json-formatted response.
+    var response = await http.post(url, headers: requestHeaders);
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+    refresh();
+  }
+
+  void selectCategory(token, id) async {
+    var url = Uri.http(domain, '/api/selectCategory', {
+      'categoryId': id.toString(),
     });
 
     Map<String, String> requestHeaders = {
@@ -411,14 +433,14 @@ class _CategoryState extends State<Category> {
                           onPrimary: Colors.white, // foreground
                         ),
                         onPressed: () {
-                          // print(accessToken);
-                          // getIncome(accessToken);
-                          // print(widget.budgetId);
+                          selectCategory(
+                              accessToken, incomeCategories[i]['id']);
                         },
                         child: const Text('Add'),
                       ),
                       title: Text('${incomeCategories[i]['name']}'),
-                      subtitle: Text("Current Tsh ${incomeCategories[i]['amount']}"),
+                      subtitle:
+                          Text("Current Tsh ${incomeCategories[i]['amount']}"),
                       trailing: const Text('Income',
                           style: TextStyle(color: Colors.green)),
                     ),
@@ -657,11 +679,15 @@ class _CategoryState extends State<Category> {
                               255, 78, 162, 226), // background
                           onPrimary: Colors.white, // foreground
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          selectCategory(
+                              accessToken, expenseCategories[i]['id']);
+                        },
                         child: const Text('Add'),
                       ),
                       title: Text('${expenseCategories[i]['name']}'),
-                      subtitle: Text("Current Tsh ${expenseCategories[i]['amount']}"),
+                      subtitle:
+                          Text("Current Tsh ${expenseCategories[i]['amount']}"),
                       trailing: const Text('Expense',
                           style: TextStyle(color: Colors.blue)),
                     ),
