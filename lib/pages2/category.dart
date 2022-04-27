@@ -18,11 +18,11 @@ class Category extends StatefulWidget {
 }
 
 class _CategoryState extends State<Category> {
-  TextEditingController nameIncome = TextEditingController();
-  TextEditingController nameExpense = TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController amount = TextEditingController();
 
-  TextEditingController amountIncome = TextEditingController();
-  TextEditingController amountExpense = TextEditingController();
+  // TextEditingController amountIncome = TextEditingController();
+  // TextEditingController amountExpense = TextEditingController();
   String accessToken = '';
   var incomeCategories = [];
   var expenseCategories = [];
@@ -87,7 +87,11 @@ class _CategoryState extends State<Category> {
     var url = Uri.http(
       domain,
       '/api/addCategory',
-      {'name': nameIncome.text, 'type': type, 'budget_id': widget.budgetId},
+      {
+        'name': name.text,
+        'amount': amount.text,
+        'type': type,
+      },
     );
 
     Map<String, String> requestHeaders = {
@@ -99,7 +103,9 @@ class _CategoryState extends State<Category> {
     // Await the http get response, then decode the json-formatted response.
     var response = await http.post(url, headers: requestHeaders);
     if (response.statusCode == 200) {
-      nameIncome.text = '';
+      name.text = '';
+      amount.text = '';
+      print(jsonDecode(response.body));
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -250,7 +256,7 @@ class _CategoryState extends State<Category> {
                                             padding: const EdgeInsets.only(
                                                 top: 10.0),
                                             child: TextField(
-                                              controller: nameIncome,
+                                              controller: name,
                                               // obscureText: true,
                                               // obscuringCharacter: '*',
                                               // keyboardType: TextInputType.number,
@@ -277,10 +283,11 @@ class _CategoryState extends State<Category> {
                                             padding: const EdgeInsets.only(
                                                 top: 10.0),
                                             child: TextField(
-                                              controller: nameIncome,
+                                              controller: amount,
                                               // obscureText: true,
                                               // obscuringCharacter: '*',
-                                              // keyboardType: TextInputType.number,
+                                              keyboardType:
+                                                  TextInputType.number,
                                               style: const TextStyle(
                                                   fontSize: 16.0),
                                               decoration: const InputDecoration(
@@ -498,7 +505,7 @@ class _CategoryState extends State<Category> {
                                             padding: const EdgeInsets.only(
                                                 top: 10.0),
                                             child: TextField(
-                                              controller: nameIncome,
+                                              controller: name,
                                               // obscureText: true,
                                               // obscuringCharacter: '*',
                                               // keyboardType: TextInputType.number,
@@ -517,6 +524,34 @@ class _CategoryState extends State<Category> {
                                                 // ),
                                                 border: UnderlineInputBorder(),
                                                 hintText: 'Category name',
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 30.0),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 10.0),
+                                            child: TextField(
+                                              controller: amount,
+                                              // obscureText: true,
+                                              // obscuringCharacter: '*',
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              style: const TextStyle(
+                                                  fontSize: 16.0),
+                                              decoration: const InputDecoration(
+                                                suffixIcon: Icon(Icons.edit),
+                                                focusedBorder:
+                                                    UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color(0xFF8B5E34),
+                                                      width: 2.0),
+                                                ),
+                                                // enabledBorder: OutlineInputBorder(
+                                                //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
+                                                // ),
+                                                border: UnderlineInputBorder(),
+                                                hintText: 'Category amount',
                                               ),
                                             ),
                                           ),
