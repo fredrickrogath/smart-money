@@ -20,6 +20,9 @@ class Category extends StatefulWidget {
 class _CategoryState extends State<Category> {
   TextEditingController nameIncome = TextEditingController();
   TextEditingController nameExpense = TextEditingController();
+
+  TextEditingController amountIncome = TextEditingController();
+  TextEditingController amountExpense = TextEditingController();
   String accessToken = '';
   var incomeCategories = [];
   var expenseCategories = [];
@@ -266,6 +269,33 @@ class _CategoryState extends State<Category> {
                                                 // ),
                                                 border: UnderlineInputBorder(),
                                                 hintText: 'Category name',
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 30.0),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 10.0),
+                                            child: TextField(
+                                              controller: nameIncome,
+                                              // obscureText: true,
+                                              // obscuringCharacter: '*',
+                                              // keyboardType: TextInputType.number,
+                                              style: const TextStyle(
+                                                  fontSize: 16.0),
+                                              decoration: const InputDecoration(
+                                                suffixIcon: Icon(Icons.edit),
+                                                focusedBorder:
+                                                    UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color(0xFF8B5E34),
+                                                      width: 2.0),
+                                                ),
+                                                // enabledBorder: OutlineInputBorder(
+                                                //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
+                                                // ),
+                                                border: UnderlineInputBorder(),
+                                                hintText: 'Category amount',
                                               ),
                                             ),
                                           ),
