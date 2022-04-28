@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:smartmoney/pages2/budget.dart';
+import 'package:smartmoney/pages2/budget_details.dart';
 import 'package:smartmoney/pages2/entry.dart';
 import 'package:smartmoney/pages2/estimator.dart';
 import 'package:smartmoney/pages2/events.dart';
@@ -106,13 +107,13 @@ class _appBarrState extends State<appBarr> {
             title: const Text("Report",
                 style: TextStyle(color: Colors.black, fontSize: 16.0)),
             onTap: () {
-              // Navigator.push(
-              //     context,
-              //     PageTransition(
-              //         duration: const Duration(milliseconds: 600),
-              //         reverseDuration: const Duration(milliseconds: 600),
-              //         type: PageTransitionType.leftToRightWithFade,
-              //         child: const Budget()));
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      duration: const Duration(milliseconds: 600),
+                      reverseDuration: const Duration(milliseconds: 600),
+                      type: PageTransitionType.leftToRightWithFade,
+                      child: const budgetDetails()));
             },
           ),
           ListTile(
