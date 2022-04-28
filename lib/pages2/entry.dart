@@ -2,11 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:smartmoney/app_bar.dart';
-import 'package:smartmoney/pages2/budget.dart';
-import 'package:smartmoney/pages2/estimator.dart';
-import 'package:smartmoney/pages2/events.dart';
-import 'package:smartmoney/pages2/payer.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:smartmoney/pages2/out_entry.dart';
 
 class Entry extends StatefulWidget {
   const Entry({Key? key}) : super(key: key);
@@ -237,7 +234,18 @@ class _EntryState extends State<Entry> {
                         height: frameHeight / 15,
                         child: FloatingActionButton.extended(
                           elevation: 0.0,
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                      context,
+                                      PageTransition(
+                                          duration:
+                                              const Duration(milliseconds: 400),
+                                          reverseDuration:
+                                              const Duration(milliseconds: 400),
+                                          type: PageTransitionType
+                                              .rightToLeftWithFade,
+                                          child: const outEntry()));
+                          },
                           label: const Text('Cash Out'),
                           icon: const Icon(Icons.remove),
                           backgroundColor: Colors.red,

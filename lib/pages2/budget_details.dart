@@ -80,23 +80,23 @@ class _budgetDetailsState extends State<budgetDetails> {
           ],
         ),
         
-       ExpansionTile(
+       const ExpansionTile(
           title: Text('Total expenditure'),
           subtitle: Text('Tsh 730,000'),
           controlAffinity: ListTileControlAffinity.leading,
           children: <Widget>[
-            ListTile(leading: Text('Salary/Wages'),trailing: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: const [Padding(
-                padding: EdgeInsets.only(right:8.0),
-                child: Text('Tsh 20,000'),
-              ),
+            // ListTile(leading: Text('Salary/Wages'),trailing: Row(
+            //   mainAxisAlignment: MainAxisAlignment.end,
+            //   children: const [Padding(
+            //     padding: EdgeInsets.only(right:8.0),
+            //     child: Text('Tsh 20,000'),
+            //   ),
               // Icon(
               //     CupertinoIcons.tag,
               //     // color: Colors.white,
               //     // size: 36.0,
               //   ),
-                ],)),
+                // ],)),
           ],
         ),
       ]),
