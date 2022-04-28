@@ -5,6 +5,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartmoney/domain/domain.dart';
@@ -29,6 +31,7 @@ class _BudgetState extends State<Budget> {
   String accessToken = '';
   bool proceed = false;
   String budgetId = '';
+  bool showForm = false;
 
   void createBudget(token) async {
     var url = Uri.http(
@@ -64,6 +67,15 @@ class _BudgetState extends State<Budget> {
     return prefs.getString('access_token');
   }
 
+  List _elements = [
+  {'name': 'John', 'group': 'Team A'},
+  {'name': 'Will', 'group': 'Team B'},
+  {'name': 'Beth', 'group': 'Team A'},
+  {'name': 'Miranda', 'group': 'Team B'},
+  {'name': 'Mike', 'group': 'Team C'},
+  {'name': 'Danny', 'group': 'Team C'},
+];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -75,7 +87,7 @@ class _BudgetState extends State<Budget> {
     frameHeight = MediaQuery.of(context).size.height;
 
     return SafeArea(
-      child: Scaffold(
+      child: showForm? Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
             centerTitle: true,
@@ -240,7 +252,37 @@ class _BudgetState extends State<Budget> {
                 ],
               ),
             ),
-          )),
+          )):Scaffold(body: GroupedListView<dynamic, String>(
+          elements: _elements,
+          groupBy: (element) => element['group'],
+          groupComparator: (value1, value2) => value2.compareTo(value1),
+          itemComparator: (item1, item2) =>
+              item1['name'].compareTo(item2['name']),
+          order: GroupedListOrder.DESC,
+          useStickyGroupSeparators: true,
+          groupSeparatorBuilder: (String value) => Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              value,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          itemBuilder: (c, element) {
+            return Card(
+              elevation: 8.0,
+              margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+              child: ListTile(
+                contentPadding:
+                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                leading: const Icon(Icons.account_circle),
+                title: Text(element['name']),
+                trailing: const Icon(Icons.arrow_forward),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }

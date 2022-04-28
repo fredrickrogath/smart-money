@@ -52,7 +52,7 @@ class _NewBudgetState extends State<NewBudget> {
         body: Column(
           children: [
             SizedBox(height: frameHeight / 20),
-            Text('Sjui ni picha gani',
+           const Text('Sjui ni picha gani',
                 style: TextStyle(fontSize: 20.0, backgroundColor: Colors.red)),
             SizedBox(height: frameHeight / 20),
             SizedBox(
