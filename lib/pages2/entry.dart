@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:smartmoney/app_bar.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:smartmoney/domain/domain.dart';
 import 'package:smartmoney/pages2/in_entry.dart';
 import 'package:smartmoney/pages2/out_entry.dart';
 
@@ -15,6 +18,7 @@ class Entry extends StatefulWidget {
 
 class _EntryState extends State<Entry> {
   double frameHeight = 0;
+
   @override
   Widget build(BuildContext context) {
     frameHeight = MediaQuery.of(context).size.height;
@@ -132,33 +136,24 @@ class _EntryState extends State<Entry> {
                   ]),
                 ),
               ),
+              
               SizedBox(height: MediaQuery.of(context).size.height / 30),
-              // SizedBox(height: MediaQuery.of(context).size.height / 5),
+             
 
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              //   child: Card(
-              //     elevation: 2.5,
-              //     child: SizedBox(
-              //       height: MediaQuery.of(context).size.height / 20,
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //         children: const [
-              //           Icon(
-              //             CupertinoIcons.lock_circle_fill,
-              //             color: Colors.green,
-              //             size: 36.0,
-              //           ),
-              //           Text('Only you can see these entries',
-              //               style: TextStyle(
-              //                 color: Color.fromARGB(255, 117, 117, 117),
-              //                 fontSize: 15.0,
-              //               ))
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
+             SizedBox(height: 200.0,
+               child: ListView.builder(
+        itemCount: 1,
+        itemBuilder: (BuildContext context,int index){
+          return ListTile(
+            leading: const Icon(Icons.list),
+            trailing: const Text("GFG",
+                             style: TextStyle(
+                               color: Colors.green,fontSize: 15),),
+            title:Text("List item $index")
+            );
+        }
+        ),
+             ),
 
               // SizedBox(height: MediaQuery.of(context).size.height / 20),
 

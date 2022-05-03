@@ -166,7 +166,7 @@ class _CategoryState extends State<Category> {
 
   @override
   void initState() {
-    print(accessToken);
+    // print(accessToken);
     refresh();
     super.initState();
   }

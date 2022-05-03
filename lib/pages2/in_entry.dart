@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartmoney/domain/domain.dart';
 
 class InEntry extends StatefulWidget {
   const InEntry({Key? key}) : super(key: key);
@@ -15,6 +20,9 @@ class _InEntryState extends State<InEntry> {
   double frameHeight = 0;
   double frameWidth = 0;
 
+  var categories;
+  var accessToken;
+
   final _formKey = GlobalKey<FormState>();
 
   final List<String> genderItems = [
@@ -23,6 +31,51 @@ class _InEntryState extends State<InEntry> {
   ];
 
   String? selectedValue;
+
+  getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('access_token');
+  }
+
+  void getCategories(token) async {
+    var url = Uri.http(
+      domain,
+      '/api/getCategories',
+    );
+
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    // Await the http get response, then decode the json-formatted response.
+    var response = await http.post(url, headers: requestHeaders);
+    if (response.statusCode == 200) {
+      categories = jsonDecode(response.body)['data'];
+      print(categories);
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+
+    setState(() {});
+  }
+
+  refresh() {
+    getToken().then((value) {
+      // await Future.delayed(const Duration(seconds: 2));
+      accessToken = value;
+      getCategories(accessToken);
+      // getExpense(accessToken);
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    refresh();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
