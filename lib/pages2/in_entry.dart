@@ -20,7 +20,6 @@ class _InEntryState extends State<InEntry> {
   double frameHeight = 0;
   double frameWidth = 0;
 
-  var categories;
   var accessToken;
 
   final _formKey = GlobalKey<FormState>();
@@ -37,38 +36,38 @@ class _InEntryState extends State<InEntry> {
     return prefs.getString('access_token');
   }
 
-  void getCategories(token) async {
-    var url = Uri.http(
-      domain,
-      '/api/getCategories',
-    );
+  // void getCategories(token) async {
+  //   var url = Uri.http(
+  //     domain,
+  //     '/api/getCategories',
+  //   );
 
-    Map<String, String> requestHeaders = {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
-    };
+  //   Map<String, String> requestHeaders = {
+  //     'Content-type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Bearer $token'
+  //   };
 
-    // Await the http get response, then decode the json-formatted response.
-    var response = await http.post(url, headers: requestHeaders);
-    if (response.statusCode == 200) {
-      // categories = jsonDecode(response.body)['data'];
-      categories = json.decode(response.body);
-      // categories.cast<String>();
-      // categoryLIst = Map<String, dynamic>.from(json.decode(response.body))['data'].cast<String>();
-      print(categories);
-    } else {
-      print('Request failed with status: ${response.statusCode}.');
-    }
+  //   // Await the http get response, then decode the json-formatted response.
+  //   var response = await http.post(url, headers: requestHeaders);
+  //   if (response.statusCode == 200) {
+  //     // categories = jsonDecode(response.body)['data'];
+  //     categories = json.decode(response.body);
+  //     // categories.cast<String>();
+  //     // categoryLIst = Map<String, dynamic>.from(json.decode(response.body))['data'].cast<String>();
+  //     print(categories);
+  //   } else {
+  //     print('Request failed with status: ${response.statusCode}.');
+  //   }
 
-    setState(() {});
-  }
+  //   setState(() {});
+  // }
 
   refresh() {
     getToken().then((value) {
       // await Future.delayed(const Duration(seconds: 2));
       accessToken = value;
-      getCategories(accessToken);
+      // getCategories(accessToken);
       // getExpense(accessToken);
     });
   }
@@ -76,8 +75,6 @@ class _InEntryState extends State<InEntry> {
   @override
   void initState() {
     // TODO: implement initState
-    print(categories);
-    // print('2222222' + categoryLIst.toString());
     refresh();
     super.initState();
   }
