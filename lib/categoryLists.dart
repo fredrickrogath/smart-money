@@ -14,7 +14,7 @@ class CategoryLists extends StatefulWidget {
 
 class _CategoryListsState extends State<CategoryLists> {
   var categories;
-   var accessToken;
+  var accessToken;
 
   getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -37,10 +37,10 @@ class _CategoryListsState extends State<CategoryLists> {
     var response = await http.post(url, headers: requestHeaders);
     if (response.statusCode == 200) {
       // categories = jsonDecode(response.body)['data'];
-      categories = json.decode(response.body);
+      categories = json.decode(response.body)['data'];
       // categories.cast<String>();
       // categoryLIst = Map<String, dynamic>.from(json.decode(response.body))['data'].cast<String>();
-      print(categories);
+      // print(categories);
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -48,7 +48,7 @@ class _CategoryListsState extends State<CategoryLists> {
     setState(() {});
   }
 
-   refresh() {
+  refresh() {
     getToken().then((value) {
       // await Future.delayed(const Duration(seconds: 2));
       accessToken = value;
@@ -68,7 +68,21 @@ class _CategoryListsState extends State<CategoryLists> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Container(),
+      body: ListView.builder(
+        physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics()),
+        itemCount: categories.length,
+        itemBuilder: (context, i) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton.extended(
+              elevation:0.0,
+              onPressed: () {
+                Navigator.pop(context, ['${categories[i]["name"]}', '${categories[i]["id"]}']);
+              }, label: Text('${categories[i]["name"]}'),),
+          );
+        },
+      ),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartmoney/categoryLists.dart';
 import 'package:smartmoney/domain/domain.dart';
 
 class InEntry extends StatefulWidget {
@@ -30,6 +31,22 @@ class _InEntryState extends State<InEntry> {
   // ];
 
   String? selectedValue;
+
+  void _navigateAndDisplaySelection(BuildContext context) async {
+    // Navigator.push returns a Future that completes after calling
+    // Navigator.pop on the Selection Screen.
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CategoryLists()),
+    );
+
+    // After the Selection Screen returns a result, hide any previous snackbars
+    // and show the new result.
+    print(result);
+    // ScaffoldMessenger.of(context)
+    //   ..removeCurrentSnackBar()
+    //   ..showSnackBar(SnackBar(content: Text('$result')));
+  }
 
   getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -159,10 +176,10 @@ class _InEntryState extends State<InEntry> {
               //     borderRadius: BorderRadius.circular(15),
               //   ),
               //   items: categories
-                
+
               //       .map((item) => DropdownMenuItem<String>(
               //             value: item,
-                          
+
               //             child: Text(
               //               item.to,
               //               style: const TextStyle(
@@ -184,7 +201,6 @@ class _InEntryState extends State<InEntry> {
               //   },
               // ),
 
-
               // DropdownButton(
               //                   isExpanded: true,
               //                   value: categories,
@@ -194,7 +210,7 @@ class _InEntryState extends State<InEntry> {
               //                       child: Text(countryone), //label of item
               //                       value: countryone, //value of item
               //                     );
-              //                    }).toList(), 
+              //                    }).toList(),
               //                    onChanged: (value){
               //                        countryname = value; //change the country name
               //                        getCity(); //get city list.
@@ -209,20 +225,30 @@ class _InEntryState extends State<InEntry> {
                   child: FloatingActionButton.extended(
                     elevation: 0.0,
                     onPressed: () {
-                      setState(() {});
-                      if (_controller.value.text.isNotEmpty) {
-                        // Navigator.push(
-                        //     context,
-                        //     PageTransition(
-                        //         duration: const Duration(milliseconds: 700),
-                        //         reverseDuration:
-                        //             const Duration(milliseconds: 700),
-                        //         type:
-                        //             PageTransitionType.rightToLeftWithFade,
-                        //         child: Welcome(name:_controller.text)));
-                      }
+                      // Navigator.push(
+                      //       context,
+                      //       PageTransition(
+                      //           duration: const Duration(milliseconds: 500),
+                      //           reverseDuration:
+                      //               const Duration(milliseconds: 500),
+                      //           type:
+                      //               PageTransitionType.rightToLeftWithFade,
+                      //           child: CategoryLists()));
+                      // final result = Navigator.push(
+                      //   context,
+                      //   // Create the SelectionScreen in the next step.
+                      //   MaterialPageRoute(
+                      //       builder: (context) => CategoryLists()),
+                      // );
+
+                      // print(result);
+
+                      _navigateAndDisplaySelection(context);
                     },
-                    label: Text('Select category', style: TextStyle(color: Colors.grey[700]),),
+                    label: Text(
+                      'Select category',
+                      style: TextStyle(color: Colors.grey[700]),
+                    ),
                     // icon: const Icon(Icons.remove),
                     backgroundColor: Colors.white,
                   ),
@@ -249,7 +275,7 @@ class _InEntryState extends State<InEntry> {
                         //             const Duration(milliseconds: 700),
                         //         type:
                         //             PageTransitionType.rightToLeftWithFade,
-                        //         child: Welcome(name:_controller.text)));
+                        //         child: CategoryLists()));
                       }
                     },
                     label: const Text('Save'),
