@@ -13,7 +13,7 @@ class CategoryLists extends StatefulWidget {
 }
 
 class _CategoryListsState extends State<CategoryLists> {
-  var categories;
+  var categories =[];
   var accessToken;
 
   getToken() async {
@@ -37,7 +37,7 @@ class _CategoryListsState extends State<CategoryLists> {
     var response = await http.post(url, headers: requestHeaders);
     if (response.statusCode == 200) {
       // categories = jsonDecode(response.body)['data'];
-      categories = json.decode(response.body)['data'];
+      categories = jsonDecode(response.body)['data'];
       // categories.cast<String>();
       // categoryLIst = Map<String, dynamic>.from(json.decode(response.body))['data'].cast<String>();
       // print(categories);
@@ -76,6 +76,7 @@ class _CategoryListsState extends State<CategoryLists> {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: FloatingActionButton.extended(
+              heroTag: null,
               elevation:0.0,
               onPressed: () {
                 Navigator.pop(context, ['${categories[i]["name"]}', '${categories[i]["id"]}']);
