@@ -10,7 +10,8 @@ import 'package:smartmoney/pages2/in_entry.dart';
 import 'package:smartmoney/pages2/out_entry.dart';
 
 class Entry extends StatefulWidget {
-  const Entry({Key? key}) : super(key: key);
+  final String budgetId;
+  const Entry({Key? key, required this.budgetId}) : super(key: key);
 
   @override
   State<Entry> createState() => _EntryState();
@@ -18,6 +19,13 @@ class Entry extends StatefulWidget {
 
 class _EntryState extends State<Entry> {
   double frameHeight = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    print(widget.budgetId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,24 +144,23 @@ class _EntryState extends State<Entry> {
                   ]),
                 ),
               ),
-              
-              SizedBox(height: MediaQuery.of(context).size.height / 30),
-             
 
-             SizedBox(height: 200.0,
-               child: ListView.builder(
-        itemCount: 1,
-        itemBuilder: (BuildContext context,int index){
-          return ListTile(
-            leading: const Icon(Icons.list),
-            trailing: const Text("GFG",
-                             style: TextStyle(
-                               color: Colors.green,fontSize: 15),),
-            title:Text("List item $index")
-            );
-        }
-        ),
-             ),
+              SizedBox(height: MediaQuery.of(context).size.height / 30),
+
+              SizedBox(
+                height: 200.0,
+                child: ListView.builder(
+                    itemCount: 1,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                          leading: const Icon(Icons.list),
+                          trailing: const Text(
+                            "GFG",
+                            style: TextStyle(color: Colors.green, fontSize: 15),
+                          ),
+                          title: Text("List item $index"));
+                    }),
+              ),
 
               // SizedBox(height: MediaQuery.of(context).size.height / 20),
 
@@ -213,6 +220,7 @@ class _EntryState extends State<Entry> {
                 SizedBox(
                   height: frameHeight / 15,
                   child: FloatingActionButton.extended(
+                    heroTag: null,
                     elevation: 0.0,
                     onPressed: () {
                       Navigator.push(
@@ -232,6 +240,7 @@ class _EntryState extends State<Entry> {
                 SizedBox(
                   height: frameHeight / 15,
                   child: FloatingActionButton.extended(
+                    heroTag: null,
                     elevation: 0.0,
                     onPressed: () {
                       Navigator.push(

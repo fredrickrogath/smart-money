@@ -57,7 +57,8 @@ class _BudgetState extends State<Budget> {
       var res = jsonDecode(response.body);
       proceed = true;
       budgetId = res['budget_id'].toString();
-      // print(budgetId);
+      print(budgetId);
+      saveBudgetId(budgetId);
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -68,24 +69,27 @@ class _BudgetState extends State<Budget> {
     return prefs.getString('access_token');
   }
 
+  saveBudgetId(budgetId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('budgetId', budgetId);
+  }
 
-List<Element> _elements = <Element> [
-  Element(DateTime(2020, 6, 24, 18), 'Budget 10', Icons.money),
-  Element(DateTime(2020, 6, 24, 9), 'Budget 11', Icons.money),
-  Element(DateTime(2020, 6, 25, 8), 'Budget 12', Icons.money),
-  Element(DateTime(2020, 6, 25, 16), 'Budget 3', Icons.money),
-  Element(DateTime(2020, 6, 25, 20), 'Budget 14', Icons.money),
-  Element(DateTime(2020, 6, 26, 12), 'Budget 1', Icons.money),
-  Element(DateTime(2020, 6, 27, 12), 'Budget 2', Icons.money),
-  Element(DateTime(2020, 6, 27, 13), 'Budget 3', Icons.money),
-  Element(DateTime(2020, 6, 27, 14), 'Budget 4', Icons.money),
-  Element(DateTime(2020, 6, 27, 15), 'Budget 5', Icons.money),
-  Element(DateTime(2020, 6, 28, 12), 'Budget 6', Icons.money),
-  Element(DateTime(2020, 6, 29, 12), 'Budget 7', Icons.money),
-  Element(DateTime(2020, 6, 29, 12), 'Budget 8', Icons.money),
-  Element(DateTime(2020, 6, 30, 12), 'Budget 9', Icons.money),
-];
-
+ final List<Element> _elements = <Element>[
+    Element(DateTime(2020, 6, 24, 18), 'Budget 10', Icons.money),
+    Element(DateTime(2020, 6, 24, 9), 'Budget 11', Icons.money),
+    Element(DateTime(2020, 6, 25, 8), 'Budget 12', Icons.money),
+    Element(DateTime(2020, 6, 25, 16), 'Budget 3', Icons.money),
+    Element(DateTime(2020, 6, 25, 20), 'Budget 14', Icons.money),
+    Element(DateTime(2020, 6, 26, 12), 'Budget 1', Icons.money),
+    Element(DateTime(2020, 6, 27, 12), 'Budget 2', Icons.money),
+    Element(DateTime(2020, 6, 27, 13), 'Budget 3', Icons.money),
+    Element(DateTime(2020, 6, 27, 14), 'Budget 4', Icons.money),
+    Element(DateTime(2020, 6, 27, 15), 'Budget 5', Icons.money),
+    Element(DateTime(2020, 6, 28, 12), 'Budget 6', Icons.money),
+    Element(DateTime(2020, 6, 29, 12), 'Budget 7', Icons.money),
+    Element(DateTime(2020, 6, 29, 12), 'Budget 8', Icons.money),
+    Element(DateTime(2020, 6, 30, 12), 'Budget 9', Icons.money),
+  ];
 
   @override
   void initState() {
@@ -113,20 +117,20 @@ List<Element> _elements = <Element> [
                             fontSize: 17.0, fontWeight: FontWeight.w400)),
                   ],
                 ),
-                 actions:[
-                   Padding(
-                     padding:const EdgeInsets.only(right: 8.0),
-                     child: IconButton(onPressed: (){
-                       showForm = false;
-                       setState(() {
-                         
-                       });
-                     }, icon: const Icon(
-                  CupertinoIcons.back,
-                  // color: Colors.white,
-                  // size: 36.0,
-                ),)
-                   ),
+                actions: [
+                  Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: IconButton(
+                        onPressed: () {
+                          showForm = false;
+                          setState(() {});
+                        },
+                        icon: const Icon(
+                          CupertinoIcons.back,
+                          // color: Colors.white,
+                          // size: 36.0,
+                        ),
+                      )),
                 ],
               ),
               body: Padding(
@@ -294,78 +298,81 @@ List<Element> _elements = <Element> [
                             fontSize: 17.0, fontWeight: FontWeight.w400)),
                   ],
                 ),
-                actions:[
-                   Padding(
-                     padding:const EdgeInsets.only(right: 8.0),
-                     child: IconButton(onPressed: (){
-                       showForm = true;
-                       setState(() {
-                         
-                       });
-                     }, icon: const Icon(
-                  CupertinoIcons.add,
-                  // color: Colors.white,
-                  // size: 36.0,
-                ),)
-                   ),
+                actions: [
+                  Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: IconButton(
+                        onPressed: () {
+                          showForm = true;
+                          setState(() {});
+                        },
+                        icon: const Icon(
+                          CupertinoIcons.add,
+                          // color: Colors.white,
+                          // size: 36.0,
+                        ),
+                      )),
                 ],
               ),
               body: StickyGroupedListView<Element, DateTime>(
-          elements: _elements,
-          order: StickyGroupedListOrder.ASC,
-          groupBy: (Element element,) =>
-              DateTime(element.date.year, element.date.month, element.date.day),
-          groupComparator: (DateTime value1, DateTime value2) =>
-              value2.compareTo(value1),
-          itemComparator: (Element element1, Element element2) =>
-              element1.date.compareTo(element2.date),
-          floatingHeader: true,
-          groupSeparatorBuilder: (Element element) => SizedBox(
-            height: 50,
-            child: Align(
-              alignment: Alignment.center,
-              child: Container(
-                width: 120,
-                decoration: BoxDecoration(
-                  color: Colors.blue[300],
-                  border: Border.all(
-                    color: Colors.blue[300]!,
+                elements: _elements,
+                order: StickyGroupedListOrder.ASC,
+                groupBy: (
+                  Element element,
+                ) =>
+                    DateTime(element.date.year, element.date.month,
+                        element.date.day),
+                groupComparator: (DateTime value1, DateTime value2) =>
+                    value2.compareTo(value1),
+                itemComparator: (Element element1, Element element2) =>
+                    element1.date.compareTo(element2.date),
+                floatingHeader: true,
+                groupSeparatorBuilder: (Element element) => SizedBox(
+                  height: 50,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      width: 120,
+                      decoration: BoxDecoration(
+                        color: Colors.blue[300],
+                        border: Border.all(
+                          color: Colors.blue[300]!,
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20.0)),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '${element.date.day}. ${element.date.month}, ${element.date.year}',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
                   ),
-                  borderRadius: const BorderRadius.all(Radius.circular(20.0)),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    '${element.date.day}. ${element.date.month}, ${element.date.year}',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+                itemBuilder: (_, Element element) {
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6.0),
+                    ),
+                    elevation: 8.0,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6.0),
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10.0),
+                      leading: Icon(element.icon),
+                      title: Text(element.name),
+                      trailing: Text('${element.date.hour}:00'),
+                    ),
+                  );
+                },
               ),
-            ),
-          ),
-          itemBuilder: (_, Element element) {
-            return Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6.0),
-              ),
-              elevation: 8.0,
-              margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-              child: ListTile(
-                contentPadding:
-                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                leading: Icon(element.icon),
-                title: Text(element.name),
-                trailing: Text('${element.date.hour}:00'),
-              ),
-            );
-          },
-        ),
-      
             ),
     );
   }
 }
-
 
 class Element {
   DateTime date;

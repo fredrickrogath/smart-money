@@ -39,8 +39,6 @@ class _InEntryState extends State<InEntry> {
     categoryId = result[0];
 
     categoryName = result[1];
-
-    print(categoryId + '  ' + categoryName);
   }
 
   getToken() async {
@@ -48,32 +46,39 @@ class _InEntryState extends State<InEntry> {
     return prefs.getString('access_token');
   }
 
-  // void getCategories(token) async {
-  //   var url = Uri.http(
-  //     domain,
-  //     '/api/getCategories',
-  //   );
+  void addEntry(token) async {
+    var url = Uri.http(
+      domain,
+      '/api/addEntry',
+      {
+        'amount': _controller.text,
+        'type': _controller.text,
+        'category_id': _controller.text,
+        'category_name': _controller.text,
+        'budget_id': _controller.text,
+      },
+    );
 
-  //   Map<String, String> requestHeaders = {
-  //     'Content-type': 'application/json',
-  //     'Accept': 'application/json',
-  //     'Authorization': 'Bearer $token'
-  //   };
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
 
-  //   // Await the http get response, then decode the json-formatted response.
-  //   var response = await http.post(url, headers: requestHeaders);
-  //   if (response.statusCode == 200) {
-  //     // categories = jsonDecode(response.body)['data'];
-  //     categories = json.decode(response.body);
-  //     // categories.cast<String>();
-  //     // categoryLIst = Map<String, dynamic>.from(json.decode(response.body))['data'].cast<String>();
-  //     print(categories);
-  //   } else {
-  //     print('Request failed with status: ${response.statusCode}.');
-  //   }
+    // Await the http get response, then decode the json-formatted response.
+    var response = await http.post(url, headers: requestHeaders);
+    if (response.statusCode == 200) {
+      // categories = jsonDecode(response.body)['data'];
+      var res = json.decode(response.body);
+      // categories.cast<String>();
+      // categoryLIst = Map<String, dynamic>.from(json.decode(response.body))['data'].cast<String>();
+      print(res);
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
 
-  //   setState(() {});
-  // }
+    setState(() {});
+  }
 
   refresh() {
     getToken().then((value) {
@@ -127,7 +132,8 @@ class _InEntryState extends State<InEntry> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 20.0),
                 child: SizedBox(
                   height: frameHeight / 17.0,
                   width: double.infinity,
@@ -146,13 +152,15 @@ class _InEntryState extends State<InEntry> {
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height / 30),
+              // SizedBox(height: MediaQuery.of(context).size.height / 30),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
                 child: SizedBox(
                   height: frameHeight / 17.0,
                   width: double.infinity,
                   child: FloatingActionButton.extended(
+                    heroTag: null,
                     elevation: 0.0,
                     onPressed: () {
                       setState(() {});

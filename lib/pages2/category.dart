@@ -237,6 +237,7 @@ class _CategoryState extends State<Category> {
                               fontWeight: FontWeight.w600,
                               fontSize: 16.0)),
                       FloatingActionButton(
+                        heroTag: null,
                         elevation: 0.0,
                         onPressed: () {
                           var alertStyle = AlertStyle(
@@ -333,6 +334,7 @@ class _CategoryState extends State<Category> {
                                               width: double.infinity,
                                               child:
                                                   FloatingActionButton.extended(
+                                                    heroTag: null,
                                                 elevation: 0.0,
                                                 onPressed: () {
                                                   addCategory(
@@ -404,6 +406,7 @@ class _CategoryState extends State<Category> {
                                     SizedBox(
                                         width: double.infinity,
                                         child: FloatingActionButton.extended(
+                                          heroTag: null,
                                           elevation: 0.0,
                                           onPressed: () {
                                             deleteCategory(accessToken,
@@ -486,6 +489,7 @@ class _CategoryState extends State<Category> {
                               fontWeight: FontWeight.w600,
                               fontSize: 16.0)),
                       FloatingActionButton(
+                        heroTag: null,
                         elevation: 0.0,
                         onPressed: () {
                           var alertStyle = AlertStyle(
@@ -740,8 +744,9 @@ class _CategoryState extends State<Category> {
                     child: SizedBox(
                       height: frameHeight / 15,
                       child: FloatingActionButton.extended(
+                        heroTag: null,
                         onPressed: () {
-                          // Add your onPressed code here!
+                          print(widget.budgetId);
                           Navigator.push(
                               context,
                               PageTransition(
@@ -749,7 +754,7 @@ class _CategoryState extends State<Category> {
                                   reverseDuration:
                                       const Duration(milliseconds: 700),
                                   type: PageTransitionType.rightToLeftWithFade,
-                                  child: const Entry()));
+                                  child: Entry(budgetId: widget.budgetId)));
                         },
                         label: const Text('Done'),
                         icon: const Icon(Icons.forward),
