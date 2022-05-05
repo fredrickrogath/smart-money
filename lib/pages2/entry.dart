@@ -216,7 +216,9 @@ class _EntryState extends State<Entry> {
                                     fontWeight: FontWeight.w400),
                               ),
                               Text(
-                                '${(totalIn - totalOut)}',
+                                totalIn == null || totalOut == null
+                                    ? '0.0'
+                                    : '${(totalIn - totalOut)}',
                                 style: const TextStyle(
                                     color: Color.fromARGB(255, 117, 117, 117),
                                     fontSize: 20.0,
@@ -244,7 +246,7 @@ class _EntryState extends State<Entry> {
                                             Color.fromARGB(255, 117, 117, 117),
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.w400)),
-                                Text('$totalIn',
+                                Text(totalIn == null ? '0.0' : '$totalIn',
                                     style: const TextStyle(
                                         color: Color(0xFF337A6F),
                                         fontSize: 16.0,
@@ -268,7 +270,7 @@ class _EntryState extends State<Entry> {
                                             Color.fromARGB(255, 117, 117, 117),
                                         fontSize: 17.0,
                                         fontWeight: FontWeight.w400)),
-                                Text('$totalOut',
+                                Text(totalOut == null ? '0.0' : '$totalOut',
                                     style: const TextStyle(
                                         color: Color(0xffDB575B),
                                         fontSize: 17.0,
@@ -284,7 +286,7 @@ class _EntryState extends State<Entry> {
               const SizedBox(height: 10),
 
               SizedBox(
-                height: 400.0,
+                height: 390.0,
                 child: entries.isEmpty
                     ? Center(
                         child: Text(
@@ -414,7 +416,7 @@ class _EntryState extends State<Entry> {
 
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                 SizedBox(
-                  height: frameHeight / 20,
+                  height: frameHeight / 17,
                   child: FloatingActionButton.extended(
                     heroTag: null,
                     elevation: 0.0,
@@ -435,7 +437,7 @@ class _EntryState extends State<Entry> {
                   ),
                 ),
                 SizedBox(
-                  height: frameHeight / 20,
+                  height: frameHeight / 17,
                   child: FloatingActionButton.extended(
                     heroTag: null,
                     elevation: 0.0,
