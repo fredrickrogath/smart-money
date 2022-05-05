@@ -12,6 +12,7 @@ import 'package:smartmoney/pages2/in_entry.dart';
 // import 'package:smartmoney/pages2/out_entry.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:smartmoney/pages2/out_entry.dart';
 
 class Entry extends StatefulWidget {
   final String budgetId;
@@ -29,6 +30,10 @@ class _EntryState extends State<Entry> {
   var budgetId;
 
   var balance;
+
+  var totalIn;
+
+  var totalOut;
 
   var entries = [];
 
@@ -79,6 +84,60 @@ class _EntryState extends State<Entry> {
     setState(() {});
   }
 
+  void totalInFn(token) async {
+    var url = Uri.http(
+      domain,
+      '/api/totalIn',
+      {
+        'budget_id': budgetId,
+      },
+    );
+
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    // Await the http get response, then decode the json-formatted response.
+    var response = await http.post(url, headers: requestHeaders);
+    if (response.statusCode == 200) {
+      totalIn = jsonDecode(response.body)['data'];
+      print(totalIn);
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+
+    setState(() {});
+  }
+
+  void totalOutFn(token) async {
+    var url = Uri.http(
+      domain,
+      '/api/totalOut',
+      {
+        'budget_id': budgetId,
+      },
+    );
+
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    // Await the http get response, then decode the json-formatted response.
+    var response = await http.post(url, headers: requestHeaders);
+    if (response.statusCode == 200) {
+      totalOut = jsonDecode(response.body)['data'];
+      print(totalOut);
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+
+    setState(() {});
+  }
+
   refresh() {
     getToken().then((value) {
       // await Future.delayed(const Duration(seconds: 2));
@@ -93,6 +152,8 @@ class _EntryState extends State<Entry> {
     });
 
     getEntries(accessToken);
+    totalInFn(accessToken);
+    totalOutFn(accessToken);
   }
 
   @override
@@ -134,7 +195,7 @@ class _EntryState extends State<Entry> {
           ),
           child: Column(
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height / 35),
+              const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
                 child: Card(
@@ -147,7 +208,7 @@ class _EntryState extends State<Entry> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                             const  Text(
+                              const Text(
                                 'Net balance',
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 117, 117, 117),
@@ -155,8 +216,8 @@ class _EntryState extends State<Entry> {
                                     fontWeight: FontWeight.w400),
                               ),
                               Text(
-                                '$balance',
-                                style:const TextStyle(
+                                '${(totalIn - totalOut)}',
+                                style: const TextStyle(
                                     color: Color.fromARGB(255, 117, 117, 117),
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.w400),
@@ -176,15 +237,15 @@ class _EntryState extends State<Entry> {
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Text('Total in ( + )',
+                              children: [
+                                const Text('Total in ( + )',
                                     style: TextStyle(
                                         color:
                                             Color.fromARGB(255, 117, 117, 117),
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.w400)),
-                                Text('0',
-                                    style: TextStyle(
+                                Text('$totalIn',
+                                    style: const TextStyle(
                                         color: Color(0xFF337A6F),
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.w400))
@@ -200,15 +261,15 @@ class _EntryState extends State<Entry> {
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Text('Total out ( - )',
+                              children: [
+                                const Text('Total out ( - )',
                                     style: TextStyle(
                                         color:
                                             Color.fromARGB(255, 117, 117, 117),
                                         fontSize: 17.0,
                                         fontWeight: FontWeight.w400)),
-                                Text('0',
-                                    style: TextStyle(
+                                Text('$totalOut',
+                                    style: const TextStyle(
                                         color: Color(0xffDB575B),
                                         fontSize: 17.0,
                                         fontWeight: FontWeight.w400))
@@ -223,7 +284,7 @@ class _EntryState extends State<Entry> {
               const SizedBox(height: 10),
 
               SizedBox(
-                height: 370.0,
+                height: 400.0,
                 child: entries.isEmpty
                     ? Center(
                         child: Text(
@@ -240,11 +301,14 @@ class _EntryState extends State<Entry> {
                             padding: const EdgeInsets.only(bottom: 8.0),
                             child: Card(
                               elevation: 2,
-                              shape: const Border(
-                                  left:
-                                      BorderSide(color: Colors.blue, width: 5),
-                                  right:
-                                      BorderSide(color: Colors.blue, width: 5)),
+                              shape: Border(
+                                  left: const BorderSide(
+                                      color: Colors.blue, width: 5),
+                                  right: BorderSide(
+                                      color: entries[index]['type'] == 'in'
+                                          ? Colors.green
+                                          : Colors.red,
+                                      width: 5)),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
@@ -281,7 +345,8 @@ class _EntryState extends State<Entry> {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text( 'Balance Tsh ${entries[index]['balance']}'),
+                                          child: Text(
+                                              'Balance Tsh ${entries[index]['balance']}'),
                                         )
                                       ],
                                     ),
@@ -349,7 +414,7 @@ class _EntryState extends State<Entry> {
 
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                 SizedBox(
-                  height: frameHeight / 15,
+                  height: frameHeight / 20,
                   child: FloatingActionButton.extended(
                     heroTag: null,
                     elevation: 0.0,
@@ -370,20 +435,20 @@ class _EntryState extends State<Entry> {
                   ),
                 ),
                 SizedBox(
-                  height: frameHeight / 15,
+                  height: frameHeight / 20,
                   child: FloatingActionButton.extended(
                     heroTag: null,
                     elevation: 0.0,
                     onPressed: () {
-                      refresh();
-                      // Navigator.push(
-                      //     context,
-                      //     PageTransition(
-                      //         duration: const Duration(milliseconds: 400),
-                      //         reverseDuration:
-                      //             const Duration(milliseconds: 400),
-                      //         type: PageTransitionType.rightToLeftWithFade,
-                      //         child: const outEntry()));
+                      Navigator.push(
+                              context,
+                              PageTransition(
+                                  duration: const Duration(milliseconds: 400),
+                                  reverseDuration:
+                                      const Duration(milliseconds: 400),
+                                  type: PageTransitionType.rightToLeftWithFade,
+                                  child: const outEntry()))
+                          .whenComplete(refresh);
                     },
                     label: const Text('Cash Out'),
                     icon: const Icon(Icons.remove),

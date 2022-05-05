@@ -97,8 +97,8 @@ class _PinState extends State<Pin> {
               title: Column(
                 children: const [
                   Text('Create PIN',
-                      style:
-                          TextStyle(fontSize: 17.0, fontWeight: FontWeight.w400)),
+                      style: TextStyle(
+                          fontSize: 17.0, fontWeight: FontWeight.w400)),
                 ],
               ),
             ),
@@ -117,8 +117,8 @@ class _PinState extends State<Pin> {
                         controller: _controller,
                         decoration: const InputDecoration(
                           focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xFF0096C7), width: 2.0),
+                            borderSide: BorderSide(
+                                color: Color(0xFF0096C7), width: 2.0),
                           ),
                           // enabledBorder: OutlineInputBorder(
                           //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
@@ -133,10 +133,7 @@ class _PinState extends State<Pin> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(
-                                emptyPIN
-                                    ? 'PIN can not be empty'
-                                    : '',
+                            Text(emptyPIN ? 'PIN can not be empty' : '',
                                 style: const TextStyle(color: Colors.red)),
                           ],
                         )),
@@ -150,28 +147,29 @@ class _PinState extends State<Pin> {
                           elevation: 0.0,
                           onPressed: () {
                             login();
-      
+
                             if (mobileErrors == false &&
                                 _controller.text.isNotEmpty) {
                               Navigator.push(
                                   context,
                                   PageTransition(
-                                      duration: const Duration(milliseconds: 700),
+                                      duration:
+                                          const Duration(milliseconds: 700),
                                       reverseDuration:
                                           const Duration(milliseconds: 700),
-                                      type:
-                                          PageTransitionType.rightToLeftWithFade,
+                                      type: PageTransitionType
+                                          .rightToLeftWithFade,
                                       child: const Budget()));
                             }
-      
+
                             if (mobileErrors && _controller.text.isNotEmpty) {
                               var alertStyle = AlertStyle(
                                 // animationType: AnimationType.grow,
                                 // isCloseButton: false,
                                 isButtonVisible: false,
                                 isOverlayTapDismiss: false,
-                                descStyle:
-                                    const TextStyle(fontWeight: FontWeight.bold),
+                                descStyle: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                                 // descTextAlign: TextAlign.center,
                                 animationDuration:
                                     const Duration(milliseconds: 000),

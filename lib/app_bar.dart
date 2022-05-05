@@ -51,13 +51,13 @@ class _appBarrState extends State<appBarr> {
             title: const Text("Budget",
                 style: TextStyle(color: Colors.black, fontSize: 16.0)),
             onTap: () {
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      duration: const Duration(milliseconds: 600),
-                      reverseDuration: const Duration(milliseconds: 600),
-                      type: PageTransitionType.leftToRightWithFade,
-                      child: const Budget()));
+            //   Navigator.push(
+            //       context,
+            //       PageTransition(
+            //           duration: const Duration(milliseconds: 600),
+            //           reverseDuration: const Duration(milliseconds: 600),
+            //           type: PageTransitionType.leftToRightWithFade,
+            //           child: const Budget()));
             },
           ),
           ListTile(

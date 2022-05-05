@@ -1,9 +1,16 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
+import 'dart:convert';
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
+// import 'package:page_transition/page_transition.dart';
+// import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartmoney/categoryLists.dart';
+import 'package:smartmoney/domain/domain.dart';
 
 class outEntry extends StatefulWidget {
-  const outEntry({ Key? key }) : super(key: key);
+  const outEntry({Key? key}) : super(key: key);
 
   @override
   State<outEntry> createState() => _outEntryState();
@@ -12,15 +19,100 @@ class outEntry extends StatefulWidget {
 class _outEntryState extends State<outEntry> {
   final _controller = TextEditingController();
 
-   double frameHeight = 0;
+  double frameHeight = 0;
   double frameWidth = 0;
 
-  final List<String> genderItems = [
-    'Ujasi',
-    'Msalato',
-  ];
+  var accessToken;
+
+  var categoryId;
+
+  var categoryName;
+
+  bool categoryIsSet = false;
+
+  var budgetId;
+
+  // final _formKey = GlobalKey<FormState>();
 
   String? selectedValue;
+
+  void _navigateAndDisplaySelection(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CategoryLists()),
+    );
+    categoryId = result[1];
+
+    categoryName = result[0];
+
+    categoryIsSet = true;
+
+    setState(() {});
+  }
+
+  getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('access_token');
+  }
+
+  getBudgetId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('budgetId');
+  }
+
+  wait() async {
+    return await Future.delayed(const Duration(seconds: 10));
+  }
+
+  void addEntry(token) async {
+    var url = Uri.http(
+      domain,
+      '/api/addEntry',
+      {
+        'amount': _controller.text,
+        'type': 'out',
+        'category_id': categoryId,
+        'category_name': categoryName,
+        'budget_id': budgetId,
+      },
+    );
+
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    // Await the http get response, then decode the json-formatted response.
+    var response = await http.post(url, headers: requestHeaders);
+    if (response.statusCode == 200) {
+      var res = json.decode(response.body);
+    } else {
+      print('Request failed with status: ${response.request}.');
+    }
+
+    setState(() {});
+  }
+
+  refresh() {
+    getToken().then((value) {
+      // await Future.delayed(const Duration(seconds: 2));
+      accessToken = value;
+      // getCategories(accessToken);
+      // getExpense(accessToken);
+    });
+    getBudgetId().then((value) {
+      budgetId = value;
+      print('budget id is :' + budgetId);
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    refresh();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,138 +120,87 @@ class _outEntryState extends State<outEntry> {
     frameWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(title: Text('Add Cash Out Entry'),),
+      appBar: AppBar(
+        title: const Text('Add Cash In Entry'),
+      ),
       body: Padding(
-            padding: const EdgeInsets.only(
-              left: 10.0,
-              right: 10.0,
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: MediaQuery.of(context).size.height / 30),
-
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.1,
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      controller: _controller,
-                      decoration: const InputDecoration(
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color(0xFF0096C7), width: 2.0),
-                        ),
-                        // enabledBorder: OutlineInputBorder(
-                        //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
-                        // ),
-                        border: UnderlineInputBorder(),
-                        hintText: 'Amount',
-                      ),
+        padding: const EdgeInsets.only(
+          left: 10.0,
+          right: 10.0,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: MediaQuery.of(context).size.height / 30),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 1.1,
+                child: TextField(
+                  controller: _controller,
+                  decoration: const InputDecoration(
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color(0xFF0096C7), width: 2.0),
                     ),
+                    // enabledBorder: OutlineInputBorder(
+                    //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
+                    // ),
+                    border: UnderlineInputBorder(),
+                    hintText: 'Amount',
                   ),
-                  // Padding(
-                  //     padding: const EdgeInsets.all(8.0),
-                  //     child: Row(
-                  //       mainAxisAlignment: MainAxisAlignment.start,
-                  //       children: [
-                  //         Text(
-                              
-                  //             btnSubmit && !_controller.value.text.isNotEmpty
-                  //                 ? 'Name can not be empty'
-                  //                 : '',
-                  //             style: const TextStyle(color: Colors.red)),
-                  //       ],
-                  //     )),
-
-
-                
-                 SizedBox(height: MediaQuery.of(context).size.height / 30),
-
-              DropdownButtonFormField2(
-                decoration: InputDecoration(
-                  //Add isDense true and zero Padding.
-                  //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
-                  isDense: true,
-                  contentPadding: EdgeInsets.zero,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  //Add more decoration as you want here
-                  //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
                 ),
-                isExpanded: true,
-                hint: const Text(
-                  'Category',
-                  style: TextStyle(fontSize: 14),
-                ),
-                icon: const Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-                buttonHeight: 60,
-                buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-                dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                items: genderItems
-                    .map((item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                              fontSize: 14,
-                            ),
-                          ),
-                        ))
-                    .toList(),
-                // validator: (value) {
-                //   if (value == null) {
-                //     return 'Please select gender.';
-                //   }
-                // },
-                onChanged: (value) {
-                  //Do something when changing the item if you want.
-                },
-                onSaved: (value) {
-                  selectedValue = value.toString();
-                },
               ),
-
-              SizedBox(height: MediaQuery.of(context).size.height / 20),
-                 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: SizedBox(
-                      height: frameHeight / 17.0,
-                      width: double.infinity,
-                      child: FloatingActionButton.extended(
-                        elevation: 0.0,
-                        onPressed: () {
-                          setState(() {});
-                          if (_controller.value.text.isNotEmpty) {
-                            
-                            // Navigator.push(
-                            //     context,
-                            //     PageTransition(
-                            //         duration: const Duration(milliseconds: 700),
-                            //         reverseDuration:
-                            //             const Duration(milliseconds: 700),
-                            //         type:
-                            //             PageTransitionType.rightToLeftWithFade,
-                            //         child: Welcome(name:_controller.text)));
-                          }
-                        },
-                        label: const Text('Save'),
-                        // icon: const Icon(Icons.remove),
-                        backgroundColor: const Color(0xFF0096C7),
-                      ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 20.0),
+                child: SizedBox(
+                  height: frameHeight / 17.0,
+                  width: double.infinity,
+                  child: FloatingActionButton.extended(
+                    heroTag: null,
+                    elevation: 0.0,
+                    onPressed: () {
+                      _navigateAndDisplaySelection(context);
+                    },
+                    label: Text(
+                      categoryIsSet ? '$categoryName' : 'Select category',
+                      style: TextStyle(color: Colors.grey[700]),
                     ),
+                    // icon: const Icon(Icons.remove),
+                    backgroundColor: Colors.white,
                   ),
-                ],
+                ),
               ),
-            ),
+              // SizedBox(height: MediaQuery.of(context).size.height / 30),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+                child: SizedBox(
+                  height: frameHeight / 17.0,
+                  width: double.infinity,
+                  child: FloatingActionButton.extended(
+                    heroTag: null,
+                    elevation: 0.0,
+                    onPressed: () async {
+                      setState(() {});
+                      FocusManager.instance.primaryFocus?.unfocus();
+
+                      if (_controller.value.text.isNotEmpty) {
+                        addEntry(accessToken);
+                      }
+
+                      await Future.delayed(const Duration(seconds: 1));
+                      Navigator.pop(context);
+                    },
+                    label: const Text('Save'),
+                    // icon: const Icon(Icons.remove),
+                    backgroundColor: const Color(0xFF0096C7),
+                  ),
+                ),
+              ),
+            ],
           ),
+        ),
+      ),
     );
   }
 }

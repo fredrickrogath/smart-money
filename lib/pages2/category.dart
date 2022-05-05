@@ -163,6 +163,7 @@ class _CategoryState extends State<Category> {
       getIncome(accessToken);
       getExpense(accessToken);
     });
+    print(accessToken);
   }
 
   @override
