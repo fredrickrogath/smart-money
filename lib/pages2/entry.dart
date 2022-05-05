@@ -28,6 +28,8 @@ class _EntryState extends State<Entry> {
 
   var budgetId;
 
+  var balance;
+
   var entries = [];
 
   getFormatedDate(_date) {
@@ -68,7 +70,9 @@ class _EntryState extends State<Entry> {
     var response = await http.post(url, headers: requestHeaders);
     if (response.statusCode == 200) {
       entries = jsonDecode(response.body)['data'];
-      // print(entries);
+
+      balance = jsonDecode(response.body)['balance'];
+      print(balance);
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -221,62 +225,73 @@ class _EntryState extends State<Entry> {
 
               SizedBox(
                 height: 370.0,
-                child: ListView.builder(
-                  physics: const AlwaysScrollableScrollPhysics(
-                  parent: BouncingScrollPhysics()),
-                    itemCount: entries.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      // print(entries[index]['created_at']);
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Card(
-                          elevation: 2,
-                          shape: const Border(
-                              left: BorderSide(color: Colors.blue, width: 5),
-                              right: BorderSide(color: Colors.blue, width: 5)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
+                child: entries.isEmpty
+                    ? Center(
+                        child: Text(
+                        'No entry added',
+                        style: TextStyle(color: Colors.grey[700]),
+                      ))
+                    : ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(
+                            parent: BouncingScrollPhysics()),
+                        itemCount: entries.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          // print(entries[index]['created_at']);
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Card(
+                              elevation: 2,
+                              shape: const Border(
+                                  left:
+                                      BorderSide(color: Colors.blue, width: 5),
+                                  right:
+                                      BorderSide(color: Colors.blue, width: 5)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text(
-                                          '${entries[index]['category_name']}'),
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 8.0),
+                                          child: Text(
+                                              '${entries[index]['category_name']}'),
+                                        ),
+                                        // Text(
+                                        //   getFormatedDate(
+                                        //       '2021-05-27 9:34:12.781341'),
+                                        // )
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(getFormatedDate(
+                                              entries[index]['created_at'])),
+                                        )
+                                        // Text('${DateFormat('dd/MM/yyyy HH:mm').format(entries[index]['created_at'])})')
+                                      ],
                                     ),
-                                    // Text(
-                                    //   getFormatedDate(
-                                    //       '2021-05-27 9:34:12.781341'),
-                                    // )
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(getFormatedDate(
-                                          entries[index]['created_at'])),
-                                    )
-                                    // Text('${DateFormat('dd/MM/yyyy HH:mm').format(entries[index]['created_at'])})')
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 8.0),
+                                          child: Text(
+                                              '${entries[index]['amount']}'),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text('balance'),
+                                        )
+                                      ],
+                                    ),
                                   ],
                                 ),
-                                Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child:
-                                          Text('${entries[index]['amount']}'),
-                                    ),
-                                    const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text('balance'),
-                                    )
-                                  ],
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    }),
+                          );
+                        }),
               ),
 
               // SizedBox(height: MediaQuery.of(context).size.height / 20),
@@ -341,13 +356,14 @@ class _EntryState extends State<Entry> {
                     elevation: 0.0,
                     onPressed: () {
                       Navigator.push(
-                          context,
-                          PageTransition(
-                              duration: const Duration(milliseconds: 400),
-                              reverseDuration:
-                                  const Duration(milliseconds: 400),
-                              type: PageTransitionType.rightToLeftWithFade,
-                              child: const InEntry()));
+                              context,
+                              PageTransition(
+                                  duration: const Duration(milliseconds: 400),
+                                  reverseDuration:
+                                      const Duration(milliseconds: 400),
+                                  type: PageTransitionType.rightToLeftWithFade,
+                                  child: const InEntry()))
+                          .whenComplete(refresh);
                     },
                     label: const Text('Cash In'),
                     icon: const Icon(Icons.add),

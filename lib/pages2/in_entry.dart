@@ -32,7 +32,7 @@ class _InEntryState extends State<InEntry> {
 
   var budgetId;
 
-  final _formKey = GlobalKey<FormState>();
+  // final _formKey = GlobalKey<FormState>();
 
   String? selectedValue;
 
@@ -125,7 +125,7 @@ class _InEntryState extends State<InEntry> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Cash In Entry'),
+        title:const  Text('Add Cash In Entry'),
       ),
       body: Padding(
         padding: const EdgeInsets.only(
