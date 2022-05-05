@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -27,6 +28,10 @@ class _InEntryState extends State<InEntry> {
 
   var categoryName;
 
+  bool categoryIsSet = false;
+
+  var budgetId;
+
   final _formKey = GlobalKey<FormState>();
 
   String? selectedValue;
@@ -36,14 +41,25 @@ class _InEntryState extends State<InEntry> {
       context,
       MaterialPageRoute(builder: (context) => CategoryLists()),
     );
-    categoryId = result[0];
+    categoryId = result[1];
 
-    categoryName = result[1];
+    categoryName = result[0];
+
+    categoryIsSet = true;
+
+    setState(() {
+      
+    });
   }
 
   getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('access_token');
+  }
+
+  getBudgetId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('budgetId');
   }
 
   void addEntry(token) async {
@@ -52,10 +68,10 @@ class _InEntryState extends State<InEntry> {
       '/api/addEntry',
       {
         'amount': _controller.text,
-        'type': _controller.text,
-        'category_id': _controller.text,
-        'category_name': _controller.text,
-        'budget_id': _controller.text,
+        'type': 'in',
+        'category_id': categoryId,
+        'category_name': categoryName,
+        'budget_id': budgetId,
       },
     );
 
@@ -74,7 +90,7 @@ class _InEntryState extends State<InEntry> {
       // categoryLIst = Map<String, dynamic>.from(json.decode(response.body))['data'].cast<String>();
       print(res);
     } else {
-      print('Request failed with status: ${response.statusCode}.');
+      print('Request failed with status: ${response.request}.');
     }
 
     setState(() {});
@@ -86,6 +102,10 @@ class _InEntryState extends State<InEntry> {
       accessToken = value;
       // getCategories(accessToken);
       // getExpense(accessToken);
+    });
+    getBudgetId().then((value) {
+      budgetId = value;
+      print('budget id is :' + budgetId);
     });
   }
 
@@ -144,7 +164,7 @@ class _InEntryState extends State<InEntry> {
                       _navigateAndDisplaySelection(context);
                     },
                     label: Text(
-                      'Select category',
+                      categoryIsSet ? '$categoryName' : 'Select category',
                       style: TextStyle(color: Colors.grey[700]),
                     ),
                     // icon: const Icon(Icons.remove),
@@ -164,7 +184,10 @@ class _InEntryState extends State<InEntry> {
                     elevation: 0.0,
                     onPressed: () {
                       setState(() {});
+                     
                       if (_controller.value.text.isNotEmpty) {
+                         addEntry(accessToken);
+
                         // Navigator.push(
                         //     context,
                         //     PageTransition(
@@ -174,6 +197,7 @@ class _InEntryState extends State<InEntry> {
                         //         type:
                         //             PageTransitionType.rightToLeftWithFade,
                         //         child: CategoryLists()));
+                         Navigator.pop(context);
                       }
                     },
                     label: const Text('Save'),

@@ -57,7 +57,7 @@ class _BudgetState extends State<Budget> {
       var res = jsonDecode(response.body);
       proceed = true;
       budgetId = res['budget_id'].toString();
-      print(budgetId);
+      print('budget id is :' + budgetId);
       saveBudgetId(budgetId);
     } else {
       print('Request failed with status: ${response.statusCode}.');
@@ -71,10 +71,10 @@ class _BudgetState extends State<Budget> {
 
   saveBudgetId(budgetId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('budgetId', budgetId);
+    prefs.setString('budgetId', budgetId);
   }
 
- final List<Element> _elements = <Element>[
+  final List<Element> _elements = <Element>[
     Element(DateTime(2020, 6, 24, 18), 'Budget 10', Icons.money),
     Element(DateTime(2020, 6, 24, 9), 'Budget 11', Icons.money),
     Element(DateTime(2020, 6, 25, 8), 'Budget 12', Icons.money),
