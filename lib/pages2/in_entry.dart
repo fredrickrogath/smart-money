@@ -86,11 +86,7 @@ class _InEntryState extends State<InEntry> {
     // Await the http get response, then decode the json-formatted response.
     var response = await http.post(url, headers: requestHeaders);
     if (response.statusCode == 200) {
-      // categories = jsonDecode(response.body)['data'];
       var res = json.decode(response.body);
-      // categories.cast<String>();
-      // categoryLIst = Map<String, dynamic>.from(json.decode(response.body))['data'].cast<String>();
-      print(res);
     } else {
       print('Request failed with status: ${response.request}.');
     }
@@ -125,7 +121,7 @@ class _InEntryState extends State<InEntry> {
 
     return Scaffold(
       appBar: AppBar(
-        title:const  Text('Add Cash In Entry'),
+        title: const Text('Add Cash In Entry'),
       ),
       body: Padding(
         padding: const EdgeInsets.only(

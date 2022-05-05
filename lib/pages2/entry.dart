@@ -72,7 +72,7 @@ class _EntryState extends State<Entry> {
       entries = jsonDecode(response.body)['data'];
 
       balance = jsonDecode(response.body)['balance'];
-      print(balance);
+      print(entries);
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -280,9 +280,9 @@ class _EntryState extends State<Entry> {
                                           child: Text(
                                               '${entries[index]['amount']}'),
                                         ),
-                                        const Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Text('balance'),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text( 'Balance Tsh ${entries[index]['balance']}'),
                                         )
                                       ],
                                     ),
