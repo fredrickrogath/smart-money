@@ -2,12 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartmoney/app_bar.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+// import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:smartmoney/domain/domain.dart';
 import 'package:smartmoney/pages2/in_entry.dart';
-import 'package:smartmoney/pages2/out_entry.dart';
+// import 'package:smartmoney/pages2/out_entry.dart';
+
+import 'package:http/http.dart' as http;
 
 class Entry extends StatefulWidget {
   final String budgetId;
@@ -20,10 +24,78 @@ class Entry extends StatefulWidget {
 class _EntryState extends State<Entry> {
   double frameHeight = 0;
 
+  var accessToken;
+
+  var budgetId;
+
+  var entries = [];
+
+  getFormatedDate(_date) {
+    var str = _date;
+    var newStr = str.substring(0, 10) + ' ' + str.substring(11, 23);
+    var inputFormat = DateFormat('yyyy-MM-dd HH:mm');
+    var inputDate = inputFormat.parse(newStr);
+    var outputFormat = DateFormat('MM/dd/yyyy hh:mm a');
+    return outputFormat.format(inputDate);
+  }
+
+  getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('access_token');
+  }
+
+  getBudgetId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('budgetId');
+  }
+
+  void getEntries(token) async {
+    var url = Uri.http(
+      domain,
+      '/api/getEntries',
+      {
+        'budget_id': budgetId,
+      },
+    );
+
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    // Await the http get response, then decode the json-formatted response.
+    var response = await http.post(url, headers: requestHeaders);
+    if (response.statusCode == 200) {
+      entries = jsonDecode(response.body)['data'];
+      // print(entries);
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+
+    setState(() {});
+  }
+
+  refresh() {
+    getToken().then((value) {
+      // await Future.delayed(const Duration(seconds: 2));
+      accessToken = value;
+      print('token: ' + accessToken);
+      // getCategories(accessToken);
+      // getExpense(accessToken);
+    });
+    getBudgetId().then((value) {
+      budgetId = value;
+      print('budget id is :' + budgetId);
+    });
+
+    getEntries(accessToken);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
-    print(widget.budgetId);
+    refresh();
     super.initState();
   }
 
@@ -145,20 +217,65 @@ class _EntryState extends State<Entry> {
                 ),
               ),
 
-              SizedBox(height: MediaQuery.of(context).size.height / 30),
+              const SizedBox(height: 10),
 
               SizedBox(
-                height: 200.0,
+                height: 370.0,
                 child: ListView.builder(
-                    itemCount: 1,
+                  physics: const AlwaysScrollableScrollPhysics(
+                  parent: BouncingScrollPhysics()),
+                    itemCount: entries.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                          leading: const Icon(Icons.list),
-                          trailing: const Text(
-                            "GFG",
-                            style: TextStyle(color: Colors.green, fontSize: 15),
+                      // print(entries[index]['created_at']);
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Card(
+                          elevation: 2,
+                          shape: const Border(
+                              left: BorderSide(color: Colors.blue, width: 5),
+                              right: BorderSide(color: Colors.blue, width: 5)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text(
+                                          '${entries[index]['category_name']}'),
+                                    ),
+                                    // Text(
+                                    //   getFormatedDate(
+                                    //       '2021-05-27 9:34:12.781341'),
+                                    // )
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(getFormatedDate(
+                                          entries[index]['created_at'])),
+                                    )
+                                    // Text('${DateFormat('dd/MM/yyyy HH:mm').format(entries[index]['created_at'])})')
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child:
+                                          Text('${entries[index]['amount']}'),
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text('balance'),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                          title: Text("List item $index"));
+                        ),
+                      );
                     }),
               ),
 
@@ -179,7 +296,7 @@ class _EntryState extends State<Entry> {
               //   size: 40.0,
               // ),
 
-              // SizedBox(height: MediaQuery.of(context).size.height / 30),
+              const SizedBox(height: 10.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -243,14 +360,15 @@ class _EntryState extends State<Entry> {
                     heroTag: null,
                     elevation: 0.0,
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          PageTransition(
-                              duration: const Duration(milliseconds: 400),
-                              reverseDuration:
-                                  const Duration(milliseconds: 400),
-                              type: PageTransitionType.rightToLeftWithFade,
-                              child: const outEntry()));
+                      refresh();
+                      // Navigator.push(
+                      //     context,
+                      //     PageTransition(
+                      //         duration: const Duration(milliseconds: 400),
+                      //         reverseDuration:
+                      //             const Duration(milliseconds: 400),
+                      //         type: PageTransitionType.rightToLeftWithFade,
+                      //         child: const outEntry()));
                     },
                     label: const Text('Cash Out'),
                     icon: const Icon(Icons.remove),
