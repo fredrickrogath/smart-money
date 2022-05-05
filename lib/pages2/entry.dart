@@ -72,7 +72,6 @@ class _EntryState extends State<Entry> {
       entries = jsonDecode(response.body)['data'];
 
       balance = jsonDecode(response.body)['balance'];
-      print(entries);
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -147,20 +146,20 @@ class _EntryState extends State<Entry> {
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text(
+                            children: [
+                             const  Text(
                                 'Net balance',
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 117, 117, 117),
                                     fontSize: 16,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.w400),
                               ),
                               Text(
-                                '0',
-                                style: TextStyle(
+                                '$balance',
+                                style:const TextStyle(
                                     color: Color.fromARGB(255, 117, 117, 117),
                                     fontSize: 20.0,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.w400),
                               )
                             ]),
                       ),
@@ -183,12 +182,12 @@ class _EntryState extends State<Entry> {
                                         color:
                                             Color.fromARGB(255, 117, 117, 117),
                                         fontSize: 16.0,
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.w400)),
                                 Text('0',
                                     style: TextStyle(
                                         color: Color(0xFF337A6F),
                                         fontSize: 16.0,
-                                        fontWeight: FontWeight.bold))
+                                        fontWeight: FontWeight.w400))
                               ]),
                         ),
                       ),
@@ -207,12 +206,12 @@ class _EntryState extends State<Entry> {
                                         color:
                                             Color.fromARGB(255, 117, 117, 117),
                                         fontSize: 17.0,
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.w400)),
                                 Text('0',
                                     style: TextStyle(
                                         color: Color(0xffDB575B),
                                         fontSize: 17.0,
-                                        fontWeight: FontWeight.bold))
+                                        fontWeight: FontWeight.w400))
                               ]),
                         ),
                       ),

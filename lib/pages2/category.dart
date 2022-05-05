@@ -54,6 +54,7 @@ class _CategoryState extends State<Category> {
     var response = await http.post(url, headers: requestHeaders);
     if (response.statusCode == 200) {
       expenseCategories = jsonDecode(response.body)['data'];
+      print(expenseCategories);
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -334,7 +335,7 @@ class _CategoryState extends State<Category> {
                                               width: double.infinity,
                                               child:
                                                   FloatingActionButton.extended(
-                                                    heroTag: null,
+                                                heroTag: null,
                                                 elevation: 0.0,
                                                 onPressed: () {
                                                   addCategory(
@@ -746,7 +747,6 @@ class _CategoryState extends State<Category> {
                       child: FloatingActionButton.extended(
                         heroTag: null,
                         onPressed: () {
-                          print(widget.budgetId);
                           Navigator.push(
                               context,
                               PageTransition(
