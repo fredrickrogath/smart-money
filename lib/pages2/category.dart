@@ -771,7 +771,7 @@ class _CategoryState extends State<Category> {
                                         const Duration(milliseconds: 700),
                                     type:
                                         PageTransitionType.rightToLeftWithFade,
-                                    child: Entry(budgetId: widget.budgetId)));
+                                    child: const Entry()));
                           },
                           label: const Text('Done'),
                           icon: const Icon(Icons.forward),

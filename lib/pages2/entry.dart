@@ -15,8 +15,9 @@ import 'package:http/http.dart' as http;
 import 'package:smartmoney/pages2/out_entry.dart';
 
 class Entry extends StatefulWidget {
-  final String budgetId;
-  const Entry({Key? key, required this.budgetId}) : super(key: key);
+  const Entry({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<Entry> createState() => _EntryState();
@@ -145,17 +146,16 @@ class _EntryState extends State<Entry> {
       // await Future.delayed(const Duration(seconds: 2));
       accessToken = value;
       print('token: ' + accessToken);
-      // getCategories(accessToken);
-      // getExpense(accessToken);
-    });
-    getBudgetId().then((value) {
-      budgetId = value;
-      print('budget id is :' + budgetId);
-    });
 
-    getEntries(accessToken);
-    totalInFn(accessToken);
-    totalOutFn(accessToken);
+      getBudgetId().then((value) {
+        budgetId = value;
+        print('budget id is :' + budgetId);
+
+        getEntries(accessToken);
+        totalInFn(accessToken);
+        totalOutFn(accessToken);
+      });
+    });
   }
 
   @override
@@ -398,7 +398,7 @@ class _EntryState extends State<Entry> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left:8.0),
+                    padding: const EdgeInsets.only(left: 8.0),
                     child: Row(
                       children: const [
                         Text('Record ',
@@ -415,7 +415,7 @@ class _EntryState extends State<Entry> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(right:45.0),
+                    padding: const EdgeInsets.only(right: 45.0),
                     child: Row(
                       children: const [
                         Text('Record ',
@@ -437,63 +437,71 @@ class _EntryState extends State<Entry> {
               SizedBox(height: MediaQuery.of(context).size.height / 80),
 
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal:6.0),
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  SizedBox(
-                      width: 150.0,
-                      height: frameHeight / 20,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          onPrimary: Colors.white,
-                          primary: Colors.green,
-                          minimumSize: const Size(88, 36),
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(2)),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      duration: const Duration(milliseconds: 400),
-                                      reverseDuration:
-                                          const Duration(milliseconds: 400),
-                                      type:
-                                          PageTransitionType.rightToLeftWithFade,
-                                      child: const InEntry()))
-                              .whenComplete(refresh);
-                        },
-                        child: const Text('Cash In'),
-                      )),
-                  SizedBox(
-                      width: 150.0,
-                      height: frameHeight / 20,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          onPrimary: Colors.white,
-                          primary: Colors.red,
-                          minimumSize: const Size(88, 36),
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(2)),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      duration: const Duration(milliseconds: 400),
-                                      reverseDuration:
-                                          const Duration(milliseconds: 400),
-                                      type:
-                                          PageTransitionType.rightToLeftWithFade,
-                                      child: const outEntry()))
-                              .whenComplete(refresh);
-                        },
-                        child: const Text('Cash Out'),
-                      )),
-                ]),
+                padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                          width: 150.0,
+                          height: frameHeight / 20,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              onPrimary: Colors.white,
+                              primary: Colors.green,
+                              minimumSize: const Size(88, 36),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2)),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                      context,
+                                      PageTransition(
+                                          duration:
+                                              const Duration(milliseconds: 400),
+                                          reverseDuration:
+                                              const Duration(milliseconds: 400),
+                                          type: PageTransitionType
+                                              .rightToLeftWithFade,
+                                          child: const InEntry()))
+                                  .whenComplete(refresh);
+                            },
+                            child: const Text('Cash In'),
+                          )),
+                      SizedBox(
+                          width: 150.0,
+                          height: frameHeight / 20,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              onPrimary: Colors.white,
+                              primary: Colors.red,
+                              minimumSize: const Size(88, 36),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2)),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                      context,
+                                      PageTransition(
+                                          duration:
+                                              const Duration(milliseconds: 400),
+                                          reverseDuration:
+                                              const Duration(milliseconds: 400),
+                                          type: PageTransitionType
+                                              .rightToLeftWithFade,
+                                          child: const outEntry()))
+                                  .whenComplete(refresh);
+                            },
+                            child: const Text('Cash Out'),
+                          )),
+                    ]),
               )
             ],
           ),

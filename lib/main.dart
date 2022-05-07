@@ -29,12 +29,17 @@ import 'package:smartmoney/themes/primary_swatch.dart';
 import 'home_page.dart';
 // import 'package:smartmoney/pages/auth/login_page.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var isLogin = prefs.getBool('isLogin');
+  print('hello $isLogin');
+  runApp(MyApp(isLogin: isLogin));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final bool? isLogin;
+  const MyApp({Key? key, required this.isLogin}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -54,7 +59,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: MaterialColor(0xFF0096C7, color),
       ),
-      home: const MyHomePage(title: 'Smart Money'),
+      home: isLogin == true ? const MyHomePage(title: 'Smart Money'): const Entry(),
       initialRoute: '/',
       routes: {
         // When navigating to the "/homePage" route, build the homePage widget.
@@ -89,8 +94,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-   var budgetId;
+  var budgetId;
 
   isLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -105,25 +109,26 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     // TODO: implement initState
-    getBudgetId().then((value) {
-      budgetId = value;
-      print(budgetId);
-    });
+    // getBudgetId().then((value) {
+    //   budgetId = value;
+    //   print(budgetId);
+    // });
 
-    isLogin().then((value) {
-      print('is login : $value');
-      if (value.isNotEmpty()) {
-        // Navigator.push(
-        //     context,
-        //     PageTransition(
-        //         duration: const Duration(milliseconds: 700),
-        //         reverseDuration: const Duration(milliseconds: 700),
-        //         type: PageTransitionType.rightToLeftWithFade,
-        //         child: Entry(budgetId: budgetId)));
-      }
-    });
+    // isLogin().then((value) {
+    //   print('is login : $value');
+    //   if (value.isNotEmpty()) {
+    //     // Navigator.push(
+    //     //     context,
+    //     //     PageTransition(
+    //     //         duration: const Duration(milliseconds: 700),
+    //     //         reverseDuration: const Duration(milliseconds: 700),
+    //     //         type: PageTransitionType.rightToLeftWithFade,
+    //     //         child: Entry(budgetId: budgetId)));
+    //   }
+    // });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -148,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                 ),
-              SizedBox(
+                SizedBox(
                   height: MediaQuery.of(context).size.height / 15.0,
                 ),
                 CircleAvatar(

@@ -72,23 +72,6 @@ class _BudgetState extends State<Budget> {
     prefs.setString('budgetId', budgetId);
   }
 
-  // final List<Element> _elements = <Element>[
-  //   Element(DateTime(2020, 6, 24, 18), 'Budget 10', Icons.money),
-  //   Element(DateTime(2020, 6, 24, 9), 'Budget 11', Icons.money),
-  //   Element(DateTime(2020, 6, 25, 8), 'Budget 12', Icons.money),
-  //   Element(DateTime(2020, 6, 25, 16), 'Budget 3', Icons.money),
-  //   Element(DateTime(2020, 6, 25, 20), 'Budget 14', Icons.money),
-  //   Element(DateTime(2020, 6, 26, 12), 'Budget 1', Icons.money),
-  //   Element(DateTime(2020, 6, 27, 12), 'Budget 2', Icons.money),
-  //   Element(DateTime(2020, 6, 27, 13), 'Budget 3', Icons.money),
-  //   Element(DateTime(2020, 6, 27, 14), 'Budget 4', Icons.money),
-  //   Element(DateTime(2020, 6, 27, 15), 'Budget 5', Icons.money),
-  //   Element(DateTime(2020, 6, 28, 12), 'Budget 6', Icons.money),
-  //   Element(DateTime(2020, 6, 29, 12), 'Budget 7', Icons.money),
-  //   Element(DateTime(2020, 6, 29, 12), 'Budget 8', Icons.money),
-  //   Element(DateTime(2020, 6, 30, 12), 'Budget 9', Icons.money),
-  // ];
-
   @override
   void initState() {
     // TODO: implement initState

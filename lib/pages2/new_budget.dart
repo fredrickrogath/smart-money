@@ -69,7 +69,6 @@ class _NewBudgetState extends State<NewBudget> {
       proceed = true;
       budgetId = res['budget_id'].toString();
       print('budget id is :' + budgetId);
-      saveBudgetId(budgetId);
 
       name.text = '';
       dateStart.text = '';
@@ -83,9 +82,9 @@ class _NewBudgetState extends State<NewBudget> {
     var url = Uri.http(
       domain,
       '/api/budgetList',
-      {
-        'budget_id': budgetId,
-      },
+      // {
+      //   'budget_id': budgetId,
+      // },
     );
 
     Map<String, String> requestHeaders = {
@@ -111,25 +110,19 @@ class _NewBudgetState extends State<NewBudget> {
     return prefs.getString('access_token');
   }
 
-  saveBudgetId(budgetId) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('budgetId', budgetId);
-  }
+  // saveBudgetId(budgetId) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString('budgetId', budgetId);
+  // }
 
   refresh() {
     getToken().then((value) {
       // await Future.delayed(const Duration(seconds: 2));
       accessToken = value;
       print('token: ' + accessToken);
-      // getCategories(accessToken);
-      // getExpense(accessToken);
-    });
 
-    createBudget(accessToken);
-    budgetList(accessToken);
-
-    setState(() {
-      
+      createBudget(accessToken);
+      budgetList(accessToken);
     });
   }
 
@@ -179,7 +172,9 @@ class _NewBudgetState extends State<NewBudget> {
                 ),
                 body: Column(
                   children: [
-                   const SizedBox(height: 5.0,),
+                    const SizedBox(
+                      height: 5.0,
+                    ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 3.0),
@@ -199,7 +194,7 @@ class _NewBudgetState extends State<NewBudget> {
                               transitionDuration:
                                   const Duration(milliseconds: 500),
                               openBuilder: (context, action) {
-                                return const budgetDetails();
+                                return budgetDetails(budgetId: (budgets[i]['id']).toString(), budgetName: budgets[i]['name'],);
                               },
                               closedBuilder: (context, action) {
                                 return SizedBox(
@@ -212,7 +207,8 @@ class _NewBudgetState extends State<NewBudget> {
                                         right: BorderSide(
                                             color: Colors.blue, width: 5)),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal:8.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
                                       child: Column(
                                         children: [
                                           Padding(
@@ -220,14 +216,16 @@ class _NewBudgetState extends State<NewBudget> {
                                                 vertical: 8.0, horizontal: 8.0),
                                             child: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text('${budgets[i]['name']}',
                                                     style: const TextStyle(
                                                       fontSize: 15.0,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                     )),
-                                               const Text('')
+                                                const Text('')
                                               ],
                                             ),
                                           ),
@@ -236,11 +234,12 @@ class _NewBudgetState extends State<NewBudget> {
                                                 vertical: 4.0, horizontal: 8.0),
                                             child: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                Text('${getFormatedDate(
-                                                budgets[i]['created_at'])}'),
-                                               const  Text('03-03-22')
+                                                Text(
+                                                    '${getFormatedDate(budgets[i]['created_at'])}'),
+                                                const Text('03-03-22')
                                               ],
                                             ),
                                           ),
