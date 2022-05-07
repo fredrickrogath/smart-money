@@ -1,7 +1,9 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartmoney/pages2/budget.dart';
+import 'package:smartmoney/pages2/entry.dart';
 import 'package:smartmoney/pages2/welcome.dart';
 
 class Name extends StatefulWidget {
@@ -14,9 +16,13 @@ class Name extends StatefulWidget {
 class _NameState extends State<Name> {
   final _controller = TextEditingController();
   bool btnSubmit = false;
+ 
 
   double frameHeight = 0;
   double frameWidth = 0;
+
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +82,6 @@ class _NameState extends State<Name> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                              
                               btnSubmit && !_controller.value.text.isNotEmpty
                                   ? 'Name can not be empty'
                                   : '',
@@ -119,7 +124,6 @@ class _NameState extends State<Name> {
                           btnSubmit = true;
                           setState(() {});
                           if (_controller.value.text.isNotEmpty) {
-                            
                             Navigator.push(
                                 context,
                                 PageTransition(
@@ -128,7 +132,7 @@ class _NameState extends State<Name> {
                                         const Duration(milliseconds: 700),
                                     type:
                                         PageTransitionType.rightToLeftWithFade,
-                                    child: Welcome(name:_controller.text)));
+                                    child: Welcome(name: _controller.text)));
                           }
                         },
                         label: const Text('Submit'),

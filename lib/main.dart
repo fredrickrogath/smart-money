@@ -1,6 +1,7 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartmoney/pages/auth/login_page.dart';
 import 'package:smartmoney/pages/auth/registration_page.dart';
 import 'package:smartmoney/pages/budget/create_budget.dart';
@@ -88,6 +89,41 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+   var budgetId;
+
+  isLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('isLogin');
+  }
+
+  getBudgetId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('budgetId');
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getBudgetId().then((value) {
+      budgetId = value;
+      print(budgetId);
+    });
+
+    isLogin().then((value) {
+      print('is login : $value');
+      if (value.isNotEmpty()) {
+        // Navigator.push(
+        //     context,
+        //     PageTransition(
+        //         duration: const Duration(milliseconds: 700),
+        //         reverseDuration: const Duration(milliseconds: 700),
+        //         type: PageTransitionType.rightToLeftWithFade,
+        //         child: Entry(budgetId: budgetId)));
+      }
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(

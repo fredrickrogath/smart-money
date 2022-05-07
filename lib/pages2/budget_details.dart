@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class budgetDetails extends StatefulWidget {
   const budgetDetails({Key? key}) : super(key: key);
@@ -15,6 +16,40 @@ class _budgetDetailsState extends State<budgetDetails> {
       appBar: AppBar(),
       body: SingleChildScrollView(
         child: Column(children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CircularPercentIndicator(
+                  animationDuration: 2000,
+                  animation: true,
+                  radius: 60.0,
+                  lineWidth: 8.0,
+                  percent: 0.9,
+                  center: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const[
+                    Text("Saving"),
+                    Text("Tsh 4000")
+                  ],),
+                  progressColor: Colors.green,
+                ),
+                CircularPercentIndicator(
+                  animation: true,
+                  radius: 60.0,
+                  lineWidth: 8.0,
+                  percent: 0.08,
+                  center: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const[
+                    Text("Budget Spent"),
+                    Text("8%")
+                  ],),
+                  progressColor: Colors.red,
+                )
+              ],
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Row(
