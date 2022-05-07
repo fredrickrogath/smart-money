@@ -195,16 +195,16 @@ class _EntryState extends State<Entry> {
           ),
           child: Column(
             children: [
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               SizedBox(
                 width: double.infinity,
                 child: Card(
                   elevation: 0.7,
                   child: Column(children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 20,
+                      // height: MediaQuery.of(context).size.height / 35,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -221,7 +221,7 @@ class _EntryState extends State<Entry> {
                                     : '${(totalIn - totalOut)}',
                                 style: const TextStyle(
                                     color: Color.fromARGB(255, 117, 117, 117),
-                                    fontSize: 20.0,
+                                    fontSize: 16.0,
                                     fontWeight: FontWeight.w400),
                               )
                             ]),
@@ -232,9 +232,9 @@ class _EntryState extends State<Entry> {
                       thickness: 2.0,
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(horizontal:8.0),
                       child: SizedBox(
-                        height: MediaQuery.of(context).size.height / 20,
+                        // height: MediaQuery.of(context).size.height / 20,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
                           child: Row(
@@ -256,9 +256,9 @@ class _EntryState extends State<Entry> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(horizontal:8, vertical: 10.0),
                       child: SizedBox(
-                        height: MediaQuery.of(context).size.height / 20,
+                        // height: MediaQuery.of(context).size.height / 20,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
                           child: Row(
@@ -286,7 +286,7 @@ class _EntryState extends State<Entry> {
               const SizedBox(height: 10),
 
               SizedBox(
-                height: 390.0,
+                height: 340.0,
                 child: entries.isEmpty
                     ? Center(
                         child: Text(
@@ -300,59 +300,63 @@ class _EntryState extends State<Entry> {
                         itemBuilder: (BuildContext context, int index) {
                           // print(entries[index]['created_at']);
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Card(
-                              elevation: 2,
-                              shape: Border(
-                                  left: const BorderSide(
-                                      color: Colors.blue, width: 5),
-                                  right: BorderSide(
-                                      color: entries[index]['type'] == 'in'
-                                          ? Colors.green
-                                          : Colors.red,
-                                      width: 5)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: Text(
-                                              '${entries[index]['category_name']}'),
-                                        ),
-                                        // Text(
-                                        //   getFormatedDate(
-                                        //       '2021-05-27 9:34:12.781341'),
-                                        // )
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(getFormatedDate(
-                                              entries[index]['created_at'])),
-                                        )
-                                        // Text('${DateFormat('dd/MM/yyyy HH:mm').format(entries[index]['created_at'])})')
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: Text(
-                                              '${entries[index]['amount']}'),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                              'Balance Tsh ${entries[index]['balance']}'),
-                                        )
-                                      ],
-                                    ),
-                                  ],
+                            padding: const EdgeInsets.only(bottom: 0.0),
+                            child: SizedBox(height:70.0,
+                              child: Card(
+                                elevation: 2,
+                                shape: Border(
+                                    left: const BorderSide(
+                                        color: Colors.blue, width: 5),
+                                    right: BorderSide(
+                                        color: entries[index]['type'] == 'in'
+                                            ? Colors.green
+                                            : Colors.red,
+                                        width: 5)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 4.0),
+                                            child: Text(
+                                                '${entries[index]['category_name']}'),
+                                          ),
+                                          // Text(
+                                          //   getFormatedDate(
+                                          //       '2021-05-27 9:34:12.781341'),
+                                          // )
+                                          Padding(
+                                            padding: const EdgeInsets.only(top:4.0),
+                                            child: Text(getFormatedDate(
+                                                entries[index]['created_at'])),
+                                          )
+                                          // Text('${DateFormat('dd/MM/yyyy HH:mm').format(entries[index]['created_at'])})')
+                                        ],
+                                      ),
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 4.0),
+                                            child: Text(
+                                                '${entries[index]['amount']}'),
+                                          ),
+                                         const Padding(
+                                            padding: EdgeInsets.all(4.0),
+                                            child: Text(
+                                                'Time'),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
