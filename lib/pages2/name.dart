@@ -16,13 +16,8 @@ class Name extends StatefulWidget {
 class _NameState extends State<Name> {
   final _controller = TextEditingController();
   bool btnSubmit = false;
- 
-
   double frameHeight = 0;
   double frameWidth = 0;
-
-
- 
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +28,7 @@ class _NameState extends State<Name> {
       child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            toolbarHeight: frameHeight / 10,
+            toolbarHeight: frameHeight / 13,
             backgroundColor: const Color(0xFF0096C7),
             title: Column(
               children: const [

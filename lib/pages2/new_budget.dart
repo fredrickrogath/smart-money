@@ -127,6 +127,10 @@ class _NewBudgetState extends State<NewBudget> {
 
     createBudget(accessToken);
     budgetList(accessToken);
+
+    setState(() {
+      
+    });
   }
 
   @override

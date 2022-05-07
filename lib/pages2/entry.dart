@@ -295,7 +295,7 @@ class _EntryState extends State<Entry> {
               const SizedBox(height: 10),
 
               SizedBox(
-                height: 500.0,
+                height: 505.0,
                 child: entries.isEmpty
                     ? Center(
                         child: Text(
@@ -434,14 +434,14 @@ class _EntryState extends State<Entry> {
                 ],
               ),
 
-              SizedBox(height: MediaQuery.of(context).size.height / 60),
+              SizedBox(height: MediaQuery.of(context).size.height / 80),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal:6.0),
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                   SizedBox(
                       width: 150.0,
-                      height: frameHeight / 17,
+                      height: frameHeight / 20,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           onPrimary: Colors.white,
@@ -468,7 +468,7 @@ class _EntryState extends State<Entry> {
                       )),
                   SizedBox(
                       width: 150.0,
-                      height: frameHeight / 17,
+                      height: frameHeight / 20,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           onPrimary: Colors.white,

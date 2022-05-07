@@ -140,7 +140,7 @@ class _BudgetState extends State<Budget> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      SizedBox(height: MediaQuery.of(context).size.height / 40),
+                      SizedBox(height: MediaQuery.of(context).size.height / 50),
                       Center(
                           child: TextField(
                         style: const TextStyle(fontSize: 16.0),
@@ -179,7 +179,7 @@ class _BudgetState extends State<Budget> {
                           }
                         },
                       )),
-                      SizedBox(height: MediaQuery.of(context).size.height / 30),
+                      SizedBox(height: MediaQuery.of(context).size.height / 50),
                       Center(
                           child: TextField(
                         style: const TextStyle(fontSize: 16.0),
@@ -218,7 +218,7 @@ class _BudgetState extends State<Budget> {
                           }
                         },
                       )),
-                      SizedBox(height: MediaQuery.of(context).size.height / 30),
+                      SizedBox(height: MediaQuery.of(context).size.height / 50),
                       SizedBox(
                         // width: MediaQuery.of(context).size.width / 1.3,
                         // height: MediaQuery.of(context).size.height / 17,

@@ -183,7 +183,7 @@ class _CategoryState extends State<Category> {
           child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          toolbarHeight: frameHeight / 10,
+          toolbarHeight: frameHeight / 13,
           backgroundColor: const Color(0xFF0096C7),
           automaticallyImplyLeading: false,
           // leading: Padding(
