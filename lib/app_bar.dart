@@ -6,6 +6,7 @@ import 'package:smartmoney/pages2/budget_details.dart';
 // import 'package:smartmoney/pages2/entry.dart';
 import 'package:smartmoney/pages2/estimator.dart';
 import 'package:smartmoney/pages2/events.dart';
+import 'package:smartmoney/pages2/new_budget.dart';
 import 'package:smartmoney/pages2/payer.dart';
 
 class appBarr extends StatefulWidget {
@@ -33,7 +34,7 @@ class _appBarrState extends State<appBarr> {
           SizedBox(
             height: frameHeight / 15,
             child: ListTile(
-              leading: const Icon(Icons.home),
+              // leading: const Icon(Icons.home),
               title: const Text("Home",
                   style: TextStyle(color: Colors.black, fontSize: 16.0)),
               onTap: () {
@@ -52,13 +53,13 @@ class _appBarrState extends State<appBarr> {
             title: const Text("Budget",
                 style: TextStyle(color: Colors.black, fontSize: 16.0)),
             onTap: () {
-              // Navigator.push(
-              //     context,
-              //     PageTransition(
-              //         duration: const Duration(milliseconds: 600),
-              //         reverseDuration: const Duration(milliseconds: 600),
-              //         type: PageTransitionType.leftToRightWithFade,
-              //         child: const Budget()));
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      duration: const Duration(milliseconds: 600),
+                      reverseDuration: const Duration(milliseconds: 600),
+                      type: PageTransitionType.leftToRightWithFade,
+                      child: const NewBudget()));
             },
           ),
           ListTile(

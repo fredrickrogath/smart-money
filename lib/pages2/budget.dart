@@ -99,12 +99,14 @@ class _BudgetState extends State<Budget> {
   Widget build(BuildContext context) {
     frameHeight = MediaQuery.of(context).size.height;
 
-    return SafeArea(
-      child: Scaffold(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: SafeArea(
+          child: Scaffold(
               backgroundColor: Colors.white,
               appBar: AppBar(
                 centerTitle: true,
-                toolbarHeight: frameHeight / 10,
+                toolbarHeight: frameHeight / 13,
                 backgroundColor: const Color(0xFF0096C7),
                 automaticallyImplyLeading: false,
                 title: Column(
@@ -281,8 +283,7 @@ class _BudgetState extends State<Budget> {
                     ],
                   ),
                 ),
-              ))
-         
+              ))),
     );
   }
 }

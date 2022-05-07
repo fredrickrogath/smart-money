@@ -180,7 +180,7 @@ class _EntryState extends State<Entry> {
         endDrawer: const Drawer(child: appBarr()),
         appBar: AppBar(
           // centerTitle: true,
-          toolbarHeight: frameHeight / 10,
+          toolbarHeight: frameHeight / 13,
           backgroundColor: const Color(0xFF0096C7),
           leading: const Padding(
             padding: EdgeInsets.only(left: 10.0),
@@ -295,7 +295,7 @@ class _EntryState extends State<Entry> {
               const SizedBox(height: 10),
 
               SizedBox(
-                height: 480.0,
+                height: 500.0,
                 child: entries.isEmpty
                     ? Center(
                         child: Text(
@@ -395,135 +395,106 @@ class _EntryState extends State<Entry> {
 
               const SizedBox(height: 5.0),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: const [
-                      Text('Record ',
-                          style: TextStyle(
-                            // color: Color.fromARGB(255, 117, 117, 117),
-                            fontSize: 15.0,
-                          )),
-                      Text('Income',
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontSize: 15.0,
-                          ))
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(left:8.0),
+                    child: Row(
+                      children: const [
+                        Text('Record ',
+                            style: TextStyle(
+                              // color: Color.fromARGB(255, 117, 117, 117),
+                              fontSize: 15.0,
+                            )),
+                        Text('Income',
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontSize: 15.0,
+                            ))
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: const [
-                      Text('Record ',
-                          style: TextStyle(
-                            // color: Color.fromARGB(255, 117, 117, 117),
-                            fontSize: 15.0,
-                          )),
-                      Text('Expense',
-                          style: TextStyle(
-                            color: Color(0xffDB575B),
-                            fontSize: 15.0,
-                          ))
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(right:45.0),
+                    child: Row(
+                      children: const [
+                        Text('Record ',
+                            style: TextStyle(
+                              // color: Color.fromARGB(255, 117, 117, 117),
+                              fontSize: 15.0,
+                            )),
+                        Text('Expense',
+                            style: TextStyle(
+                              color: Color(0xffDB575B),
+                              fontSize: 15.0,
+                            ))
+                      ],
+                    ),
                   )
                 ],
               ),
 
               SizedBox(height: MediaQuery.of(context).size.height / 60),
 
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                SizedBox(
-                    width: 150.0,
-                    height: frameHeight / 17,
-                    child:
-                        // FloatingActionButton.extended(
-                        //   heroTag: null,
-                        //   elevation: 0.0,
-                        //   onPressed: () {
-                        //     Navigator.push(
-                        //             context,
-                        //             PageTransition(
-                        //                 duration: const Duration(milliseconds: 400),
-                        //                 reverseDuration:
-                        //                     const Duration(milliseconds: 400),
-                        //                 type: PageTransitionType.rightToLeftWithFade,
-                        //                 child: const outEntry()))
-                        //         .whenComplete(refresh);
-                        //   },
-                        //   label: const Text('Cash Out'),
-                        //   icon: const Icon(Icons.remove),
-                        //   backgroundColor: Colors.red,
-                        // ),
-                        ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        onPrimary: Colors.white70,
-                        primary: Colors.green,
-                        minimumSize: const Size(88, 36),
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(2)),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal:6.0),
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                  SizedBox(
+                      width: 150.0,
+                      height: frameHeight / 17,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          onPrimary: Colors.white,
+                          primary: Colors.green,
+                          minimumSize: const Size(88, 36),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2)),
+                          ),
                         ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                                context,
-                                PageTransition(
-                                    duration: const Duration(milliseconds: 400),
-                                    reverseDuration:
-                                        const Duration(milliseconds: 400),
-                                    type:
-                                        PageTransitionType.rightToLeftWithFade,
-                                    child: const InEntry()))
-                            .whenComplete(refresh);
-                      },
-                      child: const Text('Cash In'),
-                    )),
-                SizedBox(
-                    width: 150.0,
-                    height: frameHeight / 17,
-                    child:
-                        // FloatingActionButton.extended(
-                        //   heroTag: null,
-                        //   elevation: 0.0,
-                        //   onPressed: () {
-                        //     Navigator.push(
-                        //             context,
-                        //             PageTransition(
-                        //                 duration: const Duration(milliseconds: 400),
-                        //                 reverseDuration:
-                        //                     const Duration(milliseconds: 400),
-                        //                 type: PageTransitionType.rightToLeftWithFade,
-                        //                 child: const outEntry()))
-                        //         .whenComplete(refresh);
-                        //   },
-                        //   label: const Text('Cash Out'),
-                        //   icon: const Icon(Icons.remove),
-                        //   backgroundColor: Colors.red,
-                        // ),
-                        ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        onPrimary: Colors.white70,
-                        primary: Colors.red,
-                        minimumSize: const Size(88, 36),
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                        onPressed: () {
+                          Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      duration: const Duration(milliseconds: 400),
+                                      reverseDuration:
+                                          const Duration(milliseconds: 400),
+                                      type:
+                                          PageTransitionType.rightToLeftWithFade,
+                                      child: const InEntry()))
+                              .whenComplete(refresh);
+                        },
+                        child: const Text('Cash In'),
+                      )),
+                  SizedBox(
+                      width: 150.0,
+                      height: frameHeight / 17,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          onPrimary: Colors.white,
+                          primary: Colors.red,
+                          minimumSize: const Size(88, 36),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2)),
+                          ),
                         ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                                context,
-                                PageTransition(
-                                    duration: const Duration(milliseconds: 400),
-                                    reverseDuration:
-                                        const Duration(milliseconds: 400),
-                                    type:
-                                        PageTransitionType.rightToLeftWithFade,
-                                    child: const outEntry()))
-                            .whenComplete(refresh);
-                      },
-                      child: const Text('Cash Out'),
-                    )),
-              ])
+                        onPressed: () {
+                          Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      duration: const Duration(milliseconds: 400),
+                                      reverseDuration:
+                                          const Duration(milliseconds: 400),
+                                      type:
+                                          PageTransitionType.rightToLeftWithFade,
+                                      child: const outEntry()))
+                              .whenComplete(refresh);
+                        },
+                        child: const Text('Cash Out'),
+                      )),
+                ]),
+              )
             ],
           ),
         ),
