@@ -177,10 +177,8 @@ class _InEntryState extends State<InEntry> {
                 child: SizedBox(
                   height: frameHeight / 17.0,
                   width: double.infinity,
-                  child: FloatingActionButton.extended(
-                    heroTag: null,
-                    elevation: 0.0,
-                    onPressed: () async {
+                  child: ElevatedButton(
+                onPressed: () async {
                       setState(() {});
                       FocusManager.instance.primaryFocus?.unfocus();
 
@@ -191,12 +189,12 @@ class _InEntryState extends State<InEntry> {
                       await Future.delayed(const Duration(seconds: 1));
                       Navigator.pop(context);
                     },
-                    label: const Text('Save'),
-                    // icon: const Icon(Icons.remove),
-                    backgroundColor: const Color(0xFF0096C7),
-                  ),
+                child: const Text('Save'),
+                
+              )
                 ),
               ),
+              
             ],
           ),
         ),

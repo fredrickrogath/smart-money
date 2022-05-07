@@ -103,6 +103,7 @@ class _EntryState extends State<Entry> {
     var response = await http.post(url, headers: requestHeaders);
     if (response.statusCode == 200) {
       totalIn = jsonDecode(response.body)['data'];
+      totalIn == null ? totalIn = 0 : null;
       print(totalIn);
     } else {
       print('Request failed with status: ${response.statusCode}.');
@@ -130,6 +131,7 @@ class _EntryState extends State<Entry> {
     var response = await http.post(url, headers: requestHeaders);
     if (response.statusCode == 200) {
       totalOut = jsonDecode(response.body)['data'];
+      totalOut == null ? totalOut = 0 : null;
       print(totalOut);
     } else {
       print('Request failed with status: ${response.statusCode}.');
@@ -166,6 +168,13 @@ class _EntryState extends State<Entry> {
   @override
   Widget build(BuildContext context) {
     frameHeight = MediaQuery.of(context).size.height;
+
+    if (totalIn == null) {
+      totalIn = 0;
+    } else {
+      totalOut ??= 0;
+    }
+
     return SafeArea(
       child: Scaffold(
         endDrawer: const Drawer(child: appBarr()),
@@ -204,7 +213,8 @@ class _EntryState extends State<Entry> {
                     SizedBox(
                       // height: MediaQuery.of(context).size.height / 35,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 4.0),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -216,9 +226,7 @@ class _EntryState extends State<Entry> {
                                     fontWeight: FontWeight.w400),
                               ),
                               Text(
-                                totalIn == null || totalOut == null
-                                    ? '0.0'
-                                    : '${(totalIn - totalOut)}',
+                                '${(totalIn - totalOut)}',
                                 style: const TextStyle(
                                     color: Color.fromARGB(255, 117, 117, 117),
                                     fontSize: 16.0,
@@ -232,7 +240,7 @@ class _EntryState extends State<Entry> {
                       thickness: 2.0,
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal:8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: SizedBox(
                         // height: MediaQuery.of(context).size.height / 20,
                         child: Padding(
@@ -256,7 +264,8 @@ class _EntryState extends State<Entry> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal:8, vertical: 10.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 10.0),
                       child: SizedBox(
                         // height: MediaQuery.of(context).size.height / 20,
                         child: Padding(
@@ -286,7 +295,7 @@ class _EntryState extends State<Entry> {
               const SizedBox(height: 10),
 
               SizedBox(
-                height: 340.0,
+                height: 480.0,
                 child: entries.isEmpty
                     ? Center(
                         child: Text(
@@ -301,7 +310,8 @@ class _EntryState extends State<Entry> {
                           // print(entries[index]['created_at']);
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 0.0),
-                            child: SizedBox(height:70.0,
+                            child: SizedBox(
+                              height: 70.0,
                               child: Card(
                                 elevation: 2,
                                 shape: Border(
@@ -319,7 +329,8 @@ class _EntryState extends State<Entry> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Padding(
                                             padding:
@@ -332,7 +343,8 @@ class _EntryState extends State<Entry> {
                                           //       '2021-05-27 9:34:12.781341'),
                                           // )
                                           Padding(
-                                            padding: const EdgeInsets.only(top:4.0),
+                                            padding:
+                                                const EdgeInsets.only(top: 4.0),
                                             child: Text(getFormatedDate(
                                                 entries[index]['created_at'])),
                                           )
@@ -340,7 +352,8 @@ class _EntryState extends State<Entry> {
                                         ],
                                       ),
                                       Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Padding(
                                             padding:
@@ -348,10 +361,9 @@ class _EntryState extends State<Entry> {
                                             child: Text(
                                                 '${entries[index]['amount']}'),
                                           ),
-                                         const Padding(
+                                          const Padding(
                                             padding: EdgeInsets.all(4.0),
-                                            child: Text(
-                                                'Time'),
+                                            child: Text('Time'),
                                           )
                                         ],
                                       ),
@@ -381,7 +393,7 @@ class _EntryState extends State<Entry> {
               //   size: 40.0,
               // ),
 
-              const SizedBox(height: 10.0),
+              const SizedBox(height: 5.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -389,7 +401,7 @@ class _EntryState extends State<Entry> {
                     children: const [
                       Text('Record ',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 117, 117, 117),
+                            // color: Color.fromARGB(255, 117, 117, 117),
                             fontSize: 15.0,
                           )),
                       Text('Income',
@@ -403,7 +415,7 @@ class _EntryState extends State<Entry> {
                     children: const [
                       Text('Record ',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 117, 117, 117),
+                            // color: Color.fromARGB(255, 117, 117, 117),
                             fontSize: 15.0,
                           )),
                       Text('Expense',
@@ -418,49 +430,99 @@ class _EntryState extends State<Entry> {
 
               SizedBox(height: MediaQuery.of(context).size.height / 60),
 
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 SizedBox(
-                  height: frameHeight / 17,
-                  child: FloatingActionButton.extended(
-                    heroTag: null,
-                    elevation: 0.0,
-                    onPressed: () {
-                      Navigator.push(
-                              context,
-                              PageTransition(
-                                  duration: const Duration(milliseconds: 400),
-                                  reverseDuration:
-                                      const Duration(milliseconds: 400),
-                                  type: PageTransitionType.rightToLeftWithFade,
-                                  child: const InEntry()))
-                          .whenComplete(refresh);
-                    },
-                    label: const Text('Cash In'),
-                    icon: const Icon(Icons.add),
-                    backgroundColor: Colors.green,
-                  ),
-                ),
+                    width: 150.0,
+                    height: frameHeight / 17,
+                    child:
+                        // FloatingActionButton.extended(
+                        //   heroTag: null,
+                        //   elevation: 0.0,
+                        //   onPressed: () {
+                        //     Navigator.push(
+                        //             context,
+                        //             PageTransition(
+                        //                 duration: const Duration(milliseconds: 400),
+                        //                 reverseDuration:
+                        //                     const Duration(milliseconds: 400),
+                        //                 type: PageTransitionType.rightToLeftWithFade,
+                        //                 child: const outEntry()))
+                        //         .whenComplete(refresh);
+                        //   },
+                        //   label: const Text('Cash Out'),
+                        //   icon: const Icon(Icons.remove),
+                        //   backgroundColor: Colors.red,
+                        // ),
+                        ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        onPrimary: Colors.white70,
+                        primary: Colors.green,
+                        minimumSize: const Size(88, 36),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                                context,
+                                PageTransition(
+                                    duration: const Duration(milliseconds: 400),
+                                    reverseDuration:
+                                        const Duration(milliseconds: 400),
+                                    type:
+                                        PageTransitionType.rightToLeftWithFade,
+                                    child: const InEntry()))
+                            .whenComplete(refresh);
+                      },
+                      child: const Text('Cash In'),
+                    )),
                 SizedBox(
-                  height: frameHeight / 17,
-                  child: FloatingActionButton.extended(
-                    heroTag: null,
-                    elevation: 0.0,
-                    onPressed: () {
-                      Navigator.push(
-                              context,
-                              PageTransition(
-                                  duration: const Duration(milliseconds: 400),
-                                  reverseDuration:
-                                      const Duration(milliseconds: 400),
-                                  type: PageTransitionType.rightToLeftWithFade,
-                                  child: const outEntry()))
-                          .whenComplete(refresh);
-                    },
-                    label: const Text('Cash Out'),
-                    icon: const Icon(Icons.remove),
-                    backgroundColor: Colors.red,
-                  ),
-                ),
+                    width: 150.0,
+                    height: frameHeight / 17,
+                    child:
+                        // FloatingActionButton.extended(
+                        //   heroTag: null,
+                        //   elevation: 0.0,
+                        //   onPressed: () {
+                        //     Navigator.push(
+                        //             context,
+                        //             PageTransition(
+                        //                 duration: const Duration(milliseconds: 400),
+                        //                 reverseDuration:
+                        //                     const Duration(milliseconds: 400),
+                        //                 type: PageTransitionType.rightToLeftWithFade,
+                        //                 child: const outEntry()))
+                        //         .whenComplete(refresh);
+                        //   },
+                        //   label: const Text('Cash Out'),
+                        //   icon: const Icon(Icons.remove),
+                        //   backgroundColor: Colors.red,
+                        // ),
+                        ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        onPrimary: Colors.white70,
+                        primary: Colors.red,
+                        minimumSize: const Size(88, 36),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                                context,
+                                PageTransition(
+                                    duration: const Duration(milliseconds: 400),
+                                    reverseDuration:
+                                        const Duration(milliseconds: 400),
+                                    type:
+                                        PageTransitionType.rightToLeftWithFade,
+                                    child: const outEntry()))
+                            .whenComplete(refresh);
+                      },
+                      child: const Text('Cash Out'),
+                    )),
               ])
             ],
           ),
