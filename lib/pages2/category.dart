@@ -435,7 +435,8 @@ class _CategoryState extends State<Category> {
                         ),
                       ).show();
                     },
-                    child: SizedBox(height: 75.0,
+                    child: SizedBox(
+                      height: 75.0,
                       child: Card(
                         elevation: 2,
                         shape: const Border(
@@ -691,7 +692,8 @@ class _CategoryState extends State<Category> {
                         ),
                       ).show();
                     },
-                    child: SizedBox(height: 75.0,
+                    child: SizedBox(
+                      height: 75.0,
                       child: Card(
                         elevation: 2,
                         shape: const Border(
@@ -763,68 +765,72 @@ class _CategoryState extends State<Category> {
                     //       ]),
                     // ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: 
-                      SizedBox(
-                        width: 370.0,
-                        height: 40.0,
-                        child: ElevatedButton(
-                          // style: raisedButtonStyle,
-                          onPressed: () async {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            await Future.delayed(const Duration(seconds: 1));
-                         Navigator.push(
-                                context,
-                                PageTransition(
-                                    duration: const Duration(milliseconds: 700),
-                                    reverseDuration:
-                                        const Duration(milliseconds: 700),
-                                    type:
-                                        PageTransitionType.rightToLeftWithFade,
-                                    child: const Entry()));
-                          },
-                          child: isLoading
-                              ? Center(
-                                  child:
-                                      LoadingAnimationWidget.staggeredDotsWave(
-                                    color: Colors.white,
-                                    size: 30,
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: SizedBox(
+                          width: 370.0,
+                          height: 40.0,
+                          child: ElevatedButton(
+                            // style: raisedButtonStyle,
+                            onPressed: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              await Future.delayed(const Duration(seconds: 1));
+
+                              setState(() {
+                                isLoading = false;
+                              });
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      duration:
+                                          const Duration(milliseconds: 700),
+                                      reverseDuration:
+                                          const Duration(milliseconds: 700),
+                                      type: PageTransitionType
+                                          .rightToLeftWithFade,
+                                      child: const Entry()));
+                            },
+                            child: isLoading
+                                ? Center(
+                                    child: LoadingAnimationWidget
+                                        .staggeredDotsWave(
+                                      color: Colors.white,
+                                      size: 30,
+                                    ),
+                                  )
+                                : const Text(
+                                    'Done',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                )
-                              : const Text(
-                                  'Done',
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                          ),
+                        )
+                        // SizedBox(
+                        //   height: frameHeight / 15,
+                        //   child: FloatingActionButton.extended(
+                        //     heroTag: null,
+                        //     onPressed: () {
+                        //       Navigator.push(
+                        //           context,
+                        //           PageTransition(
+                        //               duration: const Duration(milliseconds: 700),
+                        //               reverseDuration:
+                        //                   const Duration(milliseconds: 700),
+                        //               type:
+                        //                   PageTransitionType.rightToLeftWithFade,
+                        //               child: const Entry()));
+                        //     },
+                        //     label: const Text('Done'),
+                        //     icon: const Icon(Icons.forward),
+                        //     backgroundColor: const Color(0xFF0096C7),
+                        //   ),
+                        // ),
                         ),
-                      )
-                      // SizedBox(
-                      //   height: frameHeight / 15,
-                      //   child: FloatingActionButton.extended(
-                      //     heroTag: null,
-                      //     onPressed: () {
-                      //       Navigator.push(
-                      //           context,
-                      //           PageTransition(
-                      //               duration: const Duration(milliseconds: 700),
-                      //               reverseDuration:
-                      //                   const Duration(milliseconds: 700),
-                      //               type:
-                      //                   PageTransitionType.rightToLeftWithFade,
-                      //               child: const Entry()));
-                      //     },
-                      //     label: const Text('Done'),
-                      //     icon: const Icon(Icons.forward),
-                      //     backgroundColor: const Color(0xFF0096C7),
-                      //   ),
-                      // ),
-                    ),
                   ])),
             )
           ],

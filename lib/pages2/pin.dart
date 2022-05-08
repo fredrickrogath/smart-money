@@ -157,6 +157,10 @@ class _PinState extends State<Pin> {
                                   _controller.text.isNotEmpty) {
                                 login();
 
+                                setState(() {
+                                  isLoading = false;
+                                });
+
                                 Navigator.push(
                                     context,
                                     PageTransition(

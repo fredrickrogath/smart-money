@@ -250,7 +250,9 @@ class _BudgetState extends State<Budget> {
                                       getToken().then((value) {
                                         createBudget(value);
                                       });
-
+                                      setState(() {
+                                        isLoading = false;
+                                      });
                                       Navigator.push(
                                           context,
                                           PageTransition(

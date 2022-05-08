@@ -150,6 +150,9 @@ class _NameState extends State<Name> {
                             });
                             FocusManager.instance.primaryFocus?.unfocus();
                             await Future.delayed(const Duration(seconds: 1));
+                            setState(() {
+                              isLoading = false;
+                            });
                             Navigator.push(
                                 context,
                                 PageTransition(

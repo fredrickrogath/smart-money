@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:page_transition/page_transition.dart';
 // import 'package:dropdown_button2/dropdown_button2.dart';
@@ -123,159 +124,175 @@ class _InEntryState extends State<InEntry> {
     frameHeight = MediaQuery.of(context).size.height;
     frameWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Cash In Entry'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(
-          left: 10.0,
-          right: 10.0,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Add Cash In Entry'),
+          leading: IconButton(
+            icon: const Icon(CupertinoIcons.back),
+            onPressed: () async {
+              FocusManager.instance.primaryFocus?.unfocus();
+              await Future.delayed(const Duration(seconds: 1));
+              Navigator.of(context).pop();
+            },
+          ),
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 10),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 1.1,
-                child: TextField(
-                  controller: _controller,
-                  decoration: const InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Color(0xFF0096C7), width: 2.0),
-                    ),
-                    // enabledBorder: OutlineInputBorder(
-                    //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
-                    // ),
-                    border: UnderlineInputBorder(),
-                    hintText: 'Amount',
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 10.0, vertical: 25.0),
-                child: GestureDetector(
-                  onTap: () {
-                    _navigateAndDisplaySelection(context);
-                  },
-                  child: SizedBox(
-                      height: frameHeight / 17.0,
-                      width: double.infinity,
-                      child: Column(
-                        children: [
-                          // Row(
-                          //   children: [
-                          //     Text(
-                          //       categoryIsSet
-                          //           ? '$categoryName'
-                          //           : 'Select category',
-                          //       style: TextStyle(
-                          //           color: Colors.grey[700],
-                          //           fontSize: 15.3,
-                          //           fontWeight: FontWeight.w400),
-                          //     )
-                          //   ],
-                          // ),
-                          Row(
-                            children: [
-                              Container(
-                                width: 350.0,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 10.0),
-                                  child: Text(
-                                    categoryIsSet
-                                        ? '$categoryName'
-                                        : 'Select category',
-                                    style: TextStyle(
-                                        color: Colors.grey[700],
-                                        fontSize: 15.3,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                                decoration: const BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                        color:
-                                            Color.fromARGB(255, 223, 223, 223)),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      )
-                      // FloatingActionButton.extended(
-                      //   heroTag: null,
-                      //   elevation: 0.0,
-                      //   onPressed: () {
-                      //     _navigateAndDisplaySelection(context);
-                      //   },
-                      //   label: Text(
-                      //     categoryIsSet ? '$categoryName' : 'Select category',
-                      //     style: TextStyle(color: Colors.grey[700]),
-                      //   ),
-                      //   // icon: const Icon(Icons.remove),
-                      //   backgroundColor: Colors.white,
-                      // ),
+        body: Padding(
+          padding: const EdgeInsets.only(
+            left: 10.0,
+            right: 10.0,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 1.1,
+                  child: TextField(
+                    controller: _controller,
+                    decoration: const InputDecoration(
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Color(0xFF0096C7), width: 2.0),
                       ),
-                ),
-              ),
-              // SizedBox(height: MediaQuery.of(context).size.height / 30),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-                child: SizedBox(
-                  height: frameHeight / 20.0,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    // style: raisedButtonStyle,
-                    onPressed: () async {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      if (_controller.value.text.isNotEmpty) {
-                        addEntry(accessToken);
-                      }
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      await Future.delayed(const Duration(seconds: 1));
-                      Navigator.pop(context);
-                    },
-                    child: isLoading
-                        ? Center(
-                            child: LoadingAnimationWidget.staggeredDotsWave(
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                          )
-                        : const Text(
-                            'Done',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white,
-                            ),
-                          ),
+                      // enabledBorder: OutlineInputBorder(
+                      //   borderSide: BorderSide(color: const Color(0xFF8B5E34), width: 2.0),
+                      // ),
+                      border: UnderlineInputBorder(),
+                      hintText: 'Amount',
+                    ),
                   ),
-                  //     ElevatedButton(
-                  //   onPressed: () async {
-                  //         setState(() {});
-                  //         FocusManager.instance.primaryFocus?.unfocus();
-
-                  //         if (_controller.value.text.isNotEmpty) {
-                  //           addEntry(accessToken);
-                  //         }
-
-                  //         await Future.delayed(const Duration(seconds: 1));
-                  //         Navigator.pop(context);
-                  //       },
-                  //   child: const Text('Save'),
-
-                  // )
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 25.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      _navigateAndDisplaySelection(context);
+                    },
+                    child: SizedBox(
+                        height: frameHeight / 17.0,
+                        width: double.infinity,
+                        child: Column(
+                          children: [
+                            // Row(
+                            //   children: [
+                            //     Text(
+                            //       categoryIsSet
+                            //           ? '$categoryName'
+                            //           : 'Select category',
+                            //       style: TextStyle(
+                            //           color: Colors.grey[700],
+                            //           fontSize: 15.3,
+                            //           fontWeight: FontWeight.w400),
+                            //     )
+                            //   ],
+                            // ),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 350.0,
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 10.0),
+                                    child: Text(
+                                      categoryIsSet
+                                          ? '$categoryName'
+                                          : 'Select category',
+                                      style: TextStyle(
+                                          color: Colors.grey[700],
+                                          fontSize: 15.3,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ),
+                                  decoration: const BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          color: Color.fromARGB(
+                                              255, 223, 223, 223)),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        )
+                        // FloatingActionButton.extended(
+                        //   heroTag: null,
+                        //   elevation: 0.0,
+                        //   onPressed: () {
+                        //     _navigateAndDisplaySelection(context);
+                        //   },
+                        //   label: Text(
+                        //     categoryIsSet ? '$categoryName' : 'Select category',
+                        //     style: TextStyle(color: Colors.grey[700]),
+                        //   ),
+                        //   // icon: const Icon(Icons.remove),
+                        //   backgroundColor: Colors.white,
+                        // ),
+                        ),
+                  ),
+                ),
+                // SizedBox(height: MediaQuery.of(context).size.height / 30),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 8.0),
+                  child: SizedBox(
+                    height: frameHeight / 20.0,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      // style: raisedButtonStyle,
+                      onPressed: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        if (_controller.value.text.isNotEmpty) {
+                          addEntry(accessToken);
+                        }
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        await Future.delayed(const Duration(seconds: 1));
+
+                        setState(() {
+                          isLoading = false;
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: isLoading
+                          ? Center(
+                              child: LoadingAnimationWidget.staggeredDotsWave(
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                            )
+                          : const Text(
+                              'Done',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white,
+                              ),
+                            ),
+                    ),
+                    //     ElevatedButton(
+                    //   onPressed: () async {
+                    //         setState(() {});
+                    //         FocusManager.instance.primaryFocus?.unfocus();
+
+                    //         if (_controller.value.text.isNotEmpty) {
+                    //           addEntry(accessToken);
+                    //         }
+
+                    //         await Future.delayed(const Duration(seconds: 1));
+                    //         Navigator.pop(context);
+                    //       },
+                    //   child: const Text('Save'),
+
+                    // )
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

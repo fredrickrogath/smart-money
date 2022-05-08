@@ -198,6 +198,7 @@ class _NewBudgetState extends State<NewBudget> {
                               transitionDuration:
                                   const Duration(milliseconds: 500),
                               openBuilder: (context, action) {
+                                Future.delayed(const Duration(seconds: 4));
                                 return budgetDetails(
                                   budgetId: (budgets[i]['id']).toString(),
                                   budgetName: budgets[i]['name'],
@@ -429,16 +430,12 @@ class _NewBudgetState extends State<NewBudget> {
                                       if (DateTime.parse(dateStart.text)
                                           .isBefore(
                                               DateTime.parse(dateEnd.text))) {
-                                        getToken().then((value) {
-                                          createBudget(value);
-
-                                          setState(() {
-                                            hideForm = true;
-                                            isLoading = false;
-                                          });
-
-                                          refresh();
+                                        setState(() {
+                                          hideForm = true;
+                                          isLoading = false;
                                         });
+
+                                        refresh();
                                       }
                                     },
                                     child: isLoading
