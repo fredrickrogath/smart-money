@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 // import 'package:page_transition/page_transition.dart';
 // import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:http/http.dart' as http;
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartmoney/categoryLists.dart';
 import 'package:smartmoney/domain/domain.dart';
@@ -27,6 +29,8 @@ class _InEntryState extends State<InEntry> {
   var categoryId;
 
   var categoryName;
+
+  bool isLoading = false;
 
   bool categoryIsSet = false;
 
@@ -131,7 +135,7 @@ class _InEntryState extends State<InEntry> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height / 30),
+              const SizedBox(height: 10),
               SizedBox(
                 width: MediaQuery.of(context).size.width / 1.1,
                 child: TextField(
@@ -151,23 +155,71 @@ class _InEntryState extends State<InEntry> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 10.0, vertical: 20.0),
-                child: SizedBox(
-                  height: frameHeight / 17.0,
-                  width: double.infinity,
-                  child: FloatingActionButton.extended(
-                    heroTag: null,
-                    elevation: 0.0,
-                    onPressed: () {
-                      _navigateAndDisplaySelection(context);
-                    },
-                    label: Text(
-                      categoryIsSet ? '$categoryName' : 'Select category',
-                      style: TextStyle(color: Colors.grey[700]),
-                    ),
-                    // icon: const Icon(Icons.remove),
-                    backgroundColor: Colors.white,
-                  ),
+                    horizontal: 10.0, vertical: 25.0),
+                child: GestureDetector(
+                  onTap: () {
+                    _navigateAndDisplaySelection(context);
+                  },
+                  child: SizedBox(
+                      height: frameHeight / 17.0,
+                      width: double.infinity,
+                      child: Column(
+                        children: [
+                          // Row(
+                          //   children: [
+                          //     Text(
+                          //       categoryIsSet
+                          //           ? '$categoryName'
+                          //           : 'Select category',
+                          //       style: TextStyle(
+                          //           color: Colors.grey[700],
+                          //           fontSize: 15.3,
+                          //           fontWeight: FontWeight.w400),
+                          //     )
+                          //   ],
+                          // ),
+                          Row(
+                            children: [
+                              Container(
+                                width: 350.0,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 10.0),
+                                  child: Text(
+                                    categoryIsSet
+                                        ? '$categoryName'
+                                        : 'Select category',
+                                    style: TextStyle(
+                                        color: Colors.grey[700],
+                                        fontSize: 15.3,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ),
+                                decoration: const BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                        color:
+                                            Color.fromARGB(255, 223, 223, 223)),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      )
+                      // FloatingActionButton.extended(
+                      //   heroTag: null,
+                      //   elevation: 0.0,
+                      //   onPressed: () {
+                      //     _navigateAndDisplaySelection(context);
+                      //   },
+                      //   label: Text(
+                      //     categoryIsSet ? '$categoryName' : 'Select category',
+                      //     style: TextStyle(color: Colors.grey[700]),
+                      //   ),
+                      //   // icon: const Icon(Icons.remove),
+                      //   backgroundColor: Colors.white,
+                      // ),
+                      ),
                 ),
               ),
               // SizedBox(height: MediaQuery.of(context).size.height / 30),
@@ -175,26 +227,54 @@ class _InEntryState extends State<InEntry> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
                 child: SizedBox(
-                  height: frameHeight / 17.0,
+                  height: frameHeight / 20.0,
                   width: double.infinity,
                   child: ElevatedButton(
-                onPressed: () async {
-                      setState(() {});
-                      FocusManager.instance.primaryFocus?.unfocus();
-
+                    // style: raisedButtonStyle,
+                    onPressed: () async {
+                      setState(() {
+                        isLoading = true;
+                      });
                       if (_controller.value.text.isNotEmpty) {
                         addEntry(accessToken);
                       }
-
+                      FocusManager.instance.primaryFocus?.unfocus();
                       await Future.delayed(const Duration(seconds: 1));
                       Navigator.pop(context);
                     },
-                child: const Text('Save'),
-                
-              )
+                    child: isLoading
+                        ? Center(
+                            child: LoadingAnimationWidget.staggeredDotsWave(
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                          )
+                        : const Text(
+                            'Done',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white,
+                            ),
+                          ),
+                  ),
+                  //     ElevatedButton(
+                  //   onPressed: () async {
+                  //         setState(() {});
+                  //         FocusManager.instance.primaryFocus?.unfocus();
+
+                  //         if (_controller.value.text.isNotEmpty) {
+                  //           addEntry(accessToken);
+                  //         }
+
+                  //         await Future.delayed(const Duration(seconds: 1));
+                  //         Navigator.pop(context);
+                  //       },
+                  //   child: const Text('Save'),
+
+                  // )
                 ),
               ),
-              
             ],
           ),
         ),
@@ -202,5 +282,3 @@ class _InEntryState extends State<InEntry> {
     );
   }
 }
-
-

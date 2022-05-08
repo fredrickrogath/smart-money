@@ -7,12 +7,13 @@ import 'dart:convert';
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 // import 'package:sticky_grouped_list/sticky_grouped_list.dart';
-import 'package:page_transition/page_transition.dart';
+// import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartmoney/domain/domain.dart';
 import 'package:smartmoney/pages2/budget_details.dart';
-import 'package:smartmoney/pages2/category.dart';
+// import 'package:smartmoney/pages2/category.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
@@ -35,6 +36,7 @@ class _NewBudgetState extends State<NewBudget> {
   String budgetId = '';
   bool hideForm = true;
   var budgets = [];
+  bool isLoading = false;
 
   getFormatedDate(_date) {
     var str = _date;
@@ -73,6 +75,8 @@ class _NewBudgetState extends State<NewBudget> {
       name.text = '';
       dateStart.text = '';
       dateEnd.text = '';
+
+      setState(() {});
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -158,8 +162,8 @@ class _NewBudgetState extends State<NewBudget> {
                         padding: const EdgeInsets.only(right: 8.0),
                         child: IconButton(
                           onPressed: () {
-                            // hideForm = false;
-                            refresh();
+                            hideForm = false;
+                            // refresh();
                             setState(() {});
                           },
                           icon: const Icon(
@@ -194,7 +198,10 @@ class _NewBudgetState extends State<NewBudget> {
                               transitionDuration:
                                   const Duration(milliseconds: 500),
                               openBuilder: (context, action) {
-                                return budgetDetails(budgetId: (budgets[i]['id']).toString(), budgetName: budgets[i]['name'],);
+                                return budgetDetails(
+                                  budgetId: (budgets[i]['id']).toString(),
+                                  budgetName: budgets[i]['name'],
+                                );
                               },
                               closedBuilder: (context, action) {
                                 return SizedBox(
@@ -411,23 +418,45 @@ class _NewBudgetState extends State<NewBudget> {
                                   width: 370.0,
                                   child: ElevatedButton(
                                     // style: raisedButtonStyle,
-                                    onPressed: () {
+                                    onPressed: () async {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      await Future.delayed(
+                                          const Duration(seconds: 1));
                                       if (DateTime.parse(dateStart.text)
                                           .isBefore(
                                               DateTime.parse(dateEnd.text))) {
                                         getToken().then((value) {
                                           createBudget(value);
+
+                                          setState(() {
+                                            hideForm = true;
+                                            isLoading = false;
+                                          });
+
+                                          refresh();
                                         });
                                       }
                                     },
-                                    child: const Text(
-                                      'Add Budget',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                                    child: isLoading
+                                        ? Center(
+                                            child: LoadingAnimationWidget
+                                                .staggeredDotsWave(
+                                              color: Colors.white,
+                                              size: 30,
+                                            ),
+                                          )
+                                        : const Text(
+                                            'Add Budget',
+                                            style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.white,
+                                            ),
+                                          ),
                                   ),
                                 )
                                 // FloatingActionButton.extended(
