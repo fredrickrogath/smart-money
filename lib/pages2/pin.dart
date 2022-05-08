@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,6 +36,7 @@ class _PinState extends State<Pin> {
   bool mobileErrors = false;
   bool error = false;
   bool emptyPIN = false;
+  bool isLoading = false;
 
   void login() async {
     var url = Uri.http(domain, '/api/register', {
@@ -46,7 +48,6 @@ class _PinState extends State<Pin> {
     // Await the http get response, then decode the json-formatted response.
     var response = await http.post(url);
     if (response.statusCode == 200) {
-      
       var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
       // savePassword(jsonResponse['access_token']);
       // jsonResponse['mobile']?? passErrors=true;
@@ -72,7 +73,7 @@ class _PinState extends State<Pin> {
       savePassword();
       setState(() {});
     } else {
-      print('Request failed with status: ${response.statusCode}.');
+      print('Request failed with status: ${response.request}.');
     }
   }
 
@@ -93,7 +94,7 @@ class _PinState extends State<Pin> {
         child: Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              toolbarHeight: frameHeight / 10,
+              toolbarHeight: frameHeight / 13,
               backgroundColor: const Color(0xFF0096C7),
               title: Column(
                 children: const [
@@ -111,7 +112,7 @@ class _PinState extends State<Pin> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: MediaQuery.of(context).size.height / 15),
+                    const SizedBox(height: 10),
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 1.1,
                       child: TextField(
@@ -138,100 +139,211 @@ class _PinState extends State<Pin> {
                                 style: const TextStyle(color: Colors.red)),
                           ],
                         )),
-                    SizedBox(height: MediaQuery.of(context).size.height / 10),
+                    const SizedBox(height: 10),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: SizedBox(
-                        height: frameHeight / 17.0,
-                        width: double.infinity,
-                        child: FloatingActionButton.extended(
-                          elevation: 0.0,
-                          onPressed: () {
-                            login();
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: SizedBox(
+                          width: 370.0,
+                          child: ElevatedButton(
+                            // style: raisedButtonStyle,
+                            onPressed: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              await Future.delayed(const Duration(seconds: 1));
 
-                            if (mobileErrors == false &&
-                                _controller.text.isNotEmpty) {
-                              Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      duration:
-                                          const Duration(milliseconds: 700),
-                                      reverseDuration:
-                                          const Duration(milliseconds: 700),
-                                      type: PageTransitionType
-                                          .rightToLeftWithFade,
-                                      child: const Budget()));
-                            }
+                              if (mobileErrors == false &&
+                                  _controller.text.isNotEmpty) {
+                                login();
 
-                            if (mobileErrors && _controller.text.isNotEmpty) {
-                              var alertStyle = AlertStyle(
-                                // animationType: AnimationType.grow,
-                                // isCloseButton: false,
-                                isButtonVisible: false,
-                                isOverlayTapDismiss: false,
-                                descStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                                // descTextAlign: TextAlign.center,
-                                animationDuration:
-                                    const Duration(milliseconds: 000),
-                                alertBorder: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                  side: const BorderSide(
-                                    color: Colors.grey,
+                                Navigator.push(
+                                    context,
+                                    PageTransition(
+                                        duration:
+                                            const Duration(milliseconds: 700),
+                                        reverseDuration:
+                                            const Duration(milliseconds: 700),
+                                        type: PageTransitionType
+                                            .rightToLeftWithFade,
+                                        child: const Budget()));
+                              }
+
+                              if (mobileErrors && _controller.text.isNotEmpty) {
+                                var alertStyle = AlertStyle(
+                                  // animationType: AnimationType.grow,
+                                  // isCloseButton: false,
+                                  isButtonVisible: false,
+                                  isOverlayTapDismiss: false,
+                                  descStyle: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                  // descTextAlign: TextAlign.center,
+                                  animationDuration:
+                                      const Duration(milliseconds: 000),
+                                  alertBorder: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                    side: const BorderSide(
+                                      color: Colors.grey,
+                                    ),
                                   ),
-                                ),
-                                // titleStyle: TextStyle(
-                                //   color: const Color(0xFF24564F),
-                                // ),
-                                alertAlignment: Alignment.center,
-                              );
-                              Alert(
-                                context: context,
-                                style: alertStyle,
-                                type: AlertType.warning,
-                                // title: "Select Scan Type",
-                                content: Column(
-                                  children: <Widget>[
-                                    Container(
-                                        alignment: Alignment.center,
-                                        child: Flex(
-                                            direction: Axis.vertical,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10.0),
-                                                child: mobileErrors
-                                                    ? Text(
-                                                        mobile,
-                                                        style: const TextStyle(
-                                                            fontSize: 14.0),
-                                                      )
-                                                    : const SizedBox(
-                                                        height: 0.0,
-                                                      ),
-                                              ),
-                                              // if (passErrors)
-                                              //   Text(pass,
-                                              //       style: const TextStyle(
-                                              //           fontSize: 14.0))
-                                              // else
-                                              //   const SizedBox(
-                                              //     height: 0.0,
-                                              //   )
-                                            ]))
-                                  ],
-                                ),
-                              ).show();
-                            }
-                          },
-                          label: const Text('Save'),
-                          // icon: const Icon(Icons.remove),
-                          backgroundColor: const Color(0xFF0096C7),
-                        ),
-                      ),
-                    ),
+                                  // titleStyle: TextStyle(
+                                  //   color: const Color(0xFF24564F),
+                                  // ),
+                                  alertAlignment: Alignment.center,
+                                );
+                                Alert(
+                                  context: context,
+                                  style: alertStyle,
+                                  type: AlertType.warning,
+                                  // title: "Select Scan Type",
+                                  content: Column(
+                                    children: <Widget>[
+                                      Container(
+                                          alignment: Alignment.center,
+                                          child: Flex(
+                                              direction: Axis.vertical,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 10.0),
+                                                  child: mobileErrors
+                                                      ? Text(
+                                                          mobile,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize:
+                                                                      14.0),
+                                                        )
+                                                      : const SizedBox(
+                                                          height: 0.0,
+                                                        ),
+                                                ),
+                                                // if (passErrors)
+                                                //   Text(pass,
+                                                //       style: const TextStyle(
+                                                //           fontSize: 14.0))
+                                                // else
+                                                //   const SizedBox(
+                                                //     height: 0.0,
+                                                //   )
+                                              ]))
+                                    ],
+                                  ),
+                                ).show();
+                              }
+                            },
+                            child: isLoading
+                                ? Center(
+                                    child: LoadingAnimationWidget
+                                        .staggeredDotsWave(
+                                      color: Colors.white,
+                                      size: 30,
+                                    ),
+                                  )
+                                : const Text(
+                                    'Submit',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                          ),
+                        )),
+
+                    //  SizedBox(
+                    //   height: frameHeight / 17.0,
+                    //   width: double.infinity,
+                    //   child: FloatingActionButton.extended(
+                    //     elevation: 0.0,
+                    //     onPressed: () {
+                    //       login();
+
+                    //       if (mobileErrors == false &&
+                    //           _controller.text.isNotEmpty) {
+                    //         Navigator.push(
+                    //             context,
+                    //             PageTransition(
+                    //                 duration:
+                    //                     const Duration(milliseconds: 700),
+                    //                 reverseDuration:
+                    //                     const Duration(milliseconds: 700),
+                    //                 type: PageTransitionType
+                    //                     .rightToLeftWithFade,
+                    //                 child: const Budget()));
+                    //       }
+
+                    //       if (mobileErrors && _controller.text.isNotEmpty) {
+                    //         var alertStyle = AlertStyle(
+                    //           // animationType: AnimationType.grow,
+                    //           // isCloseButton: false,
+                    //           isButtonVisible: false,
+                    //           isOverlayTapDismiss: false,
+                    //           descStyle: const TextStyle(
+                    //               fontWeight: FontWeight.bold),
+                    //           // descTextAlign: TextAlign.center,
+                    //           animationDuration:
+                    //               const Duration(milliseconds: 000),
+                    //           alertBorder: RoundedRectangleBorder(
+                    //             borderRadius: BorderRadius.circular(16.0),
+                    //             side: const BorderSide(
+                    //               color: Colors.grey,
+                    //             ),
+                    //           ),
+                    //           // titleStyle: TextStyle(
+                    //           //   color: const Color(0xFF24564F),
+                    //           // ),
+                    //           alertAlignment: Alignment.center,
+                    //         );
+                    //         Alert(
+                    //           context: context,
+                    //           style: alertStyle,
+                    //           type: AlertType.warning,
+                    //           // title: "Select Scan Type",
+                    //           content: Column(
+                    //             children: <Widget>[
+                    //               Container(
+                    //                   alignment: Alignment.center,
+                    //                   child: Flex(
+                    //                       direction: Axis.vertical,
+                    //                       mainAxisAlignment:
+                    //                           MainAxisAlignment.center,
+                    //                       children: [
+                    //                         Padding(
+                    //                           padding: const EdgeInsets.only(
+                    //                               top: 10.0),
+                    //                           child: mobileErrors
+                    //                               ? Text(
+                    //                                   mobile,
+                    //                                   style: const TextStyle(
+                    //                                       fontSize: 14.0),
+                    //                                 )
+                    //                               : const SizedBox(
+                    //                                   height: 0.0,
+                    //                                 ),
+                    //                         ),
+                    //                         // if (passErrors)
+                    //                         //   Text(pass,
+                    //                         //       style: const TextStyle(
+                    //                         //           fontSize: 14.0))
+                    //                         // else
+                    //                         //   const SizedBox(
+                    //                         //     height: 0.0,
+                    //                         //   )
+                    //                       ]))
+                    //             ],
+                    //           ),
+                    //         ).show();
+                    //       }
+                    //     },
+                    //     label: const Text('Save'),
+                    //     // icon: const Icon(Icons.remove),
+                    //     backgroundColor: const Color(0xFF0096C7),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

@@ -2,32 +2,10 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smartmoney/pages/auth/login_page.dart';
-import 'package:smartmoney/pages/auth/registration_page.dart';
-import 'package:smartmoney/pages/budget/create_budget.dart';
-import 'package:smartmoney/pages/home/home.dart';
-import 'package:smartmoney/pages/loan/loan_management.dart';
-import 'package:smartmoney/pages/welcome/welcome.dart';
-import 'package:smartmoney/pages2/budget.dart';
-import 'package:smartmoney/pages2/category.dart';
-import 'package:smartmoney/pages2/create-event.dart';
 import 'package:smartmoney/pages2/entry.dart';
-import 'package:smartmoney/pages2/estimator.dart';
-import 'package:smartmoney/pages2/event-details.dart';
-import 'package:smartmoney/pages2/events.dart';
-import 'package:smartmoney/pages2/loan-details.dart';
 import 'package:smartmoney/pages2/name.dart';
-import 'package:smartmoney/pages2/new-budget.dart';
-import 'package:smartmoney/pages2/new-loan.dart';
-import 'package:smartmoney/pages2/otp.dart';
-import 'package:smartmoney/pages2/payer.dart';
-import 'package:smartmoney/pages2/pin.dart';
-import 'package:smartmoney/pages2/shopping-list.dart';
-import 'package:smartmoney/pages2/welcome.dart';
 import 'package:smartmoney/themes/primary_swatch.dart';
 
-import 'home_page.dart';
-// import 'package:smartmoney/pages/auth/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

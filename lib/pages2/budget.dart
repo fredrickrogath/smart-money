@@ -6,6 +6,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,6 +32,7 @@ class _BudgetState extends State<Budget> {
   String accessToken = '';
   bool proceed = false;
   String budgetId = '';
+  bool isLoading = false;
 
   void createBudget(token) async {
     var url = Uri.http(
@@ -230,37 +232,87 @@ class _BudgetState extends State<Budget> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: FloatingActionButton.extended(
-                              onPressed: () {
-                                if (DateTime.parse(dateStart.text)
-                                    .isBefore(DateTime.parse(dateEnd.text))) {
-                                  getToken().then((value) {
-                                    createBudget(value);
-                                  });
+                              padding: const EdgeInsets.only(right: 0.0),
+                              child: SizedBox(
+                                width: 370.0,
+                                child: ElevatedButton(
+                                  // style: raisedButtonStyle,
+                                  onPressed: () async {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                    await Future.delayed(
+                                        const Duration(seconds: 1));
+                                    if (DateTime.parse(dateStart.text).isBefore(
+                                        DateTime.parse(dateEnd.text))) {
+                                      getToken().then((value) {
+                                        createBudget(value);
+                                      });
 
-                                  Navigator.push(
-                                      context,
-                                      PageTransition(
-                                          duration:
-                                              const Duration(milliseconds: 700),
-                                          reverseDuration:
-                                              const Duration(milliseconds: 700),
-                                          type: PageTransitionType
-                                              .rightToLeftWithFade,
-                                          child: Category(budgetId: budgetId)));
-                                }
-                              },
-                              label: const Text(
-                                'Next',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                                      Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              duration: const Duration(
+                                                  milliseconds: 700),
+                                              reverseDuration: const Duration(
+                                                  milliseconds: 700),
+                                              type: PageTransitionType
+                                                  .rightToLeftWithFade,
+                                              child: Category(
+                                                  budgetId: budgetId)));
+                                    }
+                                  },
+                                  child: isLoading
+                                      ? Center(
+                                          child: LoadingAnimationWidget
+                                              .staggeredDotsWave(
+                                            color: Colors.white,
+                                            size: 30,
+                                          ),
+                                        )
+                                      : const Text(
+                                          'Next',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                 ),
-                              ),
-                            ),
-                          )
+                              )
+
+                              // FloatingActionButton.extended(
+                              //   onPressed: () {
+                              //     if (DateTime.parse(dateStart.text)
+                              //         .isBefore(DateTime.parse(dateEnd.text))) {
+                              //       getToken().then((value) {
+                              //         createBudget(value);
+                              //       });
+
+                              //       Navigator.push(
+                              //           context,
+                              //           PageTransition(
+                              //               duration:
+                              //                   const Duration(milliseconds: 700),
+                              //               reverseDuration:
+                              //                   const Duration(milliseconds: 700),
+                              //               type: PageTransitionType
+                              //                   .rightToLeftWithFade,
+                              //               child: Category(budgetId: budgetId)));
+                              //     }
+                              //   },
+                              //   label: const Text(
+                              //     'Next',
+                              //     style: TextStyle(
+                              //       fontSize: 16.0,
+                              //       fontWeight: FontWeight.bold,
+                              //       color: Colors.white,
+                              //     ),
+                              //   ),
+                              // ),
+                              )
                         ],
                       )
                     ],

@@ -433,29 +433,31 @@ class _CategoryState extends State<Category> {
                         ),
                       ).show();
                     },
-                    child: Card(
-                      elevation: 2,
-                      shape: const Border(
-                          left: BorderSide(color: Colors.green, width: 5)),
-                      child: ListTile(
-                        leading: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0.0,
-                            primary: const Color.fromARGB(
-                                255, 121, 201, 124), // background
-                            onPrimary: Colors.white, // foreground
+                    child: SizedBox(height: 75.0,
+                      child: Card(
+                        elevation: 2,
+                        shape: const Border(
+                            left: BorderSide(color: Colors.green, width: 5)),
+                        child: ListTile(
+                          leading: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0.0,
+                              primary: const Color.fromARGB(
+                                  255, 121, 201, 124), // background
+                              onPrimary: Colors.white, // foreground
+                            ),
+                            onPressed: () {
+                              selectCategory(
+                                  accessToken, incomeCategories[i]['id']);
+                            },
+                            child: const Text('Add'),
                           ),
-                          onPressed: () {
-                            selectCategory(
-                                accessToken, incomeCategories[i]['id']);
-                          },
-                          child: const Text('Add'),
+                          title: Text('${incomeCategories[i]['name']}'),
+                          subtitle: Text(
+                              "Current Tsh ${incomeCategories[i]['amount']}"),
+                          trailing: const Text('Income',
+                              style: TextStyle(color: Colors.green)),
                         ),
-                        title: Text('${incomeCategories[i]['name']}'),
-                        subtitle: Text(
-                            "Current Tsh ${incomeCategories[i]['amount']}"),
-                        trailing: const Text('Income',
-                            style: TextStyle(color: Colors.green)),
                       ),
                     ),
                   );
@@ -687,29 +689,31 @@ class _CategoryState extends State<Category> {
                         ),
                       ).show();
                     },
-                    child: Card(
-                      elevation: 2,
-                      shape: const Border(
-                          left: BorderSide(color: Colors.blue, width: 5)),
-                      child: ListTile(
-                        leading: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0.0,
-                            primary: const Color.fromARGB(
-                                255, 78, 162, 226), // background
-                            onPrimary: Colors.white, // foreground
+                    child: SizedBox(height: 75.0,
+                      child: Card(
+                        elevation: 2,
+                        shape: const Border(
+                            left: BorderSide(color: Colors.blue, width: 5)),
+                        child: ListTile(
+                          leading: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0.0,
+                              primary: const Color.fromARGB(
+                                  255, 78, 162, 226), // background
+                              onPrimary: Colors.white, // foreground
+                            ),
+                            onPressed: () {
+                              selectCategory(
+                                  accessToken, expenseCategories[i]['id']);
+                            },
+                            child: const Text('Add'),
                           ),
-                          onPressed: () {
-                            selectCategory(
-                                accessToken, expenseCategories[i]['id']);
-                          },
-                          child: const Text('Add'),
+                          title: Text('${expenseCategories[i]['name']}'),
+                          subtitle: Text(
+                              "Current Tsh ${expenseCategories[i]['amount']}"),
+                          trailing: const Text('Expense',
+                              style: TextStyle(color: Colors.blue)),
                         ),
-                        title: Text('${expenseCategories[i]['name']}'),
-                        subtitle: Text(
-                            "Current Tsh ${expenseCategories[i]['amount']}"),
-                        trailing: const Text('Expense',
-                            style: TextStyle(color: Colors.blue)),
                       ),
                     ),
                   );

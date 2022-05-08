@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartmoney/pages2/budget.dart';
@@ -18,6 +19,8 @@ class _NameState extends State<Name> {
   bool btnSubmit = false;
   double frameHeight = 0;
   double frameWidth = 0;
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +55,7 @@ class _NameState extends State<Name> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height / 15),
+                  const SizedBox(height: 10.0),
 
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 1.1,
@@ -96,7 +99,7 @@ class _NameState extends State<Name> {
                   //   onPressed: () { },
                   //   child: Text('RaisedButton with custom foreground/background'),
                   // )
-                  SizedBox(height: MediaQuery.of(context).size.height / 20),
+                  const SizedBox(height: 10),
                   // SizedBox(width: MediaQuery.of(context).size.height /2.0,
                   // height: MediaQuery.of(context).size.height /18.0,
                   //   child:   ElevatedButton(
@@ -109,16 +112,44 @@ class _NameState extends State<Name> {
                   //   ),
                   // ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: SizedBox(
-                      height: frameHeight / 17.0,
-                      width: double.infinity,
-                      child: FloatingActionButton.extended(
-                        elevation: 0.0,
-                        onPressed: () {
-                          btnSubmit = true;
-                          setState(() {});
-                          if (_controller.value.text.isNotEmpty) {
+                      padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                      child:
+
+                          // SizedBox(
+                          //   height: frameHeight / 17.0,
+                          //   width: double.infinity,
+                          //   child: FloatingActionButton.extended(
+                          //     elevation: 0.0,
+                          //     onPressed: () {
+                          //       btnSubmit = true;
+                          //       setState(() {});
+                          //       if (_controller.value.text.isNotEmpty) {
+                          //         Navigator.push(
+                          //             context,
+                          //             PageTransition(
+                          //                 duration: const Duration(milliseconds: 700),
+                          //                 reverseDuration:
+                          //                     const Duration(milliseconds: 700),
+                          //                 type:
+                          //                     PageTransitionType.rightToLeftWithFade,
+                          //                 child: Welcome(name: _controller.text)));
+                          //       }
+                          //     },
+                          //     label: const Text('Submit'),
+                          //     // icon: const Icon(Icons.remove),
+                          //     backgroundColor: const Color(0xFF0096C7),
+                          //   ),
+                          // ),
+                          SizedBox(
+                        width: 370.0,
+                        child: ElevatedButton(
+                          // style: raisedButtonStyle,
+                          onPressed: () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            await Future.delayed(const Duration(seconds: 1));
                             Navigator.push(
                                 context,
                                 PageTransition(
@@ -128,14 +159,25 @@ class _NameState extends State<Name> {
                                     type:
                                         PageTransitionType.rightToLeftWithFade,
                                     child: Welcome(name: _controller.text)));
-                          }
-                        },
-                        label: const Text('Submit'),
-                        // icon: const Icon(Icons.remove),
-                        backgroundColor: const Color(0xFF0096C7),
-                      ),
-                    ),
-                  ),
+                          },
+                          child: isLoading
+                              ? Center(
+                                  child:
+                                      LoadingAnimationWidget.staggeredDotsWave(
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                )
+                              : const Text(
+                                  'Submit',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                        ),
+                      )),
                 ],
               ),
             ),
